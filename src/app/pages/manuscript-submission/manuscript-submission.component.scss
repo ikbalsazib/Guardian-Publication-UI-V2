@@ -1,0 +1,84 @@
+@use 'src/theme/variables' as *;
+
+.manuscript-page {
+  padding: 60px 0;
+  background-color: #f6f9fc;
+  min-height: 90vh;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 50px;
+  h2 { font-size: 32px; font-weight: 800; color: #222; margin-bottom: 10px; }
+  p { font-size: 16px; color: #666; font-family: $font-bn-primary; }
+}
+
+.manuscript-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 50px;
+  border-radius: 32px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+  border: 1px solid #f0f0f0;
+}
+
+.section {
+  margin-bottom: 40px;
+  
+  .section-title {
+    display: flex; gap: 15px; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+    i { color: $color-primary; font-size: 20px; }
+    h3 { font-size: 20px; font-weight: 700; color: #333; margin: 0; }
+  }
+}
+
+.form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+}
+
+mat-form-field { width: 100%; }
+
+.file-upload-box {
+  background: #fbfbfb; border: 2px dashed #eee; padding: 25px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  
+  .upload-info {
+    display: flex; gap: 15px; align-items: center;
+    i { font-size: 30px; color: #999; }
+    h4 { font-size: 15px; font-weight: 700; color: #444; margin: 0 0 3px; }
+    p { font-size: 13px; color: #888; margin: 0; }
+  }
+}
+
+.upload-btn {
+  background: white; border: 1px solid #ccc; padding: 10px 25px; border-radius: 8px; font-size: 14px; font-weight: 600; color: #444; cursor: pointer; transition: all 0.2s;
+  &:hover { background: #f0f0f0; }
+}
+
+.file-status { color: #4caf50; font-size: 13px; display: flex; gap: 5px; align-items: center; margin-top: 10px; }
+
+.terms-section {
+  margin: 20px 0 40px;
+  mat-checkbox { font-size: 14px; color: #666; }
+  a { color: $color-primary; text-decoration: none; font-weight: 600; }
+}
+
+.form-actions {
+  display: flex; justify-content: flex-end;
+  button { height: 55px; padding: 0 45px; border-radius: 12px; font-size: 17px; font-weight: 700; }
+}
+
+@media (max-width: 768px) {
+  .manuscript-card { padding: 30px 20px; border-radius: 24px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .file-upload-box { flex-direction: column; text-align: center; }
+  .upload-info { flex-direction: column; }
+}
+
+.animated { animation-duration: 0.8s; animation-fill-mode: both; }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+.fadeInDown { animation-name: fadeInDown; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fadeInUp { animation-name: fadeInUp; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.fadeIn { animation-name: fadeIn; }

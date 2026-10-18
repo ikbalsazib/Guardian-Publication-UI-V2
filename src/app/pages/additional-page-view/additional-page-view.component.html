@@ -1,0 +1,36 @@
+<div class="additional-page">
+  <div class="container">
+    <div class="page-wrapper animated fadeIn">
+      
+      @if (isLoading()) {
+        <div class="loader-container">
+          <mat-spinner diameter="50"></mat-spinner>
+        </div>
+      } @else {
+        @if (pageInfo()) {
+          <article class="content-card">
+            <header class="content-header">
+              <h1>{{ pageInfo()?.title }}</h1>
+              <div class="divider"></div>
+            </header>
+            
+            <div class="content-body" [innerHTML]="pageInfo()?.description | safeHtml"></div>
+
+            @if (showSeoFallback()) {
+              <section class="seo-fallback-content" [innerHTML]="seoFallbackHtml() | safeHtml"></section>
+            }
+
+            <app-seo-internal-links></app-seo-internal-links>
+          </article>
+        } @else {
+          <div class="empty-state">
+            <i class="fa fa-file-circle-exclamation"></i>
+            <h3>{{ 'ln.PageComingSoon' | translate }}</h3>
+            <p>{{ 'ln.PageNotAvailable' | translate }}</p>
+          </div>
+        }
+      }
+
+    </div>
+  </div>
+</div>

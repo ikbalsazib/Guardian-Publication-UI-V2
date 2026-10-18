@@ -1,0 +1,16 @@
+<a class="shop-category-card" [routerLink]="['/product-list']"
+  [queryParams]="{categories: data()?.slug, categoryId: data()?._id }">
+  <div class="shop-card-title">
+    @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+    <img [src]="data()?.image" alt="" aria-hidden="true" width="120" height="120" loading="lazy" decoding="async">
+    } @else if (translateService.currentLang === 'en') {
+    <img [src]="data()?.mobileImage" alt="" aria-hidden="true" width="120" height="120" loading="lazy" decoding="async">
+    }
+
+    @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+    <span>{{data()?.name}}</span>
+    } @else if (translateService.currentLang === 'en') {
+    <span>{{data()?.nameEn}}</span>
+    }
+  </div>
+</a><!-- END SHOP BY CATEGORY CARD -->

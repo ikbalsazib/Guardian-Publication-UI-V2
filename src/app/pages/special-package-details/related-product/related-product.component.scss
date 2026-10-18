@@ -1,0 +1,94 @@
+@use "src/theme/variables" as *;
+
+.kids-book {
+  box-sizing: border-box;
+  margin-bottom: 50px;
+}
+
+.kids-book-contents {
+  position: relative;
+  background: $color-white-secondary;
+  padding: 0px 15px 10px 15px;
+  border-radius: 15px;
+}
+
+.title-area {
+  display: block;
+  padding-top: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.title-area h1 {
+  font-family: $font-bn-primary;
+  font-size: $font-title-size;
+  color: $color-deep-red;
+  letter-spacing: -0.5px;
+  display: block;
+  line-height: 50px;
+}
+
+
+.see-more-btn {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.read-more {
+  position: absolute;
+  //top: 10px;
+  left: 80%;
+}
+
+.read-more a {
+  color: $button-color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: $font-en-primary;
+  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s linear;
+  background-color: $button-color;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  max-width: 130px;
+  width: 100%;
+  bottom: -15px;
+  left: 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.read-more a i {
+  font-size: 13px;
+  position: relative;
+  transition: all 0.3s linear;
+  left: 0px;
+}
+
+.read-more a:hover i {
+  left: 5px;
+}
+
+
+@media(max-width:500px) {
+  .title-area h1 {
+    font-size: 25px;
+    line-height: 30px;
+  }
+}
+
+@media(max-width:540px) {
+  .read-more {
+    left: 67%;
+
+    a {
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+  }
+}

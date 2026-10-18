@@ -1,0 +1,151 @@
+@use "src/theme/variables" as *;
+
+.card {
+  max-height: 380px;
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 7px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: 100%;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-5px);
+    
+    .product-image {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    }
+  }
+}
+
+.product-image {
+  position: relative;
+  width: 100%;
+  height: 250px; /* Standard fixed height */
+  border-radius: 10px;
+  box-shadow: 2px 1px 6px #00000013;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+  }
+
+  .free-delivery {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #27ae60;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .discount {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #ff4757;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3);
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.text-aria {
+  text-align: center;
+  margin-top: 10px;
+  width: 100%;
+
+  .title {
+    h1, h3 {
+      font-family: $bangla-kalpurush;
+      font-size: $font-dis-size;
+      color: $color-black2;
+      line-height: 1.3;
+      letter-spacing: -0.5px;
+      display: -webkit-box;
+      max-width: 100%;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 40px;
+      margin: 0;
+      margin-bottom: 4px;
+    }
+  }
+
+  .writer {
+    p {
+      font-family: $bangla-kalpurush;
+      font-size: 14px;
+      color: $heading-color;
+      opacity: 0.8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.price-aria {
+  width: 100%;
+  font-family: $bangla-kalpurush;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+
+  .old-price {
+    color: #999;
+    font-size: 0.9em;
+  }
+
+  .new-price {
+    color: $color-primary;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 500px) {
+  .product-image {
+    img {
+      height: 180px;
+      min-height: 180px;
+    }
+  }
+  
+  .text-aria .title h1,
+  .text-aria .title h3 {
+    font-size: 15px;
+    min-height: 36px;
+  }
+}

@@ -1,0 +1,33 @@
+<div class="timer-wrapper">
+  <div class="dotted-line left"></div>
+  
+  <div class="timer-display">
+    <div class="time-item">
+      <span class="value">{{ days() }}</span>
+      <span class="label">Days</span>
+    </div>
+    
+    <div class="separator">:</div>
+    
+    <div class="time-item">
+      <span class="value">{{ hours() }}</span>
+      <span class="label">Hours</span>
+    </div>
+    
+    <div class="separator">:</div>
+    
+    <div class="time-item">
+      <span class="value">{{ min() }}</span>
+      <span class="label">Minutes</span>
+    </div>
+    
+    <div class="separator">:</div>
+    
+    <div class="time-item">
+      <span class="value">{{ sec() }}</span>
+      <span class="label">Seconds</span>
+    </div>
+  </div>
+  
+  <div class="dotted-line right"></div>
+</div>

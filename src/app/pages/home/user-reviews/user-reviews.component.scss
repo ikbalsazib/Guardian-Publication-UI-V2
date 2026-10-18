@@ -1,0 +1,89 @@
+@use "src/theme/variables" as *;
+@use "src/theme/swipper";
+
+/*** user-reviews ***/
+.user-reviews {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 40px;
+  box-sizing: border-box;
+}
+
+.user-reviews-main {
+  display: block;
+  margin-top: 30px;
+}
+
+.see-more{
+  display: block;
+  margin-top: 25px;
+  a{
+     background-color: $color-primary;
+     color: $color-white;
+     font-family: $font-en-primary;
+     font-style: normal;
+     font-weight: 500;
+     font-size: 16px;
+     display: block;
+     border: none;
+     outline: none;
+     padding: 10px 15px;
+     border-radius: 5px;
+     width: 150px;
+     text-align: center;
+     margin: auto;
+     cursor: pointer;
+  }
+}
+
+
+::ng-deep.user-reviews-main.carousel .swiper-slide {
+  padding: 0px;
+}
+
+::ng-deep.user-reviews-main.carousel .swiper-slide {
+  padding: 10px 1px 40px 1px;
+  box-sizing: border-box;
+}
+
+::ng-deep.swiper-3d .swiper-slide-shadow-left {
+  display: none;
+}
+
+::ng-deep.swiper-3d .swiper-slide-shadow-right {
+  display: none;
+}
+
+.title-area{
+  display: block;
+
+  text-align: center;
+}
+.title-area h1{
+  font-family: $font-bn-primary;
+  font-size: $font-title-size;
+  color: $color-deep-red;
+  letter-spacing: -0.5px;
+}
+@media(max-width:768px){
+  .title-area h1{
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 28px;
+  }
+}
+
+
+@media(max-width:500px){
+  .title-area{
+    margin-bottom: 0px;
+  }
+  .user-reviews-main{
+    margin-top: 20px;
+  }
+
+  .see-more{
+    margin-top: 10px;
+  }
+}

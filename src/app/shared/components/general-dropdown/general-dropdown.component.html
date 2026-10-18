@@ -1,0 +1,130 @@
+<!---SELECT-START-->
+<div class="select">
+  <div class="select-title" *ngIf="label">
+    <h3 class="label">{{ label }}</h3>
+  </div>
+  <div
+    appOutSideClick
+    (outsideClick)="handleOutsideClick()"
+    class="select-btn"
+    [class.invalid]="errorMsg && isRequired"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      type="button"
+      [class]="isSelectShow == 'open' ? 'active' : ''"
+      (click)="isSelectToggle('open')"
+      [disabled]="isDisabled"
+    >
+      <span class="button-class">
+        {{
+          dataSelected
+            ? dataSelected.name
+            : patchedValue
+              ? patchedValue.name
+              : placeHolderName
+                ? placeHolderName
+                : "Select"
+        }}</span
+      >
+      <small>
+        <svg
+          class="right-arrow"
+          xmlns="http://www.w3.org/2000/svg"
+          width="10"
+          height="5.718"
+          viewBox="0 0 10 5.718"
+        >
+          <path
+            id="Icon_ionic-ios-arrow-down"
+            data-name="Icon ionic-ios-arrow-down"
+            d="M11.189,15.241l3.781-3.784a.712.712,0,0,1,1.009,0,.721.721,0,0,1,0,1.012L11.7,16.756a.713.713,0,0,1-.985.021L6.4,12.472a.715.715,0,1,1,1.009-1.012Z"
+            transform="translate(-6.188 -11.246)"
+            opacity="1"
+          />
+        </svg>
+      </small>
+    </button>
+    <div class="select-option-area" *ngIf="isSelectShow === 'open'">
+      <div *ngIf="isSearch" class="select-search">
+        <div class="search-icon">
+          <span>
+            <svg
+              fill="#818181"
+              id="Capa_1"
+              enable-background="new 0 0 461.516 461.516"
+              height="16"
+              viewBox="0 0 461.516 461.516"
+              width="16"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <path
+                  d="m185.746 371.332c41.251.001 81.322-13.762 113.866-39.11l122.778 122.778c9.172 8.858 23.787 8.604 32.645-.568 8.641-8.947 8.641-23.131 0-32.077l-122.778-122.778c62.899-80.968 48.252-197.595-32.716-260.494s-197.594-48.252-260.493 32.716-48.252 197.595 32.716 260.494c32.597 25.323 72.704 39.06 113.982 39.039zm-98.651-284.273c54.484-54.485 142.82-54.486 197.305-.002s54.486 142.82.002 197.305-142.82 54.486-197.305.002c-.001-.001-.001-.001-.002-.002-54.484-54.087-54.805-142.101-.718-196.585.239-.24.478-.479.718-.718z"
+                />
+              </g>
+            </svg>
+          </span>
+        </div>
+
+        <div class="search-input">
+          <input
+            type="text"
+            (input)="searchMenu(input)"
+            #input
+            placeholder="Select"
+          />
+        </div>
+      </div>
+
+      <div class="select-option">
+        <ul>
+          <ng-container *ngFor="let data of inputData">
+            <li
+              [class]="
+                dataSelected && dataSelected.name === data?.name
+                  ? 'select-active'
+                  : ''
+              "
+              [id]="data?.id"
+              (click)="onSelectData(data)"
+              *ngIf="
+                searchQuery === undefined ||
+                data.name.toLowerCase().indexOf(searchQuery) > -1
+              "
+            >
+              <div class="option-left">
+                <div class="option-text">
+                  <span style="margin: 0 5px; font-size: 20px">{{
+                      data.customFormatting
+                    }}</span>
+                  <span>{{ data.name }}</span>
+                </div>
+              </div>
+              <div class="option-right">
+                <span
+                ><svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="10.707"
+                  viewBox="0 0 14 10.707"
+                >
+                    <path
+                      id="Path_3"
+                      data-name="Path 3"
+                      d="M2543.018,7589.578l-5.2-4.928a1,1,0,0,1,1.376-1.451l3.716,3.524,6.857-7.524a1,1,0,1,1,1.478,1.347Z"
+                      transform="translate(-2537.51 -7578.872)"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="invalid-msg slect-invalid-mesege" *ngIf="errorMsg && isRequired">
+    <p>This field is required.</p>
+  </div>
+</div>

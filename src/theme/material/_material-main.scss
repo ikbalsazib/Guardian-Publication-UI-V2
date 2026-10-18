@@ -1,0 +1,42 @@
+@use "src/theme/variables" as *;
+
+/* 
+This design use in:-  
+1. "mat-radio-button" design for Product List module component 
+*/
+::ng-deep.medicine-select {
+  mat-radio-button {
+    .mdc-form-field {
+      .mdc-radio {
+        .mdc-radio__background {
+          .mdc-radio__inner-circle {
+            border-color: $color-primary !important;
+          }
+        }
+
+        &:hover {
+          .mdc-radio__background {
+            .mdc-radio__outer-circle {
+              border-color: $color-primary !important;
+            }
+          }
+        }
+      }
+
+      .mdc-radio
+        .mdc-radio__native-control:enabled:checked
+        + .mdc-radio__background
+        .mdc-radio__outer-circle {
+        border-color: $color-primary;
+      }
+
+      .mdc-label {
+        font-size: 14px;
+        font-family: $font-en-primary;
+        color: $heading-color;
+        font-weight: 400;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -1,0 +1,227 @@
+@use 'src/theme/variables' as *;
+
+.review-data:hover {
+  text-decoration: underline;
+}
+
+.order-invoice-area {
+    display: block;
+    background-color: $color-white;
+    border-top: 2px solid $color-primary;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 6px -3px #9c9c9c;
+    border-radius: 4px 4px 0px 0px;
+    margin-bottom: 25px;
+
+    .order-invoice-title {
+        margin-bottom: 10px;
+
+        h3 {
+            color: #333;
+            font-family: $font-en-primary;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 22px;
+            display: block;
+
+            span {
+                font-size: 16px;
+                color: #666;
+            }
+        }
+    }
+
+    .order-invoice-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+
+        .download-invoice {
+            display: block;
+
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                background-color: $color-primary;
+                color: $color-white;
+                font-family: $font-en-primary;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 15px;
+                border: none;
+                outline: none;
+                border-radius: 20px;
+                padding: 10px 20px;
+            }
+        }
+
+        .invoice-right {
+            ul {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+                list-style: none;
+
+                li {
+                    color: #333;
+                    font-family: $font-en-primary;
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 16px;
+
+                    button {
+                        background-color: $color-primary;
+                        color: $color-white;
+                        font-family: $font-en-primary;
+                        font-weight: 500;
+                        font-size: 15px;
+                        padding: 10px 15px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        gap: 15px;
+                        border: none;
+                        outline: none;
+                        border-radius: 3px;
+
+                        &.select {
+                            border: 1px solid #ddd;
+                            color: #333;
+                            background-color: $color-white;
+                            font-weight: 400;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.section {
+    display: block;
+
+    .section-main {
+        background-color: $color-white;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 6px -3px #9c9c9c;
+        border: 1px solid #ddd;
+
+        .order {
+            padding-bottom: 40px;
+            border-bottom: 1px solid #ddd;
+
+            &:last-child {
+                border: 0px;
+                padding: 0px;
+            }
+
+            .order-top {
+                display: block;
+                margin-bottom: 23px;
+                margin-top: 20px;
+
+                h3 {
+                    color: #333;
+                    font-family: $font-en-primary;
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 18px;
+                    display: block;
+                    margin-bottom: 15px !important;
+
+                    span {
+                        color: $color-primary;
+                        font-size: 17px;
+                    }
+                }
+
+                ul {
+                    list-style: none;
+                    padding: 0px;
+                    margin: 0px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    flex-wrap: wrap;
+                    gap: 10px;
+
+                    li {
+                        display: block;
+
+                        button {
+                            border: 1px solid #ddd;
+                            color: $text-color;
+                            background-color: $color-white;
+                            outline: none;
+                            text-transform: uppercase;
+                            font-size: 13px;
+                            font-family: $font-en-primary;
+                            font-weight: 400;
+                            padding: 7px 15px;
+                            border-radius: 3px;
+
+                            &.ship-btn {
+                                color: #33c24d;
+                                border-color: #33c24d;
+                            }
+                            &.aproved-btn {
+                                color: #F39C12;
+                                border-color: #F39C12;
+                            }
+                            &.shipped-btn {
+                                color: #1AA4E0;
+                                border-color: #1AA4E0;
+                            }
+                            &.cancelled-btn {
+                                color: #CA2128;
+                                border-color: #CA2128;
+                            }
+                            &.pending-btn {
+                                color: #CA2128;
+                                border-color: #CA2128;
+                            }
+                            &.track {
+                                background-color: #0397D3;
+                                color: $color-white;
+                                border-color: #0397D3;
+                            }
+                            &.detail {
+                                background-color: #F39C12;
+                                color: $color-white;
+                                border-color: #F39C12;
+                            }
+                            &.cancel {
+                                border-color: $color-primary;
+                                color: $color-primary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width:550px) {
+    .section {
+        .section-main {
+            padding-block: 20px;
+        }
+    }
+}
+
+@media(max-width:900px) {
+    .order-invoice-area {
+        .order-invoice-main {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+    }
+}

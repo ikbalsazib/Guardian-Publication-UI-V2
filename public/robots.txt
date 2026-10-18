@@ -1,0 +1,31 @@
+User-agent: *
+
+# Block auth-protected and utility pages from crawlers
+Disallow: /private/
+Disallow: /account/
+Disallow: /user/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /payment/
+Disallow: /complete-registration/
+Disallow: /login
+Disallow: /login?
+Disallow: /registration
+Disallow: /forget-password
+Disallow: /compare
+Disallow: /coming-soon
+
+# Allow all public content
+Allow: /product-details/
+Allow: /author/
+Allow: /product-list
+Allow: /author-list
+Allow: /category-list
+Allow: /blogs
+Allow: /blog/
+Allow: /activities/
+Allow: /special-package/
+Allow: /pages/
+Allow: /
+
+Sitemap: https://www.guardianpubs.com/sitemap.xml

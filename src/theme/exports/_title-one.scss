@@ -1,0 +1,25 @@
+@use "src/theme/variables" as *;
+
+.title-area{
+  display: block;
+  padding-top: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.title-area h1{
+  font-family:$font-bn-primary;
+  font-weight: 600;
+  font-size: 25px;
+  color: $color-deep-red;
+  letter-spacing: -0.5px;
+  display: block;
+  line-height: 50px;
+}
+
+
+@media(max-width:768px){
+  .title-area h1{
+    font-size: 28px;
+    line-height: 33px;
+  }
+}

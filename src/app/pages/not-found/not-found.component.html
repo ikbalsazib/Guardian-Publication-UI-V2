@@ -1,0 +1,18 @@
+<div class="not-found-page">
+  <div class="container">
+    <div class="error-content animated fadeIn">
+      <div class="error-illustration">
+        <img src="/images/placeholder/error-404.png" alt="404"
+          (error)="$any($event.target).src='/images/logo/logo1.jpeg'">
+        <div class="error-code">404</div>
+      </div>
+      <h1>{{ 'ln.PageNotFoundTitle' | translate }}</h1>
+      <p>{{ 'ln.PageNotFoundSubtitle' | translate }}</p>
+
+      <div class="actions">
+        <button mat-raised-button color="primary" routerLink="/">{{ 'ln.BackToHome' | translate }}</button>
+        <button mat-stroked-button routerLink="/product-list">{{ 'ln.ViewAllBooks' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>

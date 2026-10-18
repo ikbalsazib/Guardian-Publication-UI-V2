@@ -1,0 +1,77 @@
+<div class="profile-area">
+    <div class="profile-main">
+        <form [formGroup]="formData" (ngSubmit)="onSubmit()">
+            <div class="profile-info">
+                <div class="profile-info-head">
+                    <h3>Personal Information</h3>
+                </div>
+                <div class="profile-form-field-area">
+                    <div class="form-input">
+                        <label for="#name">Name</label>
+                        <input type="text" id="name" placeholder="Enter your name" formControlName="name">
+                    </div>
+                    <div class="form-input">
+                        <label for="#bdate">Your Date of Birth</label>
+                        <input type="date" id="date" formControlName="birthDate">
+                    </div>
+                    <div class="gender-area">
+                        <label for="">Gender</label>
+                        <mat-radio-group formControlName="gender">
+                            <mat-radio-button value="male">Male</mat-radio-button>
+                            <mat-radio-button value="female">Female</mat-radio-button>
+                            <mat-radio-button value="other">Others</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-info-head">
+                    <h3>
+                      Mobile number
+                    </h3>
+                </div>
+                <div class="profile-form-field-area">
+                    <div class="form-input">
+                        <input type="text" formControlName="phoneNo" digitOnly placeholder="Enter your mobile number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-info-head">
+                    <h3>Email Address </h3>
+                </div>
+                <div class="profile-form-field-area">
+                    <div class="form-input">
+                        <input type="email" formControlName="email" placeholder="Enter your email address">
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-info-head">
+                    <h3>Profile Picture </h3>
+                    <small>(PNG/JPG/JPEG/BMP, Max. 3MB)</small>
+                </div>
+                <div class="profile-form-field-area">
+                    <div class="profile-upload">
+                        <label for="#file">Your Profile Photo</label>
+                        <img [src]="imgPlaceHolder()" [alt]="'Picked Image'" (click)="profileImagePicker.click()">
+                        <input [hidden]="true" #profileImagePicker type="file" (change)="fileChangeEvent($event)"
+                            accept="image/*" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-form-field-area">
+                    <div class="sub-btn">
+                        <button type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>

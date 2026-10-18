@@ -1,0 +1,4 @@
+<a class="poster-img" *ngIf="data" [href]="data[0]?.url" target="_blank" rel="noopener noreferrer">
+  <img [src]="data[0]?.imageUrl ? data[0]?.imageUrl : data[0]?.image" alt="banner" loading="lazy">
+</a><!-- END PRODUCT -->
+

@@ -1,0 +1,19 @@
+<!--client-card-->
+<div class="client-card" [id]="data?._id" [routerLink]="productSlug ? '/product-details/' + productSlug : null">
+  <span><i class="fas fa-quote-left"></i></span>
+  <div class="review">
+    <p>{{ reviewText.length > 260 ? (reviewText.slice(0, 260) + " ...") : reviewText }}</p>
+  </div>
+  <div class="client-user">
+    <h2>{{ userName }}</h2>
+    <ul>
+      <li><i [class]="ratingValue > 0 ? 'fa-solid fa-star':'fa-regular fa-star'"></i></li>
+      <li><i [class]="ratingValue > 1 ? 'fa-solid fa-star':'fa-regular fa-star'"></i></li>
+      <li><i [class]="ratingValue > 2 ? 'fa-solid fa-star':'fa-regular fa-star'"></i></li>
+      <li><i [class]="ratingValue > 3 ? 'fa-solid fa-star':'fa-regular fa-star'"></i></li>
+      <li><i [class]="ratingValue > 4 ? 'fa-solid fa-star':'fa-regular fa-star'"></i></li>
+    </ul>
+    <img [src]="userProfileImg" [alt]="userName">
+  </div>
+</div>
+<!--End User Review Card One-->

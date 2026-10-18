@@ -1,0 +1,161 @@
+@use 'src/theme/variables' as *;
+
+.comments-list-section {
+  padding: 40px 0;
+  background-color: #fff;
+}
+
+.comments-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.user-comment-card {
+  background: #fcfcfc;
+  border: 1px solid #f0f0f0;
+  padding: 25px;
+  border-radius: 12px;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+  }
+}
+
+.user-meta {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+
+  .user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #eee;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &.staff {
+      border-color: $color-primary;
+    }
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+
+    .user-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: #333;
+
+      &.staff {
+        color: $color-primary;
+      }
+    }
+
+    .comment-date {
+      font-size: 13px;
+      color: #999;
+    }
+  }
+}
+
+.comment-text {
+  p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+  }
+
+  &.reply {
+    font-style: italic;
+    color: #666;
+  }
+}
+
+.staff-reply-area {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  padding-left: 30px;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 40px;
+  color: #888;
+  font-style: italic;
+}
+
+.comments-loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.dot-typing {
+  position: relative;
+  left: -9999px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: $color-primary;
+  color: $color-primary;
+  box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  animation: dotTyping 1.5s infinite linear;
+}
+
+@keyframes dotTyping {
+  0% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+
+  16.667% {
+    box-shadow: 9984px -10px 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+
+  33.333% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+
+  50% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px -10px 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+
+  66.667% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+
+  83.333% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px -10px 0 0 $color-primary;
+  }
+
+  100% {
+    box-shadow: 9984px 0 0 0 $color-primary, 9999px 0 0 0 $color-primary, 10014px 0 0 0 $color-primary;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-comment-card {
+    padding: 15px;
+  }
+
+  .staff-reply-area {
+    padding-left: 15px;
+  }
+
+  .comment-text p {
+    font-size: 15px;
+  }
+}

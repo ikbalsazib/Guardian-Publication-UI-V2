@@ -1,0 +1,6 @@
+@use "src/theme/variables" as *;
+
+.rating-value {
+  padding-left: 10px;
+  font-family: $font-en-primary;
+}

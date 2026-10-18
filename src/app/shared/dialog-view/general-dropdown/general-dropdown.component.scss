@@ -1,0 +1,38 @@
+@use "src/theme/exports/select-box";
+@use "src/theme/_variables.scss" as *;
+
+.label {
+  font: $font-en-primary !important;
+  // font-weight: 600;
+  color: #221f1f;
+  font-size: 15px;
+}
+
+// Media Query for Responsiveness
+@media only screen and (max-width: 599px) {
+  .select {
+    .select-btn {
+      button {
+        span {
+          font-size: 17px;
+        }
+      }
+
+      .select-option-area {
+        .select-option {
+          ul {
+            li {
+              .option-left {
+                .option-text {
+                  span {
+                    font-size: 17px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

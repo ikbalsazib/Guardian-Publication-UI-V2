@@ -1,0 +1,116 @@
+<div class="order-invoice-area">
+      <div class="order-invoice-title">
+            <h3>{{ "ln.Myorders" | translate }} <span>(Your Total Order: {{ allOrders().length }})</span></h3>
+      </div>
+      <div class="order-invoice-main">
+            <div class="download-invoice">
+                  <!-- <button>Download Free Book <i class="fa fa-download"></i></button> -->
+            </div>
+            <div class="invoice-right">
+                  <ul>
+                        <li>Status:</li>
+                        <li><button class="select" [matMenuTriggerFor]="menu">{{ selectedStatus() }}<i
+                                          class="fa fa-caret-down"></i></button></li>
+                        <!-- <li><button>Submit</button></li> -->
+                  </ul>
+            </div>
+      </div>
+</div>
+
+<div class="section">
+      <div class="section-main">
+            @if (isLoading()) {
+              <div class="loader-container" style="display: flex; justify-content: center; padding: 20px;">
+                <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #CA2128; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite;"></div>
+              </div>
+            } @else {
+              @for (order of allOrders(); track order._id; let i = $index) {
+                <div class="order" [id]="order?._id">
+                      <div class="order-top">
+                            <h3>Your Order ID: <span>{{order?.orderId}}</span> ({{order?.orderedItems?.length}} items) |
+                                  Payable Amount: <span>৳ {{ order?.grandTotal | engBnNum}}</span></h3>
+                            <ul>
+                              @if (order?.orderStatus === 1) {
+                                <li><button class="pending-btn">{{order?.orderStatus! | orderStatus}}</button></li>
+                              }
+                              @if (order?.orderStatus === 2) {
+                                <li><button class="aproved-btn">{{order?.orderStatus! | orderStatus}}</button></li>
+                              }
+                              @if (order?.orderStatus === 4) {
+                                <li><button class="shipped-btn">{{order?.orderStatus! | orderStatus}}</button></li>
+                              }
+                              @if (order?.orderStatus === 5) {
+                                <li><button class="ship-btn">{{order?.orderStatus! | orderStatus}}</button></li>
+                              }
+                              @if (order?.orderStatus === 6) {
+                                <li><button class="cancelled-btn">{{order?.orderStatus! | orderStatus}}</button></li>
+                              }
+
+                              @if (order?.orderStatus !== 6) {
+                                <li><button class="track"
+                                              [routerLink]="['/user/account/order-track',order?._id]"
+                                              routerLinkActive="router-link-active">Track My Order <i
+                                                    class="fa fa-angle-right"></i></button></li>
+                              }
+
+                              <li><button class="detail" [routerLink]="['/user/account/order-details',order?._id]"
+                                              routerLinkActive="router-link-active">Order Details<i class="fa fa-angle-right"></i></button></li>
+
+                              @if (order?.orderStatus! < 2 || order?.orderStatus === 6) {
+                                <li><button class="cancel" (click)="cancelOrder(order?._id!)">{{order?.orderStatus === 6 ? 'Cancelled':'Cancel'}} <i class="fa fa-angle-right"></i></button></li>
+                              }
+                            </ul>
+                      </div>
+
+                     @if (order?.orderStatus === 1) {
+                       <p>{{ 'ln.OrderCompletedMsg' | translate }}</p>
+                     }
+                     @if (order?.orderStatus === 2) {
+                       <p>{{ 'ln.OrderConfirmedMsg' | translate }}</p>
+                     }
+                     @if (order?.orderStatus === 4) {
+                       <p>{{ 'ln.OrderShippedMsg' | translate }}</p>
+                     }
+                     @if (order?.orderStatus === 5) {
+                       <p>{{ 'ln.OrderDeliveredMsg' | translate }} <span class="review-data" style="color: #468CFF; cursor: pointer" routerLink="/user/account/review">Review</span></p>
+                     }
+                     @if (order?.orderStatus === 6) {
+                       <p>{{ 'ln.OrderCancelledMsg' | translate }}</p>
+                     }
+                </div>
+              } @empty {
+                <div class="no-orders" style="text-align: center; padding: 40px 0;">
+                  <h3>No orders found</h3>
+                </div>
+              }
+            }
+      </div>
+</div>
+
+<mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onFilterStatus('Pending', 1)">
+            <span>Pending</span>
+      </button>
+      <button mat-menu-item (click)="onFilterStatus('Approved', 2)">
+            <span>Approved</span>
+      </button>
+      <button mat-menu-item (click)="onFilterStatus('Shipped', 4)">
+            <span>Shipped</span>
+      </button>
+      <button mat-menu-item (click)="onFilterStatus('Delivered', 5)">
+            <span>Delivered</span>
+      </button>
+      <button mat-menu-item (click)="onFilterStatus('Cancelled', 6)">
+            <span>Cancelled</span>
+      </button>
+      <button mat-menu-item (click)="fetchOrders()">
+            <span>All Orders</span>
+      </button>
+</mat-menu>
+
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

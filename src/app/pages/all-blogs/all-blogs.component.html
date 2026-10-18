@@ -1,0 +1,43 @@
+<section class="section">
+  <div class="container">
+    <header class="title-area">
+      <div class="title-area-left">
+        <h1>{{ "ln.OurArticles" | translate }}</h1>
+      </div>
+    </header>
+
+    <p class="page-intro">
+      {{ "ln.BlogIntro1" | translate }}
+      {{ "ln.BlogIntro2" | translate }} <a routerLink="/product-list">{{ "ln.PublishedBooks" | translate }}</a>, <a routerLink="/author-list">{{ "ln.AuthorListTitle" | translate }}</a>,
+      <a routerLink="/activities">{{ "ln.Activities" | translate }}</a> {{ "ln.And" | translate }} <a routerLink="/category-list">{{ "ln.Category" | translate }}</a> {{ "ln.SeeAlsoPages" | translate }}
+    </p>
+
+    <app-seo-internal-links></app-seo-internal-links>
+
+    <div class="section-main">
+      @if (isLoading()) {
+        @for (loader of [1,2,3,4,5,6]; track loader) {
+          <div class="blog-skeleton">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-line"></div>
+              <div class="skeleton-line short"></div>
+            </div>
+          </div>
+        }
+      } @else {
+        @for (data of blogs(); track data._id) {
+          <div class="blog-item">
+            <app-blog-card-one [data]="data"></app-blog-card-one>
+          </div>
+        }
+      }
+    </div>
+
+    @if (totalBlogs() > pageSize()) {
+      <div class="pagination-container">
+        <!-- Pagination logic here if needed, or simple load more -->
+      </div>
+    }
+  </div>
+</section>

@@ -1,0 +1,75 @@
+<div class="login-area">
+  <div class="container">
+    <h1 class="sr-only">{{ 'ln.RegistrationTitle' | translate }}</h1>
+    <div class="login-area-main">
+      <div class="login">
+        <div class="login-top">
+          <h3>{{ 'ln.Welcome' | translate }}</h3>
+          <p>{{ 'ln.HasAccount' | translate }}</p>
+          <a routerLink="/login"><button>{{ 'ln.LoginBtn' | translate }}</button></a>
+        </div>
+
+        <div class="social-area" style="display: flex; justify-content: center;">
+          <div #googleLoginRef></div>
+        </div>
+
+        <div class="or">
+          <span>{{ 'ln.Or' | translate }}</span>
+        </div>
+        <div class="login-form">
+          <form [formGroup]="dataForm" autocomplete="off">
+            <div class="form-input with-icon">
+              <i class="fa fa-user input-icon"></i>
+              <input formControlName="name" [class.invalid]="name?.touched && name?.invalid" type="text"
+                [placeholder]="'ln.EnterYourName' | translate" autocomplete="off" />
+              <div class="invalid-txt" *ngIf="name?.touched && name?.invalid">
+                <span>This field is required</span>
+              </div>
+            </div>
+
+            <div class="form-input with-icon">
+              <i class="fa fa-phone input-icon"></i>
+              <input formControlName="username" type="text" [placeholder]="'ln.EnterMobileOrEmail' | translate"
+                autocomplete="off" />
+            </div>
+
+            <div class="form-input with-icon">
+              <div class="password">
+                <i class="fa fa-lock input-icon"></i>
+                <input type="password" [placeholder]="'ln.EnterPasswordPlaceholder' | translate" formControlName="password"
+                  [class.invalid]="password?.touched && password?.invalid"
+                  [attr.type]="isPasswordShow ? 'text' : 'password'" autocomplete="new-password">
+                <span (click)="onShowPassword()"><i
+                    [class]="isPasswordShow ? 'fa fa-eye-slash' : 'fa fa-eye'"></i></span>
+              </div>
+
+              <div class="invalid-txt" *ngIf="password?.touched && password?.invalid">
+                <span>Please enter a valid password at least 6 character</span>
+              </div>
+            </div>
+
+            <div class="form-input with-icon" *ngIf="isOtpSent">
+              <i class="fa fa-key input-icon"></i>
+              <input formControlName="otp" type="text" [placeholder]="'ln.EnterOtpCode' | translate" autocomplete="off" />
+              <span *ngIf="countdown > 0" class="otp-timer">{{ '0:' + (countdown < 10 ? '0' + countdown : countdown) }}</span>
+              <div class="send-data" *ngIf="countdown === 0">
+                <button class="resend" type="button" (click)="onSendOtp()">{{ 'ln.ResendOtp' | translate }}</button>
+              </div>
+            </div>
+
+            <div class="save-password">
+              <label for="save">
+                <input id="save" type="checkbox" formControlName="isAccept"> {{ 'ln.AcceptTermsCheckbox' | translate }}
+              </label>
+            </div>
+            <div class="form-sub-btn">
+              <button type="button" (click)="onSubmit()" [disabled]="isLoading">
+                {{ isLoading ? ('ln.Processing' | translate) : (isOtpSent ? ('ln.OpenAccountBtn' | translate) : ('ln.SendOtp' | translate)) }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

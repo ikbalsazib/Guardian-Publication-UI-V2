@@ -1,0 +1,55 @@
+@use "src/theme/variables" as *;
+@use "src/theme/swipper";
+@use "src/theme/exports/title-one";
+
+/**** special-packages ****/
+.special-packages {
+  display: block;
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  padding: 5px 15px;
+  box-sizing: border-box;
+}
+
+.title-area {
+
+  h1 {
+    font-family: $font-bn-primary;
+    font-size: $font-title-size;
+    color: $color-deep-red;
+    letter-spacing: -0.5px;
+  }
+}
+
+.special-packages-main {
+  display: block;
+}
+
+
+@media(max-width:996px){
+  .special-packages {
+    padding: 5px 0px;
+  }
+
+}
+
+
+@media(max-width: 550px) {
+  .special-packages {
+    margin-bottom: 30px;
+  }
+}
+
+
+@media only screen and (max-width: 540px) {
+
+  .title-area{
+    h1{
+      font-size: 25px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+  }
+}

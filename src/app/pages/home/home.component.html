@@ -1,0 +1,98 @@
+<!-- <section class="home-intro">
+  <div class="container">
+    <h1>Guardian Publications</h1>
+    <p>
+      Guardian Publications বাংলাদেশের একটি বিশ্বস্ত প্রকাশ প্রতিষ্ঠান, যেখানে ইসলামী, একাডেমিক ও সাধারণ সাহিত্যের মানসম্মত বই পাওয়া যায়।
+      আমাদের ওয়েবসাইটে হাজার হাজার পাঠক সহজেই বই বেছে নিতে, অর্ডার করতে ও দেশজুড়ে ডেলিভারি নিতে পারেন।
+      <a routerLink="/product-list">সকল বই</a>,
+      <a routerLink="/author-list">লেখক তালিকা</a>,
+      <a routerLink="/category-list">ক্যাটাগরি</a>,
+      <a routerLink="/blogs">ব্লগ</a> ও
+      <a routerLink="/special-package">বিশেষ প্যাকেজ</a> এক জায়গায় দেখুন।
+    </p>
+  </div>
+</section> -->
+<h1 class="sr-only">Guardian Publication - Quality Books and Publications in Bangladesh</h1>
+
+<!-- Hero Carousel (LCP priority) -->
+<app-carousel-slider
+  [carouselsData]="carousels()"
+  [bigBannersData]="bigBanners()"
+  [smallBannersData]="smallBanners()"
+  [isLoading]="isHomeDataLoading()"
+></app-carousel-slider>
+
+<!-- Shop By Category -->
+<app-shop-by-category [categoriesData]="shopCategories()" [isLoading]="isHomeDataLoading()"></app-shop-by-category>
+
+<!-- New Published -->
+@defer (on viewport) {
+  <app-new-published></app-new-published>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Popular Book -->
+@defer (on viewport) {
+  <app-popular-book></app-popular-book>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Upcoming & Best Seller -->
+@defer (on viewport) {
+  <app-upcoming-best-seller></app-upcoming-best-seller>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Special Package -->
+@defer (on viewport) {
+  <app-special-package></app-special-package>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Kids Book -->
+@defer (on viewport) {
+  <app-kids-book [data]="categories()"></app-kids-book>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Articles -->
+@defer (on viewport) {
+  <app-articles></app-articles>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Youtube Video -->
+@defer (on viewport) {
+  <app-youtube-video></app-youtube-video>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- Our Publication -->
+@defer (on viewport) {
+  <app-our-publication></app-our-publication>
+} @placeholder {
+  <div class="defer-placeholder"></div>
+}
+
+<!-- User Reviews -->
+@defer (on viewport) {
+  <app-user-reviews></app-user-reviews>
+} @placeholder {
+  <div class="defer-placeholder-sm"></div>
+}
+
+<!-- Poster -->
+@defer (on viewport) {
+  @if (bottomBanners().length) {
+    <app-poster [data]="bottomBanners()"></app-poster>
+  }
+} @placeholder {
+  <div class="defer-placeholder-sm"></div>
+}

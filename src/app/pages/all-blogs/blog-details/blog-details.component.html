@@ -1,0 +1,94 @@
+<div class="blog-details-page">
+  <div class="container">
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    @if (blog()) {
+    <div class="details-grid">
+
+      <!-- Main Content -->
+      <div class="main-content animated fadeIn">
+        <article class="blog-article">
+          <div class="article-hero">
+            <img [src]="blog()?.image" [alt]="blog()?.name">
+            <div class="article-meta-top">
+              <span class="category">{{ blog()?.authorName || ('ln.Publication' | translate) }}</span>
+              <span class="views"><i class="fa fa-eye"></i> {{ blog()?.totalView || 0 }} {{ 'ln.Views' | translate }}</span>
+            </div>
+          </div>
+
+          <div class="article-body">
+            <div class="meta-row">
+              <span class="date"><i class="fa fa-calendar-alt"></i> {{ blog()?.createdAt | date: 'dd MMMM, yyyy'
+                }}</span>
+              <button mat-icon-button (click)="onShare()" class="btn-share" [title]="'ln.ShareBtn' | translate">
+                <i class="fa fa-share-alt"></i>
+              </button>
+            </div>
+
+            <h1>{{ blog()?.name }}</h1>
+            <div class="content-render" [innerHTML]="blog()?.description | safeHtml"></div>
+          </div>
+
+          <div class="article-footer">
+            <div class="tags">
+              @for (tag of blog()?.seoKeywords?.split(','); track tag) {
+              <span class="tag">#{{ tag.trim() }}</span>
+              }
+            </div>
+          </div>
+
+          <app-seo-internal-links></app-seo-internal-links>
+        </article>
+
+        <!-- Discussion Section -->
+        <div class="discussion-section">
+          <h3>{{ 'ln.WriteYourComment' | translate }}</h3>
+          <div class="divider"></div>
+          <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()" class="comment-form">
+            <textarea formControlName="review" [placeholder]="'ln.WriteOpinionPlaceholder' | translate" rows="4"></textarea>
+            <div class="form-actions">
+              <button mat-raised-button color="primary" type="submit" [disabled]="commentForm.invalid">
+                {{ 'ln.SubmitComment' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar animated slideInRight">
+        <div class="sidebar-section">
+          <h3>{{ 'ln.RecentBlogs' | translate }}</h3>
+          <div class="divider"></div>
+
+          <div class="recent-list">
+            @for (item of recentBlogs(); track item._id) {
+            <a [routerLink]="['/blog', item.slug]" class="recent-item">
+              <img [src]="item.image" [alt]="item.name">
+              <div class="item-info">
+                <h4>{{ item.name }}</h4>
+                <span>{{ item.createdAt | date: 'dd MMM, yyyy' }}</span>
+              </div>
+            </a>
+            }
+          </div>
+        </div>
+
+        <div class="sidebar-section search-promo">
+          <div class="promo-content">
+            <i class="fa fa-book-open"></i>
+            <h4>{{ 'ln.GuardianPublications' | translate }}</h4>
+            <p>{{ 'ln.StayWithUs' | translate }}</p>
+            <button mat-stroked-button routerLink="/product-list">{{ 'ln.ViewAllBooks' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    }
+    }
+  </div>
+</div>

@@ -1,0 +1,106 @@
+@use 'src/theme/variables' as *;
+
+.additional-page {
+  padding: 60px 0;
+  background-color: #f8f9fa;
+  min-height: 80vh;
+}
+
+.page-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content-card {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.03);
+  border: 1px solid #eee;
+}
+
+.content-header {
+  text-align: center;
+  margin-bottom: 40px;
+  
+  h1 { font-size: 32px; font-weight: 800; color: #222; margin-bottom: 20px; }
+  
+  .divider {
+    width: 60px;
+    height: 4px;
+    background: $color-primary;
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+}
+
+.content-body {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #444;
+  
+  ::ng-deep {
+    h2, h3, h4 { color: #222; margin-top: 30px; margin-bottom: 15px; font-weight: 700; }
+    p { margin-bottom: 20px; text-align: justify; }
+    ul, ol { margin-bottom: 20px; padding-left: 20px; }
+    li { margin-bottom: 10px; }
+    img { max-width: 100%; height: auto; border-radius: 12px; margin: 20px 0; }
+    a {
+      display: inline;
+      color: $color-primary;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 100px 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 80px 40px;
+  background: white;
+  border-radius: 20px;
+  
+  i { font-size: 60px; color: #eee; margin-bottom: 25px; }
+  h3 { font-size: 24px; font-weight: 700; color: #333; margin-bottom: 15px; }
+  p { color: #888; font-size: 16px;   }
+}
+
+.seo-fallback-content {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+  color: #444;
+  line-height: 1.8;
+
+  ::ng-deep {
+    p {
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+
+    a {
+      display: inline;
+      color: $color-primary;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+    }
+  }
+}
+
+.animated { animation-duration: 0.8s; animation-fill-mode: both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.fadeIn { animation-name: fadeIn; }
+
+@media (max-width: 600px) {
+  .additional-page { padding: 40px 0; }
+  .content-card { padding: 30px 20px; }
+  .content-header h1 { font-size: 24px; }
+}

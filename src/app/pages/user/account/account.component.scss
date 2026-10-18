@@ -1,0 +1,258 @@
+@use 'src/theme/variables' as *;
+
+.account-area {
+    display: block;
+    margin-top: 30px;
+
+    .account-main {
+        max-width: 1200px;
+        width: 100%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 270px calc(100% - 290px);
+        grid-gap: 30px;
+
+        .account-left {
+            display: block;
+
+            .user-info {
+                background-color: $color-white;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+                padding: 18px 16px;
+                box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                border: 1px solid #ececec;
+                border-radius: 12px;
+                gap: 12px;
+                margin-bottom: 16px;
+
+                .user-img {
+                    display: block;
+                    flex-shrink: 0;
+
+                    img {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        border: 2px solid rgba($color-primary, 0.15);
+                    }
+                }
+
+                .user-text {
+                    span {
+                        color: #777;
+                        font-family: $font-en-primary;
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 14px;
+                        display: block;
+                        margin-bottom: 4px;
+                    }
+
+                    h3 {
+                        color: #222;
+                        font-weight: 600;
+                        font-size: 16px;
+                        font-family: $font-en-primary;
+                        font-style: normal;
+                        display: block;
+                        line-height: 1.3;
+                        margin: 0;
+                    }
+                }
+            }
+
+            .side-bar {
+                border: 1px solid #ececec;
+                background-color: $color-white;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+                border-radius: 12px;
+                overflow: hidden;
+
+                nav {
+                    display: block;
+
+                    ul {
+                        list-style: none;
+                        padding: 8px;
+                        margin: 0;
+
+                        li {
+                            margin-bottom: 4px;
+
+                            &:last-child {
+                                margin-bottom: 0;
+                            }
+
+                            a {
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                border: none;
+                                border-radius: 10px;
+                                padding: 12px 14px;
+                                box-sizing: border-box;
+                                color: #444;
+                                font-family: $font-en-primary;
+                                font-style: normal;
+                                font-weight: 500;
+                                font-size: 14px;
+                                cursor: pointer;
+                                text-decoration: none;
+                                transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+
+                                .nav-icon {
+                                    width: 34px;
+                                    height: 34px;
+                                    border-radius: 8px;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #f5f5f5;
+                                    color: $color-primary;
+                                    font-size: 15px;
+                                    flex-shrink: 0;
+                                    transition: background-color 0.2s ease, color 0.2s ease;
+                                }
+
+                                span {
+                                    line-height: 1.3;
+                                }
+
+                                &:hover:not(.active):not(.logout-link) {
+                                    background-color: #fafafa;
+                                    color: $color-primary;
+                                }
+
+                                &.active {
+                                    background-color: $color-primary;
+                                    color: $color-white;
+
+                                    .nav-icon {
+                                        background: rgba(255, 255, 255, 0.18);
+                                        color: $color-white;
+                                    }
+                                }
+
+                                &.logout-link {
+                                    color: #c62828;
+
+                                    .nav-icon {
+                                        background: #fdecea;
+                                        color: #c62828;
+                                    }
+
+                                    &:hover {
+                                        background-color: #fdecea;
+                                    }
+                                }
+                            }
+
+                            &.logout-item {
+                                margin-top: 8px;
+                                padding-top: 8px;
+                                border-top: 1px solid #f0f0f0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.overlay {
+    display: none;
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(0 0 0 / 50%);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 200;
+}
+
+.mobile-bar {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    display: none;
+    background: $color-white;
+
+    span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        color: #333;
+        font-size: 15px;
+        font-family: $font-en-primary;
+        font-style: normal;
+        font-weight: 500;
+        cursor: pointer;
+
+        i {
+            font-size: 18px;
+            color: $color-primary;
+        }
+    }
+}
+
+@media(max-width:750px) {
+    .overlay {
+        display: block;
+    }
+    .mobile-bar{
+        display: block;
+    }
+
+    .account-area {
+        .account-main {
+            grid-template-columns: repeat(1, 100%);
+            grid-gap: 20px;
+
+            .account-left {
+                position: fixed;
+                top: 0px;
+                padding: 15px 12px;
+                left: -100%;
+                max-width: 310px;
+                width: 100%;
+                background-color: $color-white;
+                z-index: 201;
+                height: 100vh;
+                overflow-y: auto;
+                transition: all 0.3s linear;
+
+                .user-info {
+                    box-shadow: none;
+                    padding: 13px;
+                    border: 1px solid #eee;
+                }
+
+                .side-bar {
+                    box-shadow: none;
+                    border: 1px solid #eee;
+
+                    nav {
+                        ul {
+                            li {
+                                a {
+                                    padding: 10px 12px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &.active {
+                    left: 0px;
+                }
+            }
+        }
+    }
+}

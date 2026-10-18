@@ -1,0 +1,126 @@
+@use "src/theme/variables" as *;
+
+.see-more-btn {
+  display: flex;
+  justify-content: flex-end;
+  //position: relative;
+  width: 100%;
+}
+
+.read-more {
+  position: relative;
+  right: 40px;
+}
+
+.read-more a {
+  color: $button-color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: $bangla-kalpurush;
+  font-size: 16px;
+  text-transform: capitalize;
+  transition: all 0.3s linear;
+  background-color: $button-color;
+  padding: 7px 15px;
+  box-sizing: border-box;
+  max-width: 130px;
+  width: 100%;
+  bottom: -15px;
+  left: 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.read-more a i {
+  font-size: 13px;
+  position: relative;
+  transition: all 0.3s linear;
+  left: 0px;
+}
+
+.read-more a:hover i {
+  left: 5px;
+}
+
+.main-title {
+  padding-top: 45px;
+
+  h2 {
+    font-family: $font-bn-primary;
+    font-size: $font-title-size;
+    color: $color-deep-red;
+    text-align: center;
+  }
+}
+
+.card-container {
+  height: auto;
+  width: 100%;
+  max-width: 1450px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 20px;
+  margin: 0 auto;
+  padding: 15px 10px;
+}
+
+@media only screen and (max-width: 1200px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .main-title {
+    padding-top: 45px;
+    padding-left: 0;
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .main-title {
+    padding-top: 0px;
+    // padding-left: 0;
+}
+}
+
+@media only screen and (max-width: 750px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-title {
+    margin: 0 auto;
+
+    h1 {
+      font-size: 25px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+  }
+}
+
+@media only screen and (max-width: 470px) {
+  .card-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 5px;
+    grid-gap: 10px;
+    padding: 15px 0;
+  }
+
+}

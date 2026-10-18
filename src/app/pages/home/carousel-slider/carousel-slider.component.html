@@ -1,0 +1,85 @@
+<section class="slider-content">
+  <div class="container">
+    <div class="slider-content-main">
+      <div class="slider-main">
+        @if (isCaloselLoading()) {
+          <div class="swiper-loader">
+            @for (data of [1, 2, 3, 4]; track data) {
+              <div class="hero-skeleton" aria-hidden="true"></div>
+            }
+          </div>
+        } @else if (carousels().length > 0) {
+          @if (showSwiper()) {
+            <swiper-container #swiperEl init="false" class="mySwiper carousel-swiper">
+              @for (data of carousels(); track data._id || $index; let i = $index) {
+                <swiper-slide>
+                  <div class="slider-item">
+                    <picture>
+                      <source media="(min-width: 731px)" [srcset]="pickHeroImage(data, false)" />
+                      <img
+                        [src]="pickHeroImage(data, true)"
+                        alt="Guardian Publication Banner"
+                        [attr.fetchpriority]="i === 0 ? 'high' : 'low'"
+                        [loading]="i === 0 ? 'eager' : 'lazy'"
+                        width="768"
+                        height="256"
+                        sizes="100vw"
+                        decoding="async"
+                      />
+                    </picture>
+                    @if (data?.url) {
+                      <a
+                        class="slider-item-link"
+                        [href]="data.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Open banner link"
+                      ></a>
+                    }
+                  </div>
+                </swiper-slide>
+              }
+            </swiper-container>
+          } @else {
+            <div class="slider-item hero-lcp">
+              <picture>
+                <source media="(min-width: 731px)" [srcset]="heroDesktopUrl()" />
+                <img
+                  [src]="heroMobileUrl()"
+                  alt="Guardian Publication Banner"
+                  fetchpriority="high"
+                  loading="eager"
+                  width="768"
+                  height="256"
+                  sizes="100vw"
+                  decoding="sync"
+                />
+              </picture>
+              @if (carousels()[0]?.url) {
+                <a
+                  class="slider-item-link"
+                  [href]="carousels()[0].url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Open banner link"
+                ></a>
+              }
+            </div>
+          }
+        }
+      </div>
+
+      <div class="slider-content">
+        @if (isBannerLoading()) {
+          @for (item of [0, 1]; track item) {
+            <app-small-banner-loader></app-small-banner-loader>
+          }
+        } @else {
+          @for (data of smallBanners() | slice: 0 : 2; track data._id || $index) {
+            <app-carousel-banner-one [data]="data"></app-carousel-banner-one>
+          }
+        }
+      </div>
+    </div>
+  </div>
+</section>

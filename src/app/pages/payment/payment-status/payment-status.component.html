@@ -1,0 +1,173 @@
+<div class="payment-status-page" [ngClass]="status()">
+  <div class="container">
+    @if (isLoading()) {
+    <div class="loader-container" style="display: flex; justify-content: center; padding: 40px 0;">
+      <div class="spinner"
+        style="border: 4px solid #f3f3f3; border-top: 4px solid #CA2128; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;">
+      </div>
+    </div>
+    } @else {
+    <div class="status-card animated zoomIn"
+      style="max-width: 650px; padding: 10px; background: #fafafa; border-radius: 0; box-shadow: none; border: none; margin: 0 auto; text-align: left;">
+
+      <div class="status-icon" style="margin-bottom: 20px; text-align: center;">
+        @if (status() === 'success') {
+        <div class="icon-circle"
+          style="background: #ffd600; color: #222; width: 60px; height: 60px; font-size: 24px; box-shadow: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+          <i class="fa fa-check"></i>
+        </div>
+        } @else if (status() === 'fail') {
+        <div class="icon-circle fail-bg" style="width: 60px; height: 60px; margin: 0 auto;">
+          <i class="fa fa-times"></i>
+        </div>
+        } @else {
+        <div class="icon-circle cancel-bg" style="width: 60px; height: 60px; margin: 0 auto;">
+          <i class="fa fa-exclamation"></i>
+        </div>
+        }
+      </div>
+
+      <div class="status-content" style="text-align: center; margin-bottom: 30px;">
+        <h2 style="font-size: 22px; font-weight: 600; margin-bottom: 8px; color: #222;">
+          @if (status() === 'success') {
+          Thank you for your order
+          } @else if (status() === 'fail') {
+          দুঃখিত! পেমেন্ট ব্যর্থ হয়েছে
+          } @else {
+          পেমেন্ট বাতিল করা হয়েছে
+          }
+        </h2>
+
+        <p style="font-size: 15px; color: #555;">
+          @if (status() === 'success') {
+          Your order has been successfully placed
+          } @else if (status() === 'fail') {
+          আপনার পেমেন্ট সম্পন্ন করা সম্ভব হয়নি। অনুগ্রহ করে আপনার কার্ড বা একাউন্টের তথ্য যাচাই করে পুনরায় চেষ্টা করুন।
+          } @else {
+          আপনি পেমেন্ট প্রক্রিয়াটি বাতিল করেছেন। আপনি চাইলে পুনরায় অর্ডার প্রক্রিয়াটি শুরু করতে পারেন।
+          }
+        </p>
+      </div>
+
+      @if (order()) {
+      <div class="order-details-block" style="background: transparent;">
+
+        <!-- Summary Header -->
+        <div class="order-summary-header"
+          style="background: #fff; display: flex; flex-wrap: wrap; padding: 20px; margin-bottom: 15px; border: 1px solid #eee;">
+          <div class="header-item" style="flex: 1; padding: 0 15px; border-right: 1px solid #eee;">
+            <span style="display: block; font-size: 11px; color: #666; margin-bottom: 6px;">Order Number</span>
+            <span style="display: block; font-size: 14px; font-weight: 700; color: #222;">{{ order()?.orderId }}</span>
+          </div>
+          <div class="header-item" style="flex: 1; padding: 0 15px; border-right: 1px solid #eee;">
+            <span style="display: block; font-size: 11px; color: #666; margin-bottom: 6px;">Date</span>
+            <span style="display: block; font-size: 14px; font-weight: 700; color: #222;">{{ order()?.checkoutDate |
+              date:'mediumDate' }}</span>
+          </div>
+          <div class="header-item" style="flex: 1; padding: 0 15px; border-right: 1px solid #eee;">
+            <span style="display: block; font-size: 11px; color: #666; margin-bottom: 6px;">Total</span>
+            <span style="display: block; font-size: 14px; font-weight: 700; color: #222;">TK {{ order()?.grandTotal
+              }}</span>
+          </div>
+          <div class="header-item" style="flex: 1; padding: 0 15px;">
+            <span style="display: block; font-size: 11px; color: #666; margin-bottom: 6px;">Payment Method</span>
+            <span style="display: block; font-size: 14px; font-weight: 700; color: #222;">{{ order()?.paymentType
+              }}</span>
+          </div>
+        </div>
+
+        <!-- Shipping Address -->
+        <div class="order-shipping-address"
+          style="background: #fff; padding: 25px; margin-bottom: 15px; border: 1px solid #eee;">
+          <div class="address-title"
+            style="font-size: 14px; font-weight: 600; color: #444; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa fa-truck"></i> Shipping Address
+          </div>
+          <div class="address-content" style="font-size: 14px; line-height: 1.8; color: #444;">
+            <strong style="display: block; font-size: 16px; margin-bottom: 8px; color: #222;">{{ order()?.name
+              }}</strong>
+            <p style="margin: 0;">{{ order()?.shippingAddress }}</p>
+            <p style="margin: 0;">{{ order()?.phoneNo }}</p>
+            <p style="margin: 0;">{{ order()?.email }}</p>
+          </div>
+        </div>
+
+        <!-- Order Items & Totals -->
+        <div class="order-items-list"
+          style="background: #fff; padding: 25px; border: 1px solid #eee; font-size: 13px; color: #444;">
+          @for (item of order()?.orderedItems; track item._id) {
+          <div class="order-item-row"
+            style="display: flex; justify-content: space-between; padding-bottom: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee;">
+            <div class="item-name" style="padding-right: 20px;">{{ item?.name }} <span style="color: #888;">x {{
+                item?.quantity }}</span></div>
+            <div class="item-price" style="white-space: nowrap; font-weight: 600;">TK {{ item?.unitPrice *
+              item?.quantity }}</div>
+          </div>
+          }
+
+          <div class="order-totals" style="padding-top: 5px;">
+            <div class="total-row"
+              style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
+              <span>Discount</span>
+              <span>-TK {{ order()?.discount || 0 }}</span>
+            </div>
+            <div class="total-row"
+              style="display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px;">
+              <span>Delivery Charge</span>
+              <span>Tk {{ order()?.deliveryCharge || 0 }}</span>
+            </div>
+            <div class="total-row grand-total"
+              style="display: flex; justify-content: space-between; padding-top: 15px; border-top: 1px solid #ddd; font-weight: 700; font-size: 16px; color: #222;">
+              <span>Total</span>
+              <span>TK {{ order()?.grandTotal }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+
+      <div class="action-buttons"
+        style="margin-top: 35px; display: flex; gap: 15px; justify-content: center; align-items: center;">
+        <a *ngIf="getInvoiceUrl()" [href]="getInvoiceUrl()" target="_blank" class="custom-btn btn-invoice">
+          <i class="fa fa-download" style="margin-right: 8px;"></i> ইনভয়েস
+        </a>
+        <!-- <button routerLink="/user/account/order-list" class="custom-btn btn-orders">
+          অর্ডার দেখুন
+        </button> -->
+        <button routerLink="/" class="custom-btn btn-home">
+          হোম পেজে ফিরে যান
+        </button>
+      </div>
+
+    </div>
+    }
+  </div>
+</div>
+
+<style>
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .order-summary-header {
+      flex-direction: column;
+    }
+
+    .order-summary-header .header-item {
+      border-right: none !important;
+      border-bottom: 1px solid #eee;
+      padding: 12px 0 !important;
+    }
+
+    .order-summary-header .header-item:last-child {
+      border-bottom: none;
+    }
+  }
+</style>

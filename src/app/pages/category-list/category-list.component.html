@@ -1,0 +1,48 @@
+<div class="category-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>বিষয় ক্যাটাগরি</h1>
+      <p>আপনার পছন্দের বিষয় অনুযায়ী বই খুঁজে বের করুন।</p>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    <div class="category-grid">
+      @for (cat of categories(); track cat._id) {
+      <a [routerLink]="['/product-list']" [queryParams]="{categories: cat.slug}" class="category-card animated fadeIn"
+        [attr.aria-label]="cat.name + ' - বই দেখুন'">
+        <div class="card-icon">
+          <img [src]="cat.image || '/images/placeholder/category.png'" [alt]="cat.name" aria-hidden="true">
+        </div>
+        <p class="category-name">{{ cat.name }}</p>
+      </a>
+      }
+    </div>
+
+    <div class="catalog-section animated fadeInUp">
+      <div class="catalog-card">
+        <div class="info">
+          <i class="fa fa-file-pdf" aria-hidden="true"></i>
+          <div>
+            <p class="catalog-title">গার্ডিয়ান ক্যাটালগ ডাউনলোড করুন</p>
+            <p>আমাদের সকল বইয়ের তালিকার পিডিএফ কপি সংগ্রহে রাখুন।</p>
+          </div>
+        </div>
+        <button mat-raised-button color="primary" (click)="onDownloadCatalog('#')">ডাউনলোড ক্যাটালগ</button>
+      </div>
+    </div>
+
+    <app-seo-internal-links></app-seo-internal-links>
+
+    @if (categories().length === 0) {
+    <div class="empty-state">
+      <i class="fa fa-folder-open"></i>
+      <h3>বর্তমানে কোনো ক্যাটাগরি নেই</h3>
+    </div>
+    }
+    }
+  </div>
+</div>

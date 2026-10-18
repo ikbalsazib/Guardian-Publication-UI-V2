@@ -1,0 +1,70 @@
+<a [routerLink]="['/product-details', data()?.slug]" class="card">
+  <div class="product-image">
+    <img [src]="data()?.images && data()?.images?.length ? data()?.images?.[0] : '/images/placeholder/test.png'"
+      [alt]="data()?.name" loading="lazy">
+    @if (data()?.freeDelivery) {
+    <div class="free-delivery">
+      <p>Free Delivery</p>
+    </div>
+    }
+    <!-- Discount Badges -->
+    @if (((data()?.discountType === 1 && (data()?.discountAmount || 0) > 0) || (data()?.offerDiscountType === 1 &&
+    (data()?.offerDiscountAmount || 0) > 0))) {
+    <div class="discount">
+      <p>-{{ (data()! | price : "discountPercentage") }}%</p>
+    </div>
+    } @else if (((data()?.discountType === 2 && (data()?.discountAmount || 0) > 0) || (data()?.offerDiscountType === 2
+    && (data()?.offerDiscountAmount || 0) > 0))) {
+    <div class="discount">
+      <p>-৳{{ (data()! | price : "discountAmount") }}</p>
+    </div>
+    }
+  </div>
+  <div class="text-aria">
+    <div class="title">
+      @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+      <h3 class="card-title">{{ data()?.name }}</h3>
+      } @else {
+      <h3 class="card-title english-font">{{ data()?.nameEn || data()?.name }}</h3>
+      }
+    </div>
+
+    @if (data()?.author && data()?.author?.length) {
+    <div class="writer">
+      @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+      <a [routerLink]="['/author', data()?.author?.[0]?.slug]">
+        <p>{{ data()?.author?.[0]?.name }}</p>
+      </a>
+      } @else {
+      <a [routerLink]="['/author', data()?.author?.[0]?.slug]">
+        <p class="english-font">{{ data()?.author?.[0]?.nameEn || data()?.author?.[0]?.name }}</p>
+      </a>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="price-aria">
+    @if ((data()?.discountAmount || 0) > 0 || (data()?.offerDiscountAmount || 0) > 0) {
+    <div class="old-price">
+      <del>
+        @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+        <p>৳{{ data()?.salePrice }}</p>
+        } @else {
+        <p class="english-font">Tk{{ data()?.salePrice }}</p>
+        }
+      </del>
+    </div>
+    }
+
+    <div class="new-price">
+      @if (data()) {
+      @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+      <p>৳{{ (data()! | price : "salePrice") }}</p>
+      } @else {
+      <p class="english-font">Tk{{ (data()! | price : "salePrice") }}</p>
+      }
+      }
+    </div>
+  </div>
+</a>

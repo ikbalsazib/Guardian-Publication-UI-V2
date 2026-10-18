@@ -1,0 +1,53 @@
+@if (promoOffers().length) {
+  <div class="offers-page">
+    <div class="container">
+      <h1 class="sr-only">{{ 'ln.Offer' | translate }}</h1>
+    </div>
+  @for (data of promoOffers(); track data._id) {
+    <div class="banner-area">
+      <div class="container">
+        @if (!data?.bannerImage) {
+          <div class="banner-main-offers">
+            <h2>{{ "ln.Offer" | translate }}</h2>
+          </div>
+        }
+        <!-- END! banner-main-offers -->
+
+        @if (data?.bannerImage) {
+          <div class="bannar-main">
+            <img [src]="data?.bannerImage ? data?.bannerImage : '/images/placeholder/test.png'" [alt]="data.title" />
+          </div>
+        }
+        <!-- END! banner-main -->
+      </div>
+    </div>
+    <!---END BANNER AREA--->
+
+    <div class="section-1">
+      <div class="container">
+        <div class="section1-top">
+          <div class="title-area">
+            <h2>{{ data.title }}</h2>
+          </div>
+          <app-time-counter-one [endDate]="data?.endDateTime"></app-time-counter-one>
+        </div>
+
+        <div class="description-area">
+          <p [innerHTML]="data.description | safeHtml"></p>
+        </div>
+        <div class="section1-main">
+          @if (isLoadingPromoOffer()) {
+            <app-card-one-loader *ngFor="let data of [1, 2, 3, 4, 5, 6]"></app-card-one-loader>
+          } @else {
+            @for (product of data?.productDetails; track product._id) {
+              <app-product-card-one [data]="product"></app-product-card-one>
+            }
+          }
+        </div>
+      </div>
+    </div>
+  }
+  </div>
+}
+
+<app-special-package></app-special-package><!---END SPECIAL PACKAGE-->

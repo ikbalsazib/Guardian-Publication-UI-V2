@@ -1,0 +1,388 @@
+@if (isLoading()) {
+<div class="lp2-loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+} @else if (landingPage(); as page) {
+<div class="lp2" #pageRoot>
+  <!-- Sticky header -->
+  <header class="lp2-header">
+    <div class="lp2-container lp2-header__inner">
+      <a routerLink="/" class="lp2-brand">
+        <img [src]="shopInfo()?.navLogo ?? '/images/logo/logo1.jpeg'" alt="Guardian Publications"
+          class="lp2-brand__logo" height="42">
+      </a>
+
+      <div class="lp2-header__badges">
+        @for (badge of headerBadges(); track $index) {
+        <span class="lp2-header__badge">
+          <span class="lp2-header__badge-icon">
+            <mat-icon>check</mat-icon>
+          </span>
+          {{ badge }}
+        </span>
+        }
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="lp2-hero">
+    <div class="lp2-hero__bg" aria-hidden="true">
+      <span class="lp2-blob lp2-blob--1"></span>
+      <span class="lp2-blob lp2-blob--2"></span>
+      <span class="lp2-blob lp2-blob--3"></span>
+      <span class="lp2-grid"></span>
+    </div>
+
+    <div class="lp2-container lp2-hero__grid">
+      <div class="lp2-hero__content lp2-reveal">
+        @if (page.badgeText) {
+        <span class="lp2-pill">
+          <mat-icon>card_giftcard</mat-icon>
+          {{ page.badgeText }}
+        </span>
+        }
+
+        <h1 class="lp2-hero__title">
+          @if (page.title) {
+          <span class="lp2-hero__title-main">{{ page.title }}</span>
+          }
+          @if (page.titleHighlight) {
+          <span class="lp2-hero__title-highlight">{{ page.titleHighlight }}</span>
+          }
+        </h1>
+
+        @if (page.subtitle) {
+        <p class="lp2-hero__subtitle">{{ page.subtitle }}</p>
+        }
+
+        <ul class="lp2-hero__points">
+          @for (point of heroPoints(); track $index) {
+          <li>
+            <span class="lp2-check">
+              <mat-icon>check</mat-icon>
+            </span>
+            <span>{{ point }}</span>
+          </li>
+          }
+        </ul>
+
+        <div class="lp2-hero__action-group">
+          @if (page.resourceCardTitle || page.resourceCardSubtitle) {
+          <div class="lp2-resource-card">
+            <div class="lp2-resource-card__icon">
+              <mat-icon>description</mat-icon>
+            </div>
+            <div>
+              @if (page.resourceCardTitle) {
+              <strong>{{ page.resourceCardTitle }}</strong>
+              }
+              @if (page.resourceCardSubtitle) {
+              <p>{{ page.resourceCardSubtitle }}</p>
+              }
+            </div>
+          </div>
+          }
+
+          <div class="lp2-hero__cta-wrapper">
+            <button type="button" class="lp2-hero__cta" (click)="scrollToForm()">
+              <mat-icon>download</mat-icon>
+              {{ page.leadFormButtonText || ('ln.LP2_DownloadNow' | translate) }}
+            </button>
+            <div class="lp2-hero__trust-note">
+              <mat-icon>gpp_good</mat-icon>
+              <span>{{ 'ln.LP2_SafeAndTrusted' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp2-hero__media lp2-reveal lp2-reveal--delay">
+        <div class="lp2-hero__glow" aria-hidden="true"></div>
+        <div class="lp2-hero__stage">
+          <div class="lp2-hero__pedestal"></div>
+          <div class="lp2-hero__book">
+            @if (page.heroImage) {
+            <img [src]="page.heroImage" [alt]="page.title || page.name" loading="eager">
+            } @else {
+            <div class="lp2-hero__placeholder">
+              <mat-icon>menu_book</mat-icon>
+              <span>Free Checklist</span>
+            </div>
+            }
+          </div>
+          <div class="lp2-hero__float-card lp2-hero__float-card--top-right lp2-float-circle lp2-float-green">
+            <span>100%<br>FREE</span>
+          </div>
+          <div class="lp2-hero__float-card lp2-hero__float-card--mid-right">
+            <mat-icon>verified</mat-icon>
+            <span>Instant PDF</span>
+          </div>
+          <!-- <div class="lp2-hero__float-card lp2-hero__float-card--bottom-right lp2-float-circle lp2-float-white">
+              <span>Disk<br>10%</span>
+            </div> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead form -->
+  <section class="lp2-content-band" #formSection>
+    <div class="lp2-container">
+      <div class="lp2-form-section__grid">
+        <div class="lp2-form-card lp2-reveal lp2-reveal--delay">
+          @if (page.leadFormTitle) {
+          <h2 class="lp2-form-heading">{{ page.leadFormTitle }}</h2>
+          } @else {
+            {{ 'ln.LP2_ProvideInfoToDownload' | translate }}
+          }
+          <p class="lp2-form-subtitle">
+            {{ page.leadFormSubtitle || ('ln.LP2_FillFormSubtitle' | translate) }}
+          </p>
+          <form [formGroup]="leadForm" (ngSubmit)="onSubmitLead()">
+            <label class="lp2-field" [class.lp2-field--error]="showFieldError('name')">
+              <span>{{ 'ln.LP2_YourName' | translate }}</span>
+              <div class="lp2-field__input">
+                <mat-icon>person_outline</mat-icon>
+                <input type="text" formControlName="name" [placeholder]="'ln.LP2_FullNamePlaceholder' | translate">
+              </div>
+              @if (showFieldError('name')) {
+              <small>{{ 'ln.LP2_NameRequired' | translate }}</small>
+              }
+            </label>
+
+            <label class="lp2-field" [class.lp2-field--error]="showFieldError('phoneNo')">
+              <span>{{ 'ln.LP2_WhatsappNumber' | translate }}</span>
+              <div class="lp2-field__input">
+                <svg class="lp2-wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                </svg>
+                <input type="tel" formControlName="phoneNo" [placeholder]="'ln.LP2_PhonePlaceholder' | translate">
+              </div>
+              @if (showFieldError('phoneNo')) {
+              <small>{{ 'ln.LP2_ValidPhoneRequired' | translate }}</small>
+              }
+            </label>
+
+            <label class="lp2-field" [class.lp2-field--error]="showFieldError('email')">
+              <span>{{ 'ln.LP2_Gmail' | translate }}</span>
+              <div class="lp2-field__input">
+                <mat-icon>mail_outline</mat-icon>
+                <input type="email" formControlName="email" placeholder="youremail@gmail.com">
+              </div>
+              @if (showFieldError('email')) {
+              <small>{{ 'ln.LP2_ValidEmailRequired' | translate }}</small>
+              }
+            </label>
+
+            <p class="lp2-form-note">
+              <mat-icon>check_circle</mat-icon>
+              {{ page.leadFormNote || ('ln.LP2_InfoSecureNote' | translate) }}
+            </p>
+
+            <button type="submit" class="lp2-btn lp2-btn--primary" [disabled]="leadForm.invalid || isSubmitting()">
+              @if (isSubmitting()) {
+              <mat-spinner diameter="22"></mat-spinner>
+              } @else {
+              <mat-icon>download</mat-icon>
+              }
+              {{ page.leadFormButtonText || ('ln.LP2_DownloadChecklist' | translate) }}
+            </button>
+
+            <div class="lp2-form-security-note">
+              <mat-icon>lock_outline</mat-icon>
+              <span>{{ 'ln.LP2_WeDoNotShareInfo' | translate }}</span>
+            </div>
+          </form>
+        </div>
+        <div class="lp2-form-section__info lp2-reveal">
+          <div class="lp2-trust-list">
+            @for (item of leadTrustItems(); track $index) {
+            <div class="lp2-trust-list__item">
+              <div [class]="trustToneClass($index)">
+                <mat-icon>{{ trustIcon(item) }}</mat-icon>
+              </div>
+              <div>
+                @if (item.title) {
+                <strong>{{ item.title }}</strong>
+                }
+                @if (item.subtitle) {
+                <p>{{ item.subtitle }}</p>
+                }
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits — Lovable-style feature cards -->
+  <section class="lp2-features">
+    <div class="lp2-container">
+      <header class="lp2-features__head">
+        <h2 class="lp2-features__title">
+          {{ page.benefitsTitle || ('ln.LP2_WhatYouWillFind' | translate) }}
+        </h2>
+        <p class="lp2-features__subtitle">
+          {{ page.benefitsSubtitle || ('ln.LP2_ValueFromFirstPage' | translate) }}
+        </p>
+      </header>
+
+      <div class="lp2-features__grid">
+        @for (card of benefitCards(); track $index) {
+        <article class="lp2-feature-card">
+          <div [class]="benefitToneClass($index)">
+            <mat-icon>{{ benefitIcon(card) }}</mat-icon>
+          </div>
+          @if (card.title) {
+          <h3>{{ card.title }}</h3>
+          }
+          @if (card.description) {
+          <p>{{ card.description }}</p>
+          }
+        </article>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ accordion -->
+  <section class="lp2-faq">
+    <div class="lp2-container lp2-faq__inner">
+      <header class="lp2-faq__head">
+        <h2>{{ page.faqTitle || ('ln.LP2_FAQTitle' | translate) }}</h2>
+        <p>{{ page.faqSubtitle || ('ln.LP2_FAQSubtitle' | translate) }}</p>
+      </header>
+
+      <div class="lp2-faq__list">
+        @for (item of faqItems(); track $index) {
+        <div class="lp2-faq__item" [class.is-open]="isFaqOpen($index)">
+          <button type="button" class="lp2-faq__trigger" [attr.aria-expanded]="isFaqOpen($index)"
+            (click)="toggleFaq($index)">
+            <span>{{ item.question }}</span>
+            <mat-icon class="lp2-faq__chevron">expand_more</mat-icon>
+          </button>
+          <div class="lp2-faq__panel">
+            <div class="lp2-faq__panel-inner">
+              <p [innerHTML]="linkify(item.answer) | safeHtml"></p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  @if (insidePages().length) {
+  <section class="lp2-inside">
+    <div class="lp2-container lp2-reveal">
+      <h2 class="lp2-section-title">
+        {{ page.insidePagesTitle || ('ln.LP2_InsidePages' | translate) }}
+      </h2>
+      <div class="lp2-inside__track">
+        @for (img of insidePages(); track $index) {
+        <figure class="lp2-inside__item">
+          <img [src]="img" [alt]="'Inside page ' + ($index + 1)" loading="lazy">
+        </figure>
+        }
+      </div>
+    </div>
+  </section>
+  }
+  <!-- 
+  @if (page.description || page.featuresContent) {
+  <section class="lp2-extra">
+    <div class="lp2-container lp2-extra__grid">
+      @if (page.description) {
+      <div class="lp2-extra__block" [innerHTML]="page.description | safeHtml"></div>
+      }
+      @if (page.featuresContent) {
+      <div class="lp2-extra__block" [innerHTML]="page.featuresContent | safeHtml"></div>
+      }
+    </div>
+  </section>
+  } -->
+
+  <!-- Bottom Action Cards -->
+  <section class="lp2-action-cards-section">
+    <div class="lp2-container lp2-action-cards">
+      <div class="lp2-action-card">
+        <div class="lp2-action-card__icon lp2-action-card__icon--green">
+          <mat-icon>download</mat-icon>
+        </div>
+        <div class="lp2-action-card__content">
+          <h3>{{ 'ln.LP2_DownloadNow' | translate }}</h3>
+          <p>{{ 'ln.LP2_StartJourneyToday' | translate }}</p>
+          <button class="lp2-btn lp2-btn--primary lp2-action-card__btn" (click)="scrollToForm()">
+            {{ 'ln.LP2_DownloadBtn' | translate }}
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="lp2-action-card">
+        <div class="lp2-action-card__icon lp2-action-card__icon--blue">
+          <mat-icon>verified_user</mat-icon>
+        </div>
+        <div class="lp2-action-card__content">
+          <h3>{{ 'ln.LP2_SafeAndTrusted' | translate }}</h3>
+          <p>{{ 'ln.LP2_InfoSecureNoSpam' | translate }}</p>
+          <button type="button" class="lp2-btn lp2-btn--light-blue lp2-action-card__btn" (click)="scrollToForm()">
+            {{ 'ln.LP2_LearnMore' | translate }}
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="lp2-footer">
+    <div class="lp2-container">
+      <div class="lp2-footer__stats">
+        @for (stat of footerStats(); track $index) {
+        <div class="lp2-footer__stat">
+          <mat-icon>{{ trustIcon({ icon: stat.icon }) }}</mat-icon>
+          <span>{{ stat.text }}</span>
+        </div>
+        }
+      </div>
+      <p class="lp2-footer__copy">
+        © {{ currentYear }} {{ page.name || 'Guardian Publications' }}. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA -->
+  <div class="lp2-mobile-bar">
+    <button type="button" class="lp2-btn lp2-btn--primary" (click)="scrollToForm()">
+      <mat-icon>download</mat-icon>
+      {{ page.leadFormButtonText || ('ln.LP2_DownloadBtn' | translate) }}
+    </button>
+  </div>
+</div>
+}
+
+<ng-template #successDialog>
+  <div style="padding: 32px 24px; text-align: center; background: #ffffff; color: #333333; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; align-items: center;">
+    
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 16px;">
+      <mat-icon style="font-size: 56px; width: 56px; height: 56px; color: #10b981;">check_circle</mat-icon>
+      <h2 style="font-size: 1.75rem; font-weight: 700; margin: 0; color: #1a4d2e;">{{ 'ln.LP2_DownloadSuccessfulTitle' | translate }}</h2>
+    </div>
+    
+    <div style="margin-bottom: 24px;">
+      <p style="font-size: 18px; margin: 0; color: #444444; line-height: 1.5;">{{ 'ln.LP2_DownloadSuccessfulMsg' | translate }}</p>
+    </div>
+    
+    <div style="display: flex; justify-content: center;">
+      <button mat-button type="button" mat-dialog-close style="padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 16px; letter-spacing: 0.5px; background: #1a4d2e; color: #ffffff; border: none; cursor: pointer; transition: background 0.2s ease;">{{ 'ln.LP2_Close' | translate }}</button>
+    </div>
+
+  </div>
+</ng-template>

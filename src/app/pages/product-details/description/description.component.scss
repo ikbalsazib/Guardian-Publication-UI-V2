@@ -1,0 +1,231 @@
+@use "src/theme/variables" as *;
+
+.section {
+  display: block;
+  margin-bottom: 30px;
+
+  .section-main {
+    max-width: 1400px;
+    width: 100%;
+    margin: auto;
+    background-color: $color-white;
+    padding: 30px 25px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+    .section-title {
+      display: block;
+      width: 100%;
+      margin-bottom: 25px;
+
+      h3,
+      h2 {
+        color: #333;
+        font-family: $font-bn-primary;
+        font-weight: 600;
+        font-size: 25px;
+        display: block;
+      }
+    }
+  }
+}
+
+.product-menu {
+  display: block;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 25px;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    li {
+      margin-bottom: -1px;
+
+      button {
+        color: #666;
+        background-color: transparent;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 12px 20px;
+        font-family: $font-en-primary;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-bottom: 3px solid transparent;
+
+        &:hover {
+          color: $color-primary;
+        }
+
+        &.active {
+          color: $color-primary;
+          border-bottom-color: $color-primary;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+.section-info-area {
+  display: block;
+  width: 100%;
+  min-height: 200px;
+}
+
+.description {
+  color: #444;
+  font-family: $bangla-kalpurush;
+  font-size: 17px;
+  line-height: 1.8;
+  text-align: justify;
+}
+
+.specification {
+  .table {
+    display: block;
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+
+    .table-title h3 {
+      background-color: #f8f9fa;
+      color: #333;
+      font-weight: 600;
+      font-size: 18px;
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      tr {
+        border-bottom: 1px solid #f1f1f1;
+
+        &:last-child {
+          border: none;
+        }
+
+        th {
+          width: 30%;
+          padding: 15px 20px;
+          background: #fafafa;
+          text-align: left;
+          font-size: 14px;
+          font-weight: 600;
+          color: #555;
+          border-right: 1px solid #eee;
+        }
+
+        td {
+          padding: 15px 20px;
+          font-size: 15px;
+          color: #666;
+        }
+      }
+    }
+  }
+}
+
+.author {
+  .author-main {
+    display: flex;
+    gap: 30px;
+
+    .author-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+
+      img {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .follow-btn {
+        background: $color-primary;
+        color: white;
+        padding: 6px 20px;
+        border: none;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    .author-body {
+      flex: 1;
+
+      a {
+        color: #333;
+        font-size: 22px;
+        font-weight: 600;
+        text-decoration: none;
+        margin-bottom: 10px;
+        display: block;
+
+        &:hover {
+          color: $color-primary;
+        }
+      }
+
+      div {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.7;
+        text-align: justify;
+      }
+    }
+  }
+}
+
+.banner {
+  display: block;
+  width: 100%;
+  margin-top: 30px;
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .author .author-main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-menu ul {
+    overflow-x: auto;
+
+    li button {
+      white-space: nowrap;
+    }
+  }
+
+  .specification .table table tr th {
+    width: 40%;
+  }
+}

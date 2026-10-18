@@ -1,0 +1,37 @@
+<a class="blog-card" [routerLink]="['/blog', data().slug]">
+  <div class="blog-image">
+    <img [src]="data().image || '/images/placeholder/blog.jpg'" alt="{{data().name}}" loading="lazy">
+  </div>
+  <div class="blog-body">
+    <!-- <ul class="blog-meta">
+      <li><i class="fa fa-user"></i> {{ data().authorName || 'রাইটার' }}</li>
+      <li class="view-count">
+        @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+        <span>{{ "ln.ToatalView" | translate }} : {{ data().totalView | number : "" : "bn" }}</span>
+        } @else {
+        <span class="english-font">{{ "ln.ToatalView" | translate }} : {{ data().totalView }}</span>
+        }
+      </li>
+    </ul> -->
+
+    <div class="blog-title">
+      @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+      <h3>{{ data().name }}</h3>
+      } @else {
+      <h3 class="english-font">{{ data().nameEn || data().name }}</h3>
+      }
+    </div>
+
+    <div class="blog-des">
+      @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+      <div [innerHTML]="data().shortDesc"></div>
+      } @else {
+      <div class="english-font" [innerHTML]="data().shortDescEn || data().shortDesc"></div>
+      }
+    </div>
+
+    <div class="read-more">
+      <span>{{ "ln.ReadMore" | translate }} <i class="fa fa-arrow-right"></i></span>
+    </div>
+  </div>
+</a>

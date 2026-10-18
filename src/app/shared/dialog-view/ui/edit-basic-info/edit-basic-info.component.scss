@@ -1,0 +1,237 @@
+@use '/src/theme/variables' as *;
+
+.msg-area {
+  display: block;
+  background-color: $color-white;
+  border-top: 2px solid $color-primary;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 6px -3px #9c9c9c;
+  border-radius: 2px 2px 0px 0px;
+  margin-bottom: 20px;
+
+  .msg-main {
+    p {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      color: #333;
+      font-family: $font-en-primary;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+
+      i {
+        color: #17a2b8;
+        font-size: 17px;
+      }
+    }
+  }
+}
+
+.profile-area {
+  display: block;
+  background-color: $color-white;
+  box-shadow: 0px 4px 6px -3px #9c9c9c;
+  border-top: 4px solid $color-primary;
+  border-radius: 2px;
+  width: 500px;
+
+  .profile-main {
+    display: block;
+    padding: 0px 20px;
+    box-sizing: border-box;
+
+    .profile-info {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+
+      &:last-child {
+        border: none;
+      }
+
+      .profile-info-head {
+        padding: 15px 0px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #ddd;
+
+        h3 {
+          color: #333;
+          font-family: $font-en-primary;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          gap: 25px;
+
+          span {
+            color: #17a2b8;
+            font-size: 16px;
+            display: block;
+            cursor: pointer;
+          }
+        }
+
+        small {
+          font-family: #555;
+          font-family: $font-en-primary;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          display: block;
+          margin-top: 6px;
+        }
+      }
+
+    }
+  }
+}
+
+.profile-form-field-area {
+  display: block;
+  padding: 20px 0px;
+  box-sizing: border-box;
+
+  .form-input {
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 15px;
+
+    &:last-child {
+      margin: 0px;
+    }
+
+    label {
+      color: #333;
+      font-family: $font-en-primary;
+      font-style: normal;
+      display: block;
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    input {
+      width: 100%;
+      display: block;
+      background-color: $color-white;
+      border: 1px solid #ddd;
+      outline: none;
+      padding: 14px 20px;
+      box-sizing: border-box;
+      font-family: $font-en-primary;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      border-radius: 3px;
+
+      &.disabled {
+        background-color: #F9F9F9;
+      }
+    }
+  }
+
+  .gender-area {
+    label {
+      color: #333;
+      font-family: $font-en-primary;
+      font-style: normal;
+      display: block;
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .profile-upload {
+    label {
+      color: #333;
+      font-family: $font-en-primary;
+      font-style: normal;
+      display: block;
+      margin-bottom: 15px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: block;
+      margin-left: 20px;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 20px;
+
+    .form-input {
+      max-width: 100%;
+    }
+  }
+
+  .sub-btn {
+    display: block;
+    margin-top: 10px;
+
+    button {
+      background-color: $color-primary;
+      color: $color-white;
+      font-family: $font-en-primary;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+      border-radius: 6px;
+      display: block;
+      min-width: 150px;
+    }
+  }
+}
+
+@media(max-width:550px) {
+  .profile-form-field-area {
+    .grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  .profile-area {
+    width: 325px;
+    .profile-main {
+      .profile-info {
+        .profile-info-head {
+          padding: 12px 0px;
+
+          h3 {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 17px;
+          }
+        }
+      }
+    }
+  }
+  .profile-form-field-area{
+    .form-input{
+      label{
+        font-size: 15px;
+      }
+      input{
+        font-size: 15px;
+        padding: 10px 15px;
+      }
+    }
+  }
+}

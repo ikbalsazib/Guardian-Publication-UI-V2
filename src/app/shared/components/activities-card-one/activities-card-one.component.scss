@@ -1,0 +1,163 @@
+@use 'src/theme/variables' as *;
+.view-count{
+  display: flex!important;
+  justify-content: space-between;
+}
+.blog-card{
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 5px 0 rgb( 0 0 0 / 10%);
+  margin: 0 2px;
+}
+.blog-image{
+  display: block;
+  overflow: hidden;
+  border-radius: 8px;
+
+}
+.blog-image img{
+  transition: all 0.3s linear;
+  border-radius: 8px;
+  transform: scale(1);
+  height: 270px;
+  object-fit: cover;
+}
+.blog-card:hover .blog-image img{
+  transform: scale(1.06);
+}
+.blog-body{
+  padding: 15px 15px 0px;
+  box-sizing: border-box;
+}
+.blog-body ul{
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 20px;
+}
+.blog-body ul li{
+  //display: inline-flex;
+  //align-items: center;
+  //justify-content: flex-start;
+  gap: 7px;
+  color: $text-color;
+  font-family: $font-en-primary;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  margin-right: 20px;
+  span{
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+    font-family: "SolaimanLipi_Bold", sans-serif;
+  }
+}
+.blog-body ul li:last-child{
+  margin: 0px;
+}
+.blog-body ul li i{
+  font-size: 15px;
+  color: $button-color;
+}
+
+.blog-title{
+  display: block;
+  margin-bottom: 20px;
+}
+.blog-title a{
+  font-family: $bangla-kalpurush;
+  font-size: 18px;
+  color: $black-color;
+  max-height: 100px;
+  display:-webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: all 0.3s linear;
+}
+.blog-title a:hover{
+  color: $button-color;
+}
+.blog-des{
+  display: block;
+  margin-bottom: 15px;
+}
+.blog-des p{
+  color: $color-light-gray;
+  font-family: $bangla-kalpurush;
+  font-size: 16px;
+  line-height: 28px;
+  display: block;
+  max-height: 130px;
+  display:-webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.read-more{
+  display: block;
+}
+.read-more span{
+  color: $button-color-white;
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 5px;
+  font-family: $bangla-kalpurush;
+  font-size: 16px;
+  text-transform: capitalize;
+  transition: all 0.3s linear;
+  background-color: $button-color;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  max-width: 130px;
+  width: 100%;
+  position: relative;
+  bottom: -15px;
+  right: 20px;
+  margin-left: auto;
+  text-align: center;
+  border-radius: 20px;
+}
+.read-more span i{
+  font-size: 13px;
+  position: relative;
+  transition: all 0.3s linear;
+  left: 0px;
+}
+.read-more span:hover i{
+
+  left: 5px;
+}
+
+
+@media(max-width:500px){
+  .blog-title{
+    margin-bottom: 10px;
+  }
+  .blog-image img{
+    height: 210px;
+  }
+  .blog-body{
+    ul{
+      margin-bottom: 10px;
+      li{
+        font-size: 15px;
+        line-height: 22px;
+      }
+    }
+  }
+  .blog-des{
+    margin-bottom: 0px;
+    p{
+      line-height: 22px;
+      font-size: 15px;
+    }
+  }
+  .read-more span{
+    padding: 4px 12px;
+    max-width: 110px;
+  }
+}

@@ -1,0 +1,40 @@
+<div class="author-list-page">
+  <div class="container">
+    <div class="page-header">
+      <div class="header-content">
+        <i class="fa fa-users"></i>
+        <h1>{{ "ln.Authors" | translate }}</h1>
+      </div>
+      <p class="header-subtitle">{{ 'ln.AuthorListSubtitle' | translate }}</p>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    <div class="author-grid">
+      @for (author of authors() | paginate: { itemsPerPage: pageSize(), currentPage: currentPage(), totalItems:
+      totalAuthors() }; track author._id) {
+      <app-author-card-one [data]="author" class="animated fadeIn">
+      </app-author-card-one>
+      } @empty {
+      <div class="empty-state">
+        <i class="fa fa-search"></i>
+        <p>{{ 'ln.NoAuthors' | translate }}</p>
+      </div>
+      }
+    </div>
+
+    @if (totalAuthors() > pageSize()) {
+    <div class="pagination-container">
+      <pagination-controls [responsive]="true" [autoHide]="true" [previousLabel]="'ln.Prev' | translate"
+        [nextLabel]="'ln.Next' | translate" (pageChange)="onPageChange($event)">
+      </pagination-controls>
+    </div>
+    }
+
+    <app-seo-internal-links></app-seo-internal-links>
+    }
+  </div>
+</div>

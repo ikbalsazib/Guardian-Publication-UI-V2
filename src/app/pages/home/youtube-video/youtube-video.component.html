@@ -1,0 +1,49 @@
+<div class="section-6">
+  <div class="container">
+    <div class="title-area">
+      <h2 routerLink="all-videos">{{ "ln.Videos" | translate }}</h2>
+    </div>
+    <div class="section6-main carousel">
+    @if (isBrowser) {
+      <swiper-container #swiperEl init="false" class="mySwiper">
+        @if (isLoading1()) {
+          @for (data of [1,2,3,4]; track data) {
+            <swiper-slide>
+              <app-youtube-loader></app-youtube-loader>
+            </swiper-slide>
+          }
+        } @else {
+          @for (data of video(); track data._id || $index) {
+            <swiper-slide>
+              <!---category-card-->
+              <div class="video wow animate__fadeInUp">
+                <div class="thamil-image">
+                  <img [src]="data?.image ? data?.image : '/images/placeholder/test.png'" [alt]="data?.title">
+                  <div class="icons">
+                    <ul>
+                      @if (data?.url) {
+                        <li><button type="button" (click)="openYoutubeVideoDialog($event, data?.url || '')" aria-label="Play video"><i
+                              class="fa fa-play"></i></button></li>
+                      }
+                    </ul>
+                  </div>
+                </div>
+
+                <a [routerLink]="['.']" [queryParamsHandling]="'merge'">
+                  <h2 class="videoTitle"
+                    *ngIf="translateService.currentLang === 'bn' || !translateService.currentLang ">{{data?.title}}</h2>
+                  <h2 class="videoTitle" *ngIf="translateService.currentLang === 'en'">{{data?.titleEn}}</h2>
+                </a>
+              </div>
+            </swiper-slide>
+          }
+        }
+      </swiper-container>
+    }
+
+    </div>
+    <div class="see-more">
+      <a [routerLink]="['/all-video']" routerLinkActive="router-link-active">{{ "ln.SeeMore" | translate }}</a>
+    </div>
+  </div>
+</div>

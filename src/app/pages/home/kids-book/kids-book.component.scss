@@ -1,0 +1,100 @@
+@use "src/theme/swipper";
+@use "src/theme/variables" as *;
+@use "src/theme/exports/title-one";
+
+.kids-book {
+  box-sizing: border-box;
+  margin-bottom: 60px;
+}
+
+.kids-book-contents {
+  position: relative;
+  background: transparent;
+  padding: 0;
+  border-radius: 15px;
+}
+
+::ng-deep.kid-carousel .swiper {
+  padding: 6px;
+}
+
+.see-more-btn {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.read-more {
+  position: absolute;
+  left: 80%;
+}
+
+.read-more a {
+  color: $button-color-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: $bangla-kalpurush;
+  font-size: 16px;
+  text-transform: capitalize;
+  transition: all 0.3s linear;
+  background-color: $button-color;
+  padding: 7px 15px;
+  box-sizing: border-box;
+  max-width: 130px;
+  width: 100%;
+  bottom: -15px;
+  left: 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.read-more a i {
+  font-size: 13px;
+  position: relative;
+  transition: all 0.3s linear;
+  left: 0px;
+}
+
+.read-more a:hover i {
+  left: 5px;
+}
+
+.title-area {
+  h2 {
+    font-family: $font-bn-primary;
+    font-size: $font-title-size;
+    color: $color-deep-red;
+    letter-spacing: -0.5px;
+  }
+}
+
+@media (max-width: 540px) {
+  .read-more {
+    left: 66%;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .title-area {
+    h2 {
+      font-size: 25px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+
+  //.title {
+  //  padding-bottom: 18px!important;
+  //}
+  .kids-book-contents {
+    position: relative;
+    background: #ffffff;
+    padding: 0;
+    border-radius: 15px;
+  }
+}

@@ -1,0 +1,46 @@
+@use "src/theme/swipper";
+@use "src/theme/variables" as *;
+
+/*** articles-contents ***/
+.articles-contents {
+  display: block;
+  margin-bottom: 40px;
+  //padding: 5px 15px;
+  box-sizing: border-box;
+}
+
+@media(max-width:500px) {
+  .articles-contents {
+    margin-bottom: 0px;
+  }
+}
+
+.articles-contents-main {
+  display: block;
+  width: 100%;
+}
+
+.title-area {
+  display: block;
+  margin-top: 33px;
+  text-align: center;
+}
+
+.title-area {
+  h1 {
+    font-family: $font-bn-primary;
+    font-size: $font-title-size;
+    color: $color-deep-red;
+    letter-spacing: -0.5px;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .title-area {
+    h1 {
+      font-size: 25px;
+      line-height: 28px;
+      font-weight: 600;
+    }
+  }
+}

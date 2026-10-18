@@ -1,0 +1,53 @@
+@use "src/theme/variables" as *;
+
+.home-intro {
+  padding: 24px 0 8px;
+  background: #fff;
+
+  h1 {
+    margin: 0 0 10px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #222;
+  }
+
+  p {
+    margin: 0;
+    max-width: 980px;
+    line-height: 1.8;
+    color: #555;
+    font-size: 16px;
+  }
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.defer-placeholder {
+  min-height: 200px;
+}
+
+.defer-placeholder-sm {
+  min-height: 100px;
+}
+
+@media (max-width: 768px) {
+  .home-intro {
+    padding-top: 16px;
+
+    h1 {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+}

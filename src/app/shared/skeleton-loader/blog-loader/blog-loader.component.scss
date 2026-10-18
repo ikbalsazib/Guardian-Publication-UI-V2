@@ -1,0 +1,43 @@
+@use 'src/theme/variables' as *;
+
+.blog-card {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 5px 0 rgb(0 0 0 / 10%);
+    margin: 0 2px;
+}
+
+.blog-image {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+
+}
+
+.blog-body {
+    padding: 15px 15px 0px;
+    box-sizing: border-box;
+}
+
+.blog-title {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.blog-des {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.read-more {
+    display: block;
+}
+
+.read-more a {
+    position: relative;
+    bottom: -25px;
+    left: 20px;
+}
+
+

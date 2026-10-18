@@ -1,0 +1,49 @@
+@use "src/theme/variables" as *;
+/**** author-card ****/
+
+.author-card {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #333 !important;
+
+  &:hover {
+    color: #333 !important;
+    
+    p {
+      color: #333 !important;
+    }
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    border: 2px solid $category-color-one;
+    border-radius: 50%;
+    object-fit: contain;
+  }
+
+  p {
+    padding-top: 16px;
+    line-height: 25px;
+    font-family: $bangla-kalpurush;
+    font-size: $font-dis-size;
+    text-align: center;
+    color: #333 !important;
+  }
+
+}
+
+@media(max-width:500px){
+  .author-card{
+    img{
+      width: 80px;
+      height: 80px;
+    }
+    p{
+      padding-top: 7px;
+      font-size: 15px;
+      line-height: 18px;
+    }
+  }
+}

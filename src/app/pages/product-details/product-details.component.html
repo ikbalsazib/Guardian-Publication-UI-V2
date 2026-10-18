@@ -1,0 +1,47 @@
+<div class="product-details-page">
+  @if (isLoading()) {
+    @if (slug) {
+      <h1 class="sr-only">{{ slug | slugToNormal }}</h1>
+    }
+    <div class="loader-container">
+      <div class="spinner"></div>
+    </div>
+  } @else if (product()) {
+    <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
+    
+    <app-product-details-area 
+      [product]="product()!" 
+      [relatedProducts]="relatedProducts()">
+    </app-product-details-area>
+
+    <div class="product-desc-section">
+      <app-description 
+        [product]="product()!" 
+        [data]="detailBanners()">
+      </app-description>
+    </div>
+
+    @defer (on viewport) {
+      @if (relatedAuthorProducts().length > 0) {
+        <app-related-product 
+          [products]="relatedAuthorProducts()" 
+          [title]="'ln.Otherbooksbythisauthor' | translate">
+        </app-related-product>
+      }
+
+      @if (relatedProducts().length > 0) {
+        <app-related-product 
+          [products]="relatedProducts()" 
+          [title]="'ln.RelatedBook' | translate">
+        </app-related-product>
+      }
+    } @placeholder {
+      <div class="carousel-placeholder"></div>
+    }
+  } @else {
+    <div class="not-found">
+      <h2>Product Not Found</h2>
+      <button routerLink="/product-list">Back to Shop</button>
+    </div>
+  }
+</div>

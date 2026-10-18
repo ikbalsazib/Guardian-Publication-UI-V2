@@ -1,0 +1,65 @@
+<div class="activities-feedback">
+  <div class="activities-header">
+    <div class="header-info">
+      <h2>{{ 'ln.ReaderReactionsActivities' | translate }}</h2>
+      <p>{{ 'ln.ShareYourFeelings' | translate }}</p>
+    </div>
+    <!-- <button mat-raised-button color="primary" (click)="onOpenReviewDialog()" class="btn-review">
+      <i class="fa fa-pen"></i> {{ 'ln.WriteReaction' | translate }}
+    </button> -->
+  </div>
+
+  @if (isLoading()) {
+  <div class="loader-container">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+  } @else {
+  <div class="reviews-list">
+    @for (review of reviews(); track review._id) {
+    <div class="review-card animated fadeIn">
+      <div class="review-user">
+        <div class="user-avatar">
+          <img [src]="$any(review.user)?.profileImg || '/images/avatar/user-young.jpg'" [alt]="$any(review.user)?.name">
+        </div>
+        <div class="user-info">
+          <h3>{{ $any(review.user)?.name }}</h3>
+          <div class="review-rating">
+            @for (star of [1,2,3,4,5]; track star) {
+            <i class="fa fa-star" [class.filled]="star <= review.rating"></i>
+            }
+            <span class="review-date">{{ review.reviewDate | date: 'dd MMMM, yyyy' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-content">
+        <p>{{ review.review }}</p>
+      </div>
+
+      @if (review.images && review.images.length) {
+      <div class="review-images">
+        @for (img of review.images; track img) {
+        <img [src]="img" alt="Review image" class="clickable">
+        }
+      </div>
+      }
+
+      @if (review.reply) {
+      <div class="admin-reply">
+        <div class="reply-header">
+          <i class="fa fa-reply"></i>
+          <span>{{ 'ln.ReplyFromGuardian' | translate }}</span>
+        </div>
+        <p>{{ review.reply }}</p>
+      </div>
+      }
+    </div>
+    } @empty {
+    <div class="empty-reviews">
+      <i class="fa fa-comments"></i>
+      <p>{{ 'ln.NoReactionYet' | translate }}</p>
+    </div>
+    }
+  </div>
+  }
+</div>

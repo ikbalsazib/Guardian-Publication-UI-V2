@@ -1,0 +1,86 @@
+<aside class="side-nav" [class.active]="showHideSideNav">
+  <div class="side-nav-top">
+    <div class="logo">
+      <img src="/images/logo/download (2).png" alt="Guardian Publications" loading="lazy" />
+    </div>
+    <button class="close-btn" aria-label="Close Navigation" (click)="onshowHideSideNav()">
+      <i class="fa fa-xmark"></i>
+    </button>
+  </div>
+  <div class="side-nav-middle">
+    <ul>
+      <li>
+        <a routerLink="/" (click)="onshowHideSideNav()">
+          <i class="fa-solid fa-house"></i>
+          <span>{{ 'nav.home' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/login" rel="nofollow" (click)="onshowHideSideNav()">
+          <i class="fas fa-user-circle"></i>
+          <span>{{ 'nav.sign_in' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/pages/about-us" (click)="onshowHideSideNav()">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>{{ 'nav.about_us' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <button (click)="onshowHideSideNav()" aria-label="Open Categories">
+          <i class="fas fa-bars"></i>
+          <span>{{ 'nav.categories' | translate }}</span>
+        </button>
+      </li>
+
+      <li>
+        <a routerLink="/author-list" (click)="onshowHideSideNav()">
+          <i class="fas fa-code-branch"></i>
+          <span>{{ 'nav.author' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/blogs" (click)="onshowHideSideNav()">
+          <i class="fas fa-globe"></i>
+          <span>{{ 'nav.blog' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/offers" (click)="onshowHideSideNav()">
+          <i class="fas fa-star"></i>
+          <span>{{ 'nav.offer' | translate }}</span>
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/contact-us" (click)="onshowHideSideNav()">
+          <i class="fas fa-phone-alt"></i>
+          <span>{{ 'nav.contact_us' | translate }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="side-nav-bottom">
+    <div class="social-links">
+      @if (shopInfo()?.socialLinks && shopInfo()?.socialLinks!.length > 0) {
+      <a [attr.href]="shopInfo()?.socialLinks![0]?.value || null" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i
+          class="fab fa-facebook-f"></i></a>
+      <a [attr.href]="shopInfo()?.socialLinks![1]?.value || null" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i
+          class="fab fa-instagram"></i></a>
+      <a [attr.href]="shopInfo()?.socialLinks![2]?.value || null" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i
+          class="fab fa-twitter"></i></a>
+      }
+    </div>
+  </div>
+</aside><!-- END SIDE NAV -->
+
+@if (showHideSideNav) {
+  <div class="side-nav-overlay" (click)="onshowHideSideNav()"></div>
+}

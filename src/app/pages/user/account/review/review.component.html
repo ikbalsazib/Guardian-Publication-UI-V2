@@ -1,0 +1,42 @@
+<div class="section">
+  <div class="section-main">
+    <div class="section-top">
+      <h3>My Guardian Books Reviews</h3>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr class="table-head">
+            <th scope="col">Image</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Review Date</th>
+            <th scope="col">Review</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of allReviews(); track data._id) {
+            <tr>
+              <td data-label="Product Image">
+                <img [src]="(asProduct(data.product)?.images && asProduct(data.product)!.images!.length) ? asProduct(data.product)!.images![0] : 'assets/images/placeholder/book.png'" alt="" class="img-thumb">
+              </td>
+              <td data-label="Product Name">{{ asProduct(data.product)?.name }}</td>
+              <td data-label="Review Date">{{ data?.reviewDate | date }}</td>
+              <td data-label="Review">
+                <p class="review" style="font-family: 'signika', sans-serif;">{{ data?.review }}</p>
+              </td>
+              <td data-label="Rating">{{ data?.rating }}</td>
+              <td data-label="Actions">
+                <button (click)="deleteReviewByReviewId(data?._id)" mat-mini-fab color="warn" style="background-color: #232433; margin-right: 5px;">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

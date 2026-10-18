@@ -1,0 +1,60 @@
+<div class="login-area">
+  <div class="container">
+    <h1 class="sr-only">{{ 'ln.Login' | translate }} - Guardian Publications</h1>
+    <div class="login-area-main">
+      <div class="login">
+        <div class="login-top">
+          <h3>{{ 'ln.Welcome' | translate }}</h3>
+        </div>
+
+      <div class="social-area" style="display: flex; justify-content: center;">
+          <div #googleLoginRef></div>
+        </div>
+
+        <div class="or">
+          <span>{{ 'ln.Or' | translate }}</span>
+        </div>
+
+        <div class="login-form">
+          <form #formElement="ngForm" [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+            <div class="form-input with-icon">
+              <i class="fa fa-phone input-icon"></i>
+              <input type="text" [placeholder]="'ln.EnterMobile' | translate" formControlName="username"
+                [class.invalid]="username?.touched && username?.invalid" autocomplete="off">
+            </div>
+            <div class="form-input with-icon">
+              <div class="password">
+                <i class="fa fa-lock input-icon"></i>
+                <input type="password" [placeholder]="'ln.EnterPassword' | translate" formControlName="password"
+                  [class.invalid]="password?.touched && password?.invalid"
+                  [attr.type]="isPasswordShow ? 'text' : 'password'" autocomplete="new-password">
+                <span (click)="onShowPassword()"><i
+                    [class]="isPasswordShow ? 'fa fa-eye-slash' : 'fa fa-eye'"></i></span>
+              </div>
+
+              <div class="invalid-txt" *ngIf="password?.touched && password?.invalid">
+                <span>Please enter a valid password at least 6 character</span>
+              </div>
+            </div>
+            <div class="save-password">
+              <label for="save"><input type="checkbox"> {{ 'ln.SavePassword' | translate }}</label>
+            </div>
+            <div class="form-sub-btn">
+              <button type="submit" [disabled]="isLoading">
+                <mat-spinner *ngIf="isLoading" diameter="20" color="accent"></mat-spinner>
+                {{ isLoading ? ('ln.LoginInProgress' | translate) : ('ln.LoginBtn' | translate) }}
+              </button>
+               <p>{{ 'ln.ForgotPassword' | translate }} <a routerLink="/forget-password">{{ 'ln.Renew' | translate }}</a></p>
+            </div>
+
+          </form>
+        </div>
+
+        <div class="login-top">
+          <p>{{ 'ln.NoAccount' | translate }}</p>
+          <a routerLink="/registration"><button >{{ 'ln.OpenAccount' | translate }}</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

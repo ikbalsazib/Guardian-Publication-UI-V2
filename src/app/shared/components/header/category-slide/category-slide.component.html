@@ -1,0 +1,68 @@
+@if (categorySlide()) {
+  <div
+    class="overlay"
+    (click)="onHideCategory()"
+    (mouseover)="onHideCategoryMouseMove()"
+    (touchmove)="onHideCategoryMouseMove()"
+  ></div>
+}
+
+<div
+  class="category-slide"
+  [class.category-slide-active]="categorySlide()"
+>
+  <div class="slide-top">
+    <h3><i class="fas fa-align-left"></i> Categories</h3>
+    <span (click)="onHideCategory()"><i class="fa fa-xmark"></i></span>
+  </div>
+  <div class="category-menu">
+    <ul>
+      @if (categorySlide()) {
+        @for (data of categories(); track data._id) {
+          <li>
+            <a
+              (click)="showSub(data._id)"
+              [routerLink]="['/product-list']"
+              [queryParams]="{ categories: data.slug, categoryId: data._id }"
+              ><span>
+                <img
+                  [src]="data.image ? data.image : '/images/logo/download (2).png'"
+                  alt=""
+                  aria-hidden="true"
+                />{{ data.name }}</span
+              >
+              @if (data.subCategories) {
+                <i class="fa fa-angle-down category-chevron"></i>
+              }
+            </a>
+
+            @if (toggleSub() === data._id) {
+              <div class="sub-category">
+                @if (subCategories().length > 0) {
+                  <ul>
+                    @for (subData of subCategories(); track subData._id) {
+                      <li>
+                        <a
+                          [class.active]="selectedSubCategoryId() === subData._id"
+                          [routerLink]="['/product-list']"
+                          [queryParams]="{categories: data.slug, categoryId: data._id, subCategory: subData.slug, subCategoryId: subData._id}"
+                          [queryParamsHandling]="'merge'"
+                          (click)="onSelectSubCat(subData._id)"
+                          ><i class="fa fa-minus"></i> {{ subData.name }}</a
+                        >
+                      </li>
+                    }
+                  </ul>
+                }
+              </div>
+            }
+          </li>
+        }
+      }
+    </ul>
+  </div>
+
+  <div class="slide-bottom">
+    <p>All Rights Reserved by <span>Guardian Publications</span></p>
+  </div>
+</div>

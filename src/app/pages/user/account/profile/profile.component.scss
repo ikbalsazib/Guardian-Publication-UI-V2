@@ -1,0 +1,80 @@
+@use 'src/theme/variables' as *;
+
+.content-area {
+  width: 100%;
+  height: auto;
+}
+
+.view-list {
+  min-height: 200px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    background: #C92127;
+    display: grid;
+    place-items: center;
+    color: #FFFFFF;
+  }
+
+  .main {
+    flex: 1;
+    border-bottom: 3px solid #C92127;
+    display: flex;
+    justify-content: space-between;
+
+    .title {
+      font-family: $font-en-primary;
+      font-weight: 400;
+      font-size: 20px;
+      color: #5d5d5d;
+    }
+  }
+}
+
+.data-info-table {
+  margin-top: 16px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+  line-height: 36px;
+}
+
+.info-group {
+  position: relative;
+
+  .label {
+    font-family: $font-en-primary;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+    margin-right: 46px;
+    display: block;
+    position: relative;
+    color: #333;
+  }
+
+  .value {
+    font-family: $font-en-primary;
+    font-weight: 400;
+    font-size: 16px;
+    color: #333;
+  }
+}
+
+@media only screen and (max-device-width: 599px) {
+  .header {
+    .main {
+      .title {
+        font-size: 14px;
+      }
+    }
+  }
+}

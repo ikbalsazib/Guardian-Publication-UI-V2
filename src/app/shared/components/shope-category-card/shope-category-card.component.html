@@ -1,0 +1,23 @@
+<!--
+# Home Page
+-->
+
+
+<div class="shop-category-card">
+<!--  <div class="shop-card-img">-->
+<!--    <a>-->
+<!--      <img-->
+<!--        checkImageDefault-->
+<!--        [src]="data?.image"-->
+<!--        alt=""-->
+<!--      />-->
+<!--    </a>-->
+<!--  </div>-->
+  <!-- END! shop-card-img -->
+
+  <div class="shop-card-title">
+    <a [routerLink]="['/product-list']" [queryParams]="{ categories: data.slug, categoryId: data._id }">{{data.name}}</a>
+  </div>
+  <!-- END! shop-card-title -->
+</div>
+<!-- END! shop-category-card -->

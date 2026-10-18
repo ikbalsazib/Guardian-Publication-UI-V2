@@ -1,0 +1,25 @@
+# Guardian Publications (guardianpubs.com)
+
+> Guardian Publications is a leading publisher in Bangladesh specializing in Islamic, academic, and literature books.
+
+## About
+- Website: https://www.guardianpubs.com
+- Contact: https://www.guardianpubs.com/contact-us
+- About: https://www.guardianpubs.com/pages/about-us
+
+## Key sections
+- Books catalog: https://www.guardianpubs.com/product-list
+- Authors: https://www.guardianpubs.com/author-list
+- Categories: https://www.guardianpubs.com/category-list
+- Blog: https://www.guardianpubs.com/blogs
+- Activities: https://www.guardianpubs.com/activities
+- Special packages: https://www.guardianpubs.com/special-package
+
+## Policies
+- Delivery policy: https://www.guardianpubs.com/pages/delivery-policy
+- Return & refund: https://www.guardianpubs.com/pages/return-and-refund-policy
+- Terms & conditions: https://www.guardianpubs.com/pages/terms-and-conditions
+- How to order: https://www.guardianpubs.com/pages/how-to-order-website
+
+## Sitemap
+https://www.guardianpubs.com/sitemap.xml

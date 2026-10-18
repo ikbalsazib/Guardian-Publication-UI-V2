@@ -1,0 +1,71 @@
+@use "src/theme/variables" as *;
+
+/* --- shop-category-card -- */
+.shop-category-card {
+  background-color: #fff;
+  border: 1px solid $color-primary;
+  box-shadow: 4px 4px 8px #ddd;
+  //border-radius: 15px;
+  position: relative;
+  padding: 5px;
+  box-sizing: border-box;
+  z-index: 10;
+  transition: all 0.12s linear;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  &:hover {
+    box-shadow: 2px 4px 15px #bebaba;
+  }
+}
+
+/* --- shop-card-img --- */
+.shop-card-img {
+  width: 100%;
+  //position: relative;
+  img {
+    width: 130px;
+    height: 130px ;
+    border-radius: 50%;
+    object-fit: contain;
+    margin: auto;
+  }
+}
+
+@media (max-width: 450px) {
+  .shop-card-img {
+    img {
+      //height: 100px;
+    }
+  }
+}
+
+/* --- shop-card-title --- */
+.shop-card-title {
+  display: block;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+  padding: 9px 2px;
+
+  a {
+    color: $color-primary-2;
+    font-size: 15px;
+    font-weight: 600;
+    font-style: normal;
+    font-family: $font-en-primary;
+    transition: all 0.3s linear;
+  }
+}
+
+@media (max-width: 500px) {
+  .shop-card-title {
+    a {
+      font-size: 13px;
+    }
+  }
+}

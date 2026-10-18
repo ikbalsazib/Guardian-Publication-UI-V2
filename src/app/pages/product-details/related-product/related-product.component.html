@@ -1,0 +1,20 @@
+<div class="kids-book">
+  <div class="container">
+    <div class="kids-book-contents">
+      <div class="title-area">
+        <h2>{{ title() || ("ln.Otherbooksbythisauthor" | translate) }}</h2>
+      </div>
+      <div class="kids-book-main carousel">
+        @if (isBrowser) {
+          <swiper-container #swiperEl init="false" class="mySwiper">
+            @for (data of products(); track data._id || $index) {
+              <swiper-slide>
+                <app-product-card-two [data]="data"></app-product-card-two>
+              </swiper-slide>
+            }
+          </swiper-container>
+        }
+      </div>
+    </div>
+  </div>
+</div>

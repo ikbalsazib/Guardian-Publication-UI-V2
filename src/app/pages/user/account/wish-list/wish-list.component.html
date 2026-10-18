@@ -1,0 +1,49 @@
+<div class="section">
+     <div class="section-main">
+          <div class="section-top">
+               <h3>{{ "ln.MyWishlist" | translate }}</h3>
+               <p>{{ "ln.YourWishlist1" | translate }} {{wishlists().length}} {{ "ln.YourWishlist2" | translate }}</p>
+          </div>
+          <div class="wishlist-area">
+            @if (isLoading()) {
+              <div class="loader-container" style="display: flex; justify-content: center; padding: 20px;">
+                <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #CA2128; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite;"></div>
+              </div>
+            } @else {
+              @for (data of wishlists(); track data._id; let i = $index) {
+                <div class="wishlist-product">
+                     <div class="wishlist-main">
+                          <div class="produt-area" [routerLink]="['/product-details', data?.product?.slug]">
+                               <div class="produc-img">
+                                    <img [src]="(data?.product?.images && data?.product?.images?.length) ? data?.product?.images[0] : 'assets/images/placeholder/book.png'"
+                                         [alt]="data?.product?.name">
+                               </div>
+                               <div class="product-info">
+                                    <h4>{{data?.product?.name}}</h4>
+                                    <h5>৳ {{data?.product?.salePrice | engBnNum}}</h5>
+                               </div>
+                          </div>
+                          <div class="buy">
+                            <button (click)="onBuyNow(data)">{{ "ln.BuyNow" | translate }}</button>
+                          </div>
+                          <div class="delete">
+                               <span (click)="onRemoveItem(data?._id!)"><i class="fa fa-trash"></i></span>
+                          </div>
+                     </div>
+                </div>
+              } @empty {
+                <div class="empty-wishlist" style="text-align: center; padding: 40px 0;">
+                  <h3>No items in wishlist</h3>
+                </div>
+              }
+            }
+          </div>
+     </div>
+</div>
+
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

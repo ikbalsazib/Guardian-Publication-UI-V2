@@ -1,0 +1,141 @@
+<footer>
+  <div class="footer-offer">
+    <div class="container">
+      <div class="footer-offer-main">
+        <div class="offer-left">
+          <h2>{{ "ln.StayUpdated" | translate }}</h2>
+        </div>
+        <div class="offer-right">
+          <form #formElement="ngForm" (ngSubmit)="onSubmit(formElement)">
+            <div class="email-area">
+              <div class="email-input">
+                <input type="email" ngModel name="email" [placeholder]=" 'ln.MobileNumber' | translate "
+                  [attr.aria-label]="'ln.MobileNumber' | translate" required />
+              </div>
+              <div class="email-btn">
+                <button type="submit" aria-label="Subscribe Button">{{ "ln.Subscribe" | translate }}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--END FOOTER OFFER-->
+
+  <div class="container">
+    <div class="footer-main-parent">
+      <div class="footer-main">
+        <div class="footer-logo-info">
+          <div class="footer-logo">
+            <img src="/images/logo/logo-footer.png" alt="Guardian Publication Logo" width="200" height="60" />
+          </div>
+          <div class="footer-social">
+            <h3>{{ "ln.FollowUs" | translate }}</h3>
+            <ul>
+              @if (shopInfo()?.socialLinks && shopInfo()?.socialLinks!.length > 0) {
+              <li><a [attr.href]="shopInfo()?.socialLinks![0]?.value || null" target="_blank" rel="noopener noreferrer"
+                  aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+              <li><a [attr.href]="shopInfo()?.socialLinks![1]?.value || null" target="_blank" rel="noopener noreferrer"
+                  aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+              <li><a [attr.href]="shopInfo()?.socialLinks![2]?.value || null" target="_blank" rel="noopener noreferrer"
+                  aria-label="Twitter"><i class="fab fa-twitter"></i></a></li>
+              <li><a [attr.href]="shopInfo()?.socialLinks![3]?.value || null" target="_blank" rel="noopener noreferrer"
+                  aria-label="Telegram"><i class="fab fa-telegram"></i></a></li>
+              <li><a [attr.href]="shopInfo()?.socialLinks![4]?.value || null" target="_blank" rel="noopener noreferrer"
+                  aria-label="Whatsapp"><i class="fab fa-whatsapp"></i></a></li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-link-area">
+          <div class="footer-title">
+            <h3>{{ "ln.SpecialLinks" | translate }}</h3>
+          </div>
+          <div class="footer-link">
+            <ul>
+              <li><a routerLink="/product-list">{{ "ln.AllPublished" | translate }}</a></li>
+              <li><a routerLink="/blogs">{{ "ln.Blog" | translate }}</a></li>
+              <li><a routerLink="/author-list">{{ "ln.Writer" | translate }}</a></li>
+              <li><a routerLink="/offers">{{ "ln.Offer" | translate }}</a></li>
+              <li><a routerLink="/special-package">{{ "ln.OurSpecial" | translate }}</a></li>
+              <li><a routerLink="/manuscript-submission">{{ "ln.Manuscript" | translate }}</a></li>
+              <li><a routerLink="/activities">{{ "ln.Activities" | translate }}</a></li>
+              <li><a routerLink="/find-book-location">{{ "ln.Praptisthan" | translate }}</a></li>
+              <li><a routerLink="/category-list">{{ "ln.Category" | translate }}</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- <div class="footer-link-area">
+          <div class="footer-title">
+            <h2>{{ "ln.Category" | translate }}</h2>
+          </div>
+          <div class="footer-link">
+            <ul>
+              <li><a [routerLink]="['/product-list']" [queryParams]="{categories: 'novel'}">{{ 'ln.Novel' | translate }}</a></li>
+              <li><a [routerLink]="['/product-list']" [queryParams]="{categories: 'history'}">{{ 'ln.History' | translate }}</a></li>
+              <li><a [routerLink]="['/product-list']" [queryParams]="{categories: 'islamic'}">{{ 'ln.Islamic' | translate }}</a></li>
+              <li><a [routerLink]="['/product-list']" [queryParams]="{categories: 'biography'}">{{ 'ln.Biography' | translate }}</a></li>
+              <li><a [routerLink]="['/product-list']" [queryParams]="{categories: 'children'}">{{ 'ln.Children' | translate }}</a></li>
+              <li><a routerLink="/category-list">{{ 'ln.ViewAll' | translate }}</a></li>
+            </ul>
+          </div>
+        </div> -->
+
+        <div class="footer-link-area">
+          <div class="footer-title">
+            <h3>{{ "ln.QuickLinks" | translate }}</h3>
+          </div>
+          <div class="footer-link">
+            <ul>
+              <li><a routerLink="/pages/how-to-order-website">{{ "ln.HowOrder" | translate }}</a></li>
+              <li><a routerLink="/pages/about-us">{{ "ln.AboutUs" | translate }}</a></li>
+              <li><a routerLink="/pages/manuscript-terms">{{ "ln.ManuscriptTerms" | translate }}</a></li>
+              <li><a routerLink="/contact-us">{{ "ln.ContactUs" | translate }}</a></li>
+              <li><a routerLink="/pages/terms-&-conditions">{{ "ln.TermsUse" | translate }}</a></li>
+              <li><a routerLink="/pages/method-of-payment">{{ "ln.PaymentMethod" | translate }}</a></li>
+              <li><a routerLink="/pages/delivery-policy">{{ "ln.DeliveryPolicy" | translate }}</a></li>
+              <li><a routerLink="/pages/return-&-refund-policy">{{ "ln.ReturnExchange" | translate }}</a></li>
+              <li><a routerLink="/pages/refund-policy">{{ "ln.RefundPolicy" | translate }}</a></li>
+              <li><a routerLink="/pages/privacy-policy">{{ "ln.PrivacyPolicy" | translate }}</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-address-area">
+          <div class="footer-title">
+            <h3>{{ "ln.ContactUs" | translate }}</h3>
+          </div>
+          <div class="footer-address">
+            <ul>
+              <li><span><i class="fa fa-map-marker-alt"></i></span> {{ "ln.Address" | translate }}</li>
+              <li><span><i class="fa fa-phone"></i></span> 02-57163214</li>
+              <li><span><i class="fa fa-mobile"></i></span> 01998-584958</li>
+              <li><span><i class="fa fa-envelope"></i></span> guardianpubs@gmail.com</li>
+            </ul>
+          </div>
+          <div class="download-app-area">
+            <h4>{{ "ln.Download" | translate }}</h4>
+            <a routerLink="/coming-soon" aria-label="Download App from Play Store">
+              <img src="/images/png/group-play-store.png" alt="Play Store Links" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="ssl-image">
+        <img src="/images/brand/logo/ssl.webp" alt="SSL Commerz" />
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="footer-bottom-copyright">
+  <div class="container">
+    <div class="footer-bottom-copyright-main">
+      <p>© {{ dateData.getFullYear() }} {{ "ln.FooterCopyright" | translate }}</p>
+    </div>
+  </div>
+</div>

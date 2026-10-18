@@ -1,0 +1,39 @@
+@use "src/theme/variables" as *;
+.category-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $color-white-secondary;
+  height: 80px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 3px 3px 0 rgb(0 0 0 / 5%);
+  transition: box-shadow 0.3s ease-out;
+  &:hover{
+  box-shadow: 0 5px 10px 0 rgb(0 0 0 / 15%);
+
+  }
+  p{
+    text-align: center;
+    font-family: $bangla-kalpurush;
+    font-size: $font-dis-size;
+    padding: 15px;
+  }
+}
+
+
+@media(max-width:450px){
+  
+  .category-card{
+    height: 65px;
+    padding: 7px;
+    p{
+      font-size: 15px;
+      line-height: 15px;
+      padding: 0px;
+      margin: 0px;
+    }
+  }
+  
+}

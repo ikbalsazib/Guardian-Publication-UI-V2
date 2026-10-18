@@ -1,0 +1,124 @@
+<div class="cart-page">
+  <div class="container">
+    <div class="cart-wrapper">
+
+      <!-- Main Cart Content -->
+      <div class="cart-main">
+        <div class="cart-header">
+          <div class="header-left">
+            <h2>{{ "ln.CartItems" | translate }} ({{ cartCount() }})</h2>
+          </div>
+          @if (cartCount() > 0) {
+          <div class="header-right">
+            <span class="total-label">{{ "ln.Total1" | translate }}:</span>
+            <span class="total-price">৳ {{ cartSubTotal() | engBnNum }}</span>
+          </div>
+          }
+        </div>
+
+        @if (isLoading()) {
+        <div class="loader-container">
+          <div class="spinner"></div>
+        </div>
+        } @else {
+        <div class="cart-items-list">
+          @for (item of carts(); track item._id; let i = $index) {
+          <div class="cart-item-card animated slideInUp">
+            <div class="item-img" [routerLink]="['/product-details', $any(item.product)?.slug]">
+              <img [src]="$any(item.product)?.images?.[0] || '/assets/images/placeholder.jpg'"
+                [alt]="$any(item.product)?.name">
+            </div>
+
+            <div class="item-details">
+              <div class="item-info">
+                <h3 [routerLink]="['/product-details', $any(item.product)?.slug]"> {{ $any(item.product)?.name }}</h3>
+                <p class="author">{{ $any(item.product)?.author?.name }}</p>
+                <div class="item-price">
+                  <span class="price">৳ {{ ($any(item.product) | price : 'salePrice' : item.selectedQty) | engBnNum
+                    }}</span>
+                </div>
+              </div>
+
+              <div class="item-actions">
+                <div class="quantity-controller">
+                  <button (click)="onDecrementQty(item._id!, i, item.selectedQty || 0)"
+                    [disabled]="(item.selectedQty || 0) <= 1">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                  <input type="text" [value]="item.selectedQty" readonly>
+                  <button (click)="onIncrementQty(item._id!, i)">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+
+                <button class="btn-remove" (click)="onRemoveItem(item, i)" title="Remove">
+                  <i class="fa fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          } @empty {
+          <div class="empty-cart-state">
+            <div class="empty-icon">
+              <i class="fa fa-shopping-cart"></i>
+            </div>
+            <h3>{{ 'ln.YourCartIsEmpty' | translate }}</h3>
+            <p>{{ 'ln.CartEmptySubtitle' | translate }}</p>
+            <button mat-raised-button color="primary" routerLink="/product-list" class="btn-shop">{{ 'ln.SeeNewBooks' | translate }}</button>
+          </div>
+          }
+        </div>
+
+        @if (cartCount() > 0) {
+        <div class="cart-footer-actions">
+          <button mat-stroked-button routerLink="/product-list" class="btn-continue">
+            <i class="fa fa-arrow-left"></i> {{ 'ln.SeeMoreBooks' | translate }}
+          </button>
+          <button mat-raised-button color="primary" (click)="onProceedToCheckout()" class="btn-place-order">
+            {{ 'ln.CompleteOrder' | translate }} <i class="fa fa-arrow-right"></i>
+          </button>
+        </div>
+        }
+        }
+      </div>
+
+      <!-- Sidebar Features -->
+      <aside class="cart-sidebar">
+        <div class="sidebar-card">
+          <h3>{{ 'ln.GuardianFeatures' | translate }}</h3>
+          <ul class="features-list">
+            <li>
+              <div class="feature-icon"><i class="fa fa-truck-moving"></i></div>
+              <div class="feature-text">
+                <strong>{{ 'ln.CashOnDelivery' | translate }}</strong>
+                <span>{{ 'ln.CodDesc' | translate }}</span>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon"><i class="fa fa-sync-alt"></i></div>
+              <div class="feature-text">
+                <strong>{{ 'ln.ReturnPolicy' | translate }}</strong>
+                <span>{{ 'ln.ReturnPolicyDesc' | translate }}</span>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon"><i class="fa fa-shield-alt"></i></div>
+              <div class="feature-text">
+                <strong>{{ 'ln.OriginalProduct' | translate }}</strong>
+                <span>{{ 'ln.OriginalProductDesc' | translate }}</span>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon"><i class="fa fa-medal"></i></div>
+              <div class="feature-text">
+                <strong>{{ 'ln.BestPrice' | translate }}</strong>
+                <span>{{ 'ln.OfficialWebsite' | translate }}</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</div>

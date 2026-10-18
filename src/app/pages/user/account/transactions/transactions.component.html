@@ -1,0 +1,48 @@
+<div class="section">
+     <div class="section-main">
+          <div class="section-top">
+               <h3>My Balance Transactions</h3>
+          </div>
+
+          <div class="table-container">
+            @if (isLoading()) {
+              <div class="loader-container" style="display: flex; justify-content: center; padding: 20px;">
+                <div class="spinner" style="border: 4px solid #f3f3f3; border-top: 4px solid #CA2128; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite;"></div>
+              </div>
+            } @else {
+               <table>
+                    <thead>
+                         <tr class="table-head">
+                              <th scope="col">{{'Date'}}</th>
+                              <th scope="col">{{'Guardian Balance Type'}}</th>
+                              <th scope="col">{{'Reference Order ID'}}</th>
+                              <th scope="col">{{'Amount'}}</th>
+                         </tr>
+                    </thead> <!-- End Table Head -->
+                    <tbody>
+                      @for (data of transactions(); track data._id) {
+                        <tr>
+                             <td [attr.data-label]="'Date'">{{data?.updatedAt | date}}</td>
+                             <td [attr.data-label]="'Guardian Balance Type'"> Purchase</td>
+                             <td [attr.data-label]="'Reference Order ID'">{{data?.orderId}}</td>
+                             <td [attr.data-label]="'Amount'">৳ {{(data?.grandTotal ? data?.grandTotal : 0) | engBnNum}}</td>
+                        </tr>
+                      } @empty {
+                        <tr>
+                          <td colspan="4" style="text-align: center; padding: 20px;">No transactions found</td>
+                        </tr>
+                      }
+                    </tbody>
+               </table>
+            }
+          </div>
+
+     </div>
+</div>
+
+<style>
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

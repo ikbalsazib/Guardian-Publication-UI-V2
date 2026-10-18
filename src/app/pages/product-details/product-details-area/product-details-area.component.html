@@ -1,0 +1,274 @@
+<div class="section">
+  <div class="container">
+    <div class="section-main">
+      <div class="section-left">
+        @if (hasPreview()) {
+          <div class="pdf-read-btn">
+            <button (click)="openBookPreview()">{{ "ln.ReadPage" | translate }}</button>
+            <img src="/images/brand/icon/right_arrow.svg" alt="Right Arrow">
+          </div>
+        }
+        <div class="product-image-box">
+          <!-- Discount Badges -->
+          @if (((product().discountType == 1 && (product().discountAmount || 0) > 0) || (product().offerDiscountType
+          == 1 && (product().offerDiscountAmount || 0) > 0))) {
+          <div class="discount-badge">
+            <p>-{{ (product()! | price : "discountPercentage") }}%</p>
+          </div>
+          } @else if (((product().discountType == 2 && (product().discountAmount || 0) > 0) ||
+          (product().offerDiscountType == 2 && (product().offerDiscountAmount || 0) > 0))) {
+          <div class="discount-badge">
+            <p>-৳{{ (product()! | price : "discountAmount") }}</p>
+          </div>
+          }
+          <img
+            [class.img-preview]="hasPreview()"
+            (click)="hasPreview() ? openBookPreview() : null"
+            [src]="product().images && product().images?.length ? product().images?.[0] : '/images/placeholder/test.png'"
+            alt="{{product().name}}" loading="lazy">
+        </div>
+      </div>
+
+      <div class="section-middle">
+        <div class="product-title">
+          <h1 class="product-name-h1">
+            {{ displayTitle() }}
+            @if (displayVersion()) {
+            <span>({{ displayVersion() }})</span>
+            }
+          </h1>
+          @if (displayTagline()) {
+          <p class="product-tagline">[{{ displayTagline() }}]</p>
+          }
+
+          <p>
+            {{ "ln.Writer" | translate }}:
+            @for (data of product().author?.slice(0,2); track data._id; let i = $index) {
+            <a [routerLink]="['/author', data.slug]">
+              {{ (translateService.currentLang === 'en' ? data?.nameEn : data?.name) || data?.name }}
+              @if (i < (product().author?.slice(0,2)?.length ?? 0) - 1) { <span>,</span> }
+            </a>
+            }
+          </p>
+
+          <p>
+            {{ "ln.Category" | translate }}:
+            <a [routerLink]="['/product-list']" [queryParams]="{categories: product().category?.slug}">
+              {{ (translateService.currentLang === 'en' ? product().category?.nameEn : product().category?.name) ||
+              product().category?.name }}
+            </a>
+          </p>
+
+          @if (product().publisher) {
+          <p>
+            {{ translateService.currentLang === 'en' ? 'Publication' : 'প্রকাশনী' }}:
+            <a [routerLink]="['/product-list']" [queryParams]="{publishers: product().publisher?.slug}">
+              {{ product().publisher?.name }}
+            </a>
+          </p>
+          }
+        </div>
+
+        <div class="product-rating">
+          @if (ratingCalculation()) {
+          <ul>
+            <li class="rating-value">
+              {{ ratingCalculation().toFixed(1) }}
+            </li>
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+            <li>
+              <i
+                [class]="(ratingCalculation() < star - 0.5) ? 'far fa-star' : (ratingCalculation() < star) ? 'fas fa-star-half-alt' : 'fas fa-star'"></i>
+            </li>
+            }
+          </ul>
+          }
+        </div>
+
+        <div class="product-price">
+          @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+          <h3>
+            @if (product().discountAmount) {
+            <del>৳ {{ product().salePrice | number : "" : "bn" }}</del>
+            }
+            ৳ {{ (product() | price : 'salePrice') | number : "" : "bn" }}
+            @if (product().dollarPrice) {
+            <span class="doller-price">$ {{ product().dollarPrice | number : "" : "bn" }}</span>
+            }
+          </h3>
+          } @else {
+          <h3>
+            @if (product().discountAmount) {
+            <del>৳ {{ product().salePrice }}</del>
+            }
+            Tk {{ (product() | price : 'salePrice') }}
+            @if (product().dollarPrice) {
+            <span class="doller-price">$ {{ product().dollarPrice }}</span>
+            }
+          </h3>
+          }
+        </div>
+
+        @if (product().quantity) {
+        <div class="stock">
+          @if (product().discountAmount) {
+          <span class="save">
+            You Save ৳
+            {{ (product() | price: "discountAmount") | number : "1.0-0" : (translateService.currentLang === 'bn' ? 'bn'
+            : 'en') }}
+          </span>
+          }
+
+          @if (product().freeDelivery) {
+          <span class="free-delivery">
+            <i class="fa fa-truck"></i> Free Delivery
+          </span>
+          }
+
+          <h5>
+            <i class="fa fa-check-circle"></i>In Stock
+            @if (product().quantity! < 20) { <span>(only {{ product().quantity }} copies left)</span>
+              } @else {
+              <span class="stock-available">({{ product().quantity }} copies available)</span>
+              }
+          </h5>
+
+          <span>{{ "ln.Orderbefore" | translate }}</span>
+        </div>
+        } @else {
+        <div class="stock-out">
+          <h5><i class="fa fa-check-circle"></i>Out of Stock </h5>
+        </div>
+        }
+
+        <div class="product-action-btn">
+          <ul class="action-list-compact">
+            @if (product().quantity! > 0) {
+            <li><button (click)="onAddToCartAndRedirect($event)">{{ product().preOrder ? ("ln.PreOrder" | translate) : ("ln.BuyNow" | translate) }}</button></li>
+            <li>
+              <button class="active" (click)="onAddToCart($event)">
+                {{ cart() ? ("ln.ViewCart" | translate) : ("ln.AddCart" | translate) }}
+              </button>
+            </li>
+            }
+          </ul>
+        </div>
+
+        <div class="product-other-info">
+          <ul>
+            <li class="clickable" (click)="onAddToWishList($event)" [class.active]="wishlist()"
+              [attr.aria-label]="('ln.Wishlist1' | translate) + ' - ' + product().name">
+              <i class="fa fa-gift" aria-hidden="true"></i> {{ "ln.Wishlist1" | translate }}
+            </li>
+            <li class="clickable" (click)="onDialogOpen()"
+              [attr.aria-label]="('ln.ShareBook' | translate) + ' - ' + product().name">
+              <i class="fa fa-share" aria-hidden="true"></i> {{ "ln.ShareBook" | translate }}
+            </li>
+          </ul>
+
+          <div class="cash-on-delivery-area">
+            <ul>
+              <li>
+                <div><img src="https://www.rokomari.com/static/200/images/svg/icons/rok-icon-cod.svg"
+                    alt="ক্যাশ অন ডেলিভারি"></div>
+                <div>
+                  <h4>{{ "ln.CashDelivery" | translate }}</h4>
+                  <span>{{ "ln.CashDelivery1" | translate }}</span>
+                </div>
+              </li>
+              <li>
+                <div class="icon">
+                  <img src="https://www.rokomari.com/static/200/images/svg/icons/rok-icon-happy-return.svg"
+                    alt="রিপ্লেসমেন্ট গ্যারান্টি">
+                </div>
+                <div>
+                  <h4>{{ "ln.Replacement" | translate }}</h4>
+                  <span>{{ "ln.Replacement1" | translate }}</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        @if (product().videoUrl) {
+        <div class="product-video">
+          <h2 class="video-review-title">বুক রিভিউ</h2>
+          <iframe width="100%" height="315" [src]="product().videoUrl | safeUrl" title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+        }
+      </div>
+
+      <div class="section-right">
+        <div class="section-right-title">
+          <h2>{{ "ln.RelatedBook" | translate }}</h2>
+        </div>
+        <div class="section-right-main">
+          @for (data of relatedProducts() | slice : 0 : 4; track data._id) {
+          <div class="related-item" [routerLink]="['/product-details', data?.slug]"
+            [attr.aria-label]="(data?.name || data?.nameEn) + ' - বই দেখুন'">
+            <div class="related-item-img">
+              <img [src]="data?.images && data?.images?.length ? data?.images?.[0] : ''"
+                [alt]="data?.name || data?.nameEn || 'book cover'" loading="lazy">
+            </div>
+            <div class="related-item-body">
+              <span>{{ (translateService.currentLang === 'en' ? data?.nameEn : data?.name) || data?.name }}</span>
+              <span style="display: block;">{{ (data?.author?.length ? (translateService.currentLang === 'en' ?
+                data?.author?.[0]?.nameEn :
+                data?.author?.[0]?.name) : '') || '' }}</span>
+
+              <ul class="mini-stars">
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                <li>
+                  <i class="fas fa-star"></i>
+                </li>
+                }
+              </ul>
+
+              <h3>
+                @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+                @if (data?.discountAmount) { <del>৳ {{ data?.salePrice | number : "" : "bn" }}</del> }
+                ৳ {{ (data | price:"salePrice") | number : "" : "bn" }}
+                } @else {
+                @if (data?.discountAmount) { <del>TK {{ data?.salePrice }}</del> }
+                TK {{ (data | price:"salePrice") }}
+                }
+              </h3>
+            </div>
+          </div>
+          }
+
+          @if (relatedProducts().length > 0) {
+          <div class="see-more-btn">
+            <div class="read-more" routerLink="/product-list"
+              [queryParams]="{categories: relatedProducts()[0]?.category?.slug, categoryId: relatedProducts()[0]?.category?._id }">
+              <span>{{ "ln.SeeMore" | translate }}</span>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Sticky Action Bar (Design from 2nd Image) -->
+<div class="mobile-sticky-action-bar" *ngIf="product().quantity! > 0 && !bookPreviewOpen()">
+  <div class="ms-qty-container">
+    <button (click)="updateLocalQuantity(-1)" class="circle-btn" aria-label="Decrease quantity"><i
+        class="fa fa-minus"></i></button>
+    <span class="qty-val">{{ localQuantity() | engBnNum }}</span>
+    <button (click)="updateLocalQuantity(1)" class="circle-btn" aria-label="Increase quantity"><i
+        class="fa fa-plus"></i></button>
+  </div>
+
+  <button (click)="onAddToCart($event)" class="ms-cart-btn" aria-label="Add to cart">
+    <i class="fa fa-cart-plus"></i>
+  </button>
+
+  <button (click)="onAddToCartAndRedirect($event)" class="ms-buy-btn">
+    {{ product().preOrder ? ("ln.PreOrder" | translate) : ('ln.BuyNow' | translate) }}
+  </button>
+</div>

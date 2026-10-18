@@ -1,0 +1,81 @@
+<!--<div class="container"  (wheel)="onScroll($event)">-->
+<div class=""  (wheel)="onScroll($event)">
+  <div class="editor-controls">
+
+    <app-dropdown [options]="typography" [iconName]="'text_fields'" (onChange)="formatText($event)"></app-dropdown>
+    <app-dropdown [options]="fontSizes" [iconName]="'text_rotation_none'" (onChange)="changeFontSize($event)"
+                  [minDropdownWidth]="'160px'"></app-dropdown>
+    <app-dropdown [options]="textAligns" [iconName]="'format_align_left'" (onChange)="alignText($event)"
+                  [minDropdownWidth]="'100px'"></app-dropdown>
+
+    <button type="button" (click)="createLink()">
+      <span class="material-icons">link</span>
+    </button>
+
+    <button type="button" (click)="formatTextStyle('bold')" [class.active]="checkActiveTextStyle('bold')">
+      <span class="material-icons">format_bold</span>
+    </button>
+
+    <button type="button" (click)="formatTextStyle('italic')" [class.active]="checkActiveTextStyle('italic')">
+      <span class="material-icons">format_italic</span>
+    </button>
+
+    <button type="button" (click)="formatTextStyle('underline')" [class.active]="checkActiveTextStyle('underline')">
+      <span class="material-icons">format_underlined</span>
+    </button>
+
+    <div style="position: relative">
+      <button type="button" (click)="toggleColorPickers($event)" class="color-picker-toggle" [class.active-al]="currentTextColor !== '#000'">
+        <span class="material-icons" [style.color]="currentTextColor">format_color_text</span>
+        <span class="material-icons">arrow_drop_down</span>
+      </button>
+      <div class="color-picker-dropdown" #colorPickerDropdown>
+        <div class="color-picker-container">
+          <div>
+            <label>Text Color</label>
+            <input type="color" (input)="changeTextColor($event)" #textColorPicker>
+          </div>
+          <div>
+            <label>Background Color</label>
+            <input type="color" (input)="changeBackgroundColor($event)" #bgColorPicker>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" (click)="formatListText('insertOrderedList')">
+      <span class="material-icons">format_list_numbered</span>
+    </button>
+    <button type="button" (click)="formatListText('insertUnorderedList')">
+      <span class="material-icons">format_list_bulleted</span>
+    </button>
+
+    <button type="button" (click)="toggleBlockquote()">
+      <span class="material-icons">format_quote</span>
+    </button>
+
+  </div>
+
+  <div class="editor-content" contenteditable="true" #editor (click)="onEditorClick($event)"  ></div>
+
+  <div class="link-context-menu" #linkMenu>
+    <button type="button" (click)="changeLink()">Change Link</button>
+    <button type="button" (click)="removeLink()">Remove Link</button>
+  </div> <!-- END Link context menu -->
+
+  <div class="image-controller" #imageController>
+    <div class="resize-handle top-left" (mousedown)="onResizeStart($event, 'top-left')"></div>
+    <div class="resize-handle top-right" (mousedown)="onResizeStart($event, 'top-right')"></div>
+    <div class="resize-handle bottom-left" (mousedown)="onResizeStart($event, 'bottom-left')"></div>
+    <div class="resize-handle bottom-right" (mousedown)="onResizeStart($event, 'bottom-right')"></div>
+  </div>
+
+  <div class="image-controller-opt" #imageControllerOtp>
+    <button type="button" (click)="resizeImage()">Resize</button>
+    <button type="button" (click)="alignImage('left')">Left</button>
+    <button type="button" (click)="alignImage('center')">Center</button>
+    <button type="button" (click)="alignImage('right')">Right</button>
+    <button type="button" (click)="deleteImage()">Delete</button>
+  </div> <!--End Image Ctrl Area -->
+
+</div>

@@ -1,0 +1,43 @@
+<div class="video-page">
+  <div class="container">
+    <div class="page-header">
+      <h2>{{ 'ln.VideoGallery' | translate }}</h2>
+      <p>{{ 'ln.VideoGallerySubtitle' | translate }}</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loader-container">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    } @else {
+      <div class="video-grid">
+        @for (item of videos(); track item._id) {
+          <div class="video-card animated fadeIn">
+            <div class="video-wrapper">
+              <iframe [src]="getSafeUrl(item.url || '')" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+              <h3>{{ item.title }}</h3>
+              <span>{{ item.createdAt | date: 'dd MMMM, yyyy' }}</span>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (videos().length < totalVideos()) {
+        <div class="load-more-container">
+          <button mat-raised-button color="primary" [disabled]="isLoadMore()" (click) ="onLoadMore()">
+            {{ isLoadMore() ? ('ln.LoadingMoreVideos' | translate) : ('ln.LoadMoreVideos' | translate) }}
+          </button>
+        </div>
+      }
+
+      @if (videos().length === 0) {
+        <div class="empty-state">
+          <i class="fa fa-video-slash"></i>
+          <h3>{{ 'ln.NoVideoFound' | translate }}</h3>
+        </div>
+      }
+    }
+  </div>
+</div>

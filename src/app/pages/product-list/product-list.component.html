@@ -1,0 +1,169 @@
+<section class="product-list">
+  <div class="container">
+    <div class="title-area">
+      <div class="view-all-link">
+        <button type="button" (click)="showCategorySlide()" [attr.aria-label]="'ln.OpenCategoryFilterMenu' | translate"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="title-area-left">
+        <h1 [class.english-font]="translateService.currentLang === 'en'">
+          @if (seoPage()) {
+            {{ seoPage()?.name }}
+          } @else {
+            {{ slugCategory()?.name ?? ("ln.OurPublishedBooks" | translate) }}
+          }
+        </h1>
+      </div>
+
+      <div class="view-all-link view-all-link-second">
+        <!-- Filter toggle if implemented -->
+      </div>
+    </div>
+
+    <div class="category-list-responsive-parent">
+      @if (categories().length) {
+        <div class="category-list-responsive">
+          <ul>
+            @for (data of categories(); track data._id) {
+              <li
+                [routerLink]="['/product-list']"
+                [queryParams]="{ categories: data?.slug, categoryId: data?._id }"
+              >
+                <button
+                  type="button"
+                  [class.active]="setSlugActive === data?.slug"
+                >
+                  {{ data?.name }}
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+
+      @if (subCategories().length) {
+        <div class="category-list-responsive">
+          <ul>
+            @for (data of subCategories(); track data._id) {
+              <li
+                [routerLink]="['/product-list']"
+                [queryParams]="{ subCategory: data?.slug, subCategoryId: data?._id }"
+              >
+                <button
+                  type="button"
+                  [class.active]="setSlugActive === data?.slug"
+                >
+                  {{ data?.name }}
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+
+    <div class="product-list-main">
+      <div class="product-list-left">
+        <div
+          class="product-filter-area"
+          [class.filter-slide-active]="filterSlide()"
+          [class.filter-slide-inactive]="!filterSlide()"
+        >
+          <div class="filtered">
+            <div class="filter-title">
+              <h3>CATEGORIES</h3>
+            </div>
+            <div class="filter-body">
+              <ul>
+                @for (data of categories(); track data._id) {
+                  <li
+                    [routerLink]="['/product-list']"
+                    [queryParams]="{ categories: data?.slug, categoryId: data?._id }"
+                    (click)="onSetActive(data?.slug!)"
+                  >
+                    <p [class.active]="setSlugActive === data?.slug">
+                      <span><small></small></span>
+                      {{ data?.name }}
+                    </p>
+                  </li>
+                }
+              </ul>
+            </div>
+            <div class="filter-btn">
+              <button type="button" (click)="onClearActive()">
+                <i class="fa fa-trash"></i>Clear
+              </button>
+            </div>
+          </div>
+
+          <div class="filtered">
+            <div class="filter-title">
+              <h3>SUB CATEGORIES</h3>
+            </div>
+            <div class="filter-body">
+              <ul>
+                @for (data of subCategories(); track data._id) {
+                  <li
+                    [routerLink]="['/product-list']"
+                    [queryParams]="{ subCategory: data?.slug, subCategoryId: data?._id }"
+                    (click)="onSetActive(data?.slug!)"
+                  >
+                    <p [class.active]="setSlugActive === data?.slug">
+                      <span><small></small></span>
+                      {{ data?.name }}
+                    </p>
+                  </li>
+                }
+              </ul>
+            </div>
+            <div class="filter-btn">
+              <button type="button" (click)="onClearActive()">
+                <i class="fa fa-trash"></i>Clear
+              </button>
+            </div>
+          </div>
+
+          <div class="filtered">
+            <div class="filter-title">
+              <h3>Author</h3>
+            </div>
+            <div class="filter-body">
+              <ul>
+                @for (data of authors(); track data._id) {
+                  <li
+                    [routerLink]="['/product-list']"
+                    [queryParams]="{ author: data?.slug, id: data?._id }"
+                    (click)="onSetActive(data?.slug!)"
+                  >
+                    <p [class.active]="setSlugActive === data?.slug">
+                      <span><small></small></span>
+                      {{ data?.name }}
+                    </p>
+                  </li>
+                }
+              </ul>
+            </div>
+            <div class="filter-btn">
+              <button type="button" (click)="onClearActive()">
+                <i class="fa fa-trash"></i>Clear
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-list-right">
+        <app-products (productsChange)="onProductsChange($event)"></app-products>
+      </div>
+    </div>
+
+    @if (listBanners().length) {
+      <app-poster-card-one [data]="listBanners()"></app-poster-card-one>
+    }
+
+    <app-seo-internal-links></app-seo-internal-links>
+  </div>
+</section>
+
+@if (filterSlide()) {
+  <div class="overlay" (click)="filterSlideToggle()"></div>
+}

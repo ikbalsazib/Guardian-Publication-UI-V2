@@ -1,0 +1,588 @@
+@if (isLoading()) {
+<div class="lp-loading">
+  <mat-spinner diameter="48"></mat-spinner>
+</div>
+} @else if (landingPage(); as page) {
+<div class="landing-page">
+  <!-- Header -->
+  <header class="lp-header" id="home">
+    <div class="lp-container lp-header__inner">
+      <a routerLink="/" class="lp-header__brand">
+        <img
+          [src]="shopInfo()?.navLogo ?? 'https://ftp.guardianpubs.com/api/upload/images/guardian-logo-web-ef2f.jpg?resolution=243_204'"
+          alt="Guardian Publications" class="lp-header__logo" height="55">
+      </a>
+      <button type="button" class="lp-btn lp-btn--accent" (click)="onOrderNow()">
+        {{ 'ln.LP_OrderNow' | translate }}
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <!-- LP2-style animated background -->
+    <div class="hero-bg" aria-hidden="true">
+      <span class="hero-blob hero-blob--1"></span>
+      <span class="hero-blob hero-blob--2"></span>
+      <span class="hero-grid"></span>
+    </div>
+
+    <div class="lp-container hero-inner">
+      <div class="hero-copy">
+
+        @if (page.badgeText) {
+        <div class="limited-badge">{{ page.badgeText }}</div>
+        }
+        @if (page.title) {
+        <h1>{{ page.title }}</h1>
+        }
+
+        @if (page.subtitle) {
+        <div class="hero-kicker">{{ page.subtitle }}</div>
+        }
+
+        <div class="hero-sub">
+          @if (page.salePrice != null) {
+          <span class="discount-pill">{{ 'ln.LP_OnlyTaka' | translate }}{{ page.salePrice }}</span>
+          }
+          @if (heroDiscountLabel()) {
+          <span class="discount-pill">{{ heroDiscountLabel() }}% {{ 'ln.LP_Off' | translate }}</span>
+          }
+        </div>
+
+        <div class="lp-hero__actions" style="margin-top: 30px;">
+          <button type="button" class="lp-btn lp-btn--primary"
+            style="background: #f2c14d; color: #000; box-shadow: 0 6px 16px rgba(0,0,0,0.2); font-weight: 800;"
+            (click)="onOrderNow()">
+            {{ 'ln.LP_OrderDirectly' | translate }}
+          </button>
+          <button type="button" class="lp-btn lp-btn--outline lp-btn--lg" (click)="scrollToInsidePages()">
+            <mat-icon>menu_book</mat-icon>
+            {{ 'ln.LP_ReadPreview' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-stage-inner">
+          <div class="hero-pedestal"></div>
+          <div class="hero-book">
+            @if (page.heroImage) {
+            <img [src]="page.heroImage" [alt]="page.title || page.name" loading="eager">
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  @if (trustItems().length) {
+  <section class="lp-trust">
+    <div class="lp-container lp-trust__grid">
+      @for (item of trustItems(); track $index) {
+      <div class="lp-trust__item">
+        <div class="lp-trust__icon" aria-hidden="true">
+          @if (isFontAwesomeIcon(item.icon)) {
+          <i [class]="fontAwesomeIconClass(item.icon)"></i>
+          } @else if (isMaterialIcon(item.icon)) {
+          <mat-icon>{{ item.icon }}</mat-icon>
+          } @else {
+          <span>{{ item.icon || '✓' }}</span>
+          }
+        </div>
+        <div class="lp-trust__text">
+          @if (item.title) {
+          <strong>{{ item.title }}</strong>
+          }
+          @if (item.subtitle) {
+          <p>{{ item.subtitle }}</p>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+  }
+
+
+  <!-- PDF Preview / Inside Pages -->
+  @if (pdfProducts().length) {
+  <section class="lp-inside-pages" id="inside-pages-section" style="scroll-margin-top: 100px;">
+    <div class="lp-container">
+      <div class="lp-products__header">
+        <h2 class="lp-section-title">{{ page.insidePagesTitle || ('ln.LP_InsidePages' | translate) }}</h2>
+        <p class="lp-products__subtitle">{{ 'ln.LP_InsidePagesSubtitle' | translate }}</p>
+      </div>
+
+      <swiper-container slides-per-view="auto" space-between="16" center-insufficient-slides="true" autoplay="true"
+        autoplay-delay="2800" autoplay-disable-on-interaction="false" navigation="true"
+        style="width: 100%; padding: 12px 8px 20px;">
+        @for (product of pdfProducts(); track product._id) {
+        <swiper-slide style="width: 200px; height: auto;">
+          <div class="lp-inside-pages__item" [class.selected]="isProductSelected(product._id)"
+            (click)="toggleProductSelection(product._id)" style="cursor: pointer; width: 200px;">
+            <!-- Book Cover -->
+            <div style="width: 200px; position: relative; overflow: hidden; border-radius: 12px;">
+              <img [src]="productImage(product)" [alt]="productTitle(product)" loading="lazy"
+                style="width: 100%; height: auto; display: block;">
+              <div class="lp-pdf-overlay" (click)="$event.stopPropagation(); openBookPreview(product)">
+                <mat-icon style="font-size: 28px; width: 28px; height: 28px; margin-bottom: 6px;">menu_book</mat-icon>
+                <span> <span>{{ 'ln.LP_ReadPreview' | translate }}</span>
+                </span>
+              </div>
+            </div>
+            <!-- Info -->
+            <!-- <div style="padding: 10px 10px 12px; background: #fff;">
+              <h4
+                style="margin: 0 0 6px; font-size: 0.82rem; font-weight: 700; color: var(--lp-primary-dark); line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                {{ productTitle(product) }}
+              </h4>
+              <div style="font-size: 0.95rem; font-weight: 800; color: var(--lp-primary); margin-bottom: 8px;">
+                ৳{{ product.salePrice | number }}
+              </div>
+              <div (click)="$event.stopPropagation()">
+                <mat-checkbox [checked]="isProductSelected(product._id)" (change)="toggleProductSelection(product._id)"
+                  style="font-size: 0.78rem;">
+                  {{ isProductSelected(product._id) ? ('ln.LP_Selected' | translate) : ('ln.LP_Select' | translate) }}
+                </mat-checkbox>
+              </div>
+            </div> -->
+          </div>
+        </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+  </section>
+  }
+  <!-- Benefits Section -->
+  @if (benefitCards().length) {
+  <section class="lp-benefits">
+    <div class="lp-container">
+      <div class="lp-benefits__header">
+        <h2 class="lp-section-title lp-section-title--light">{{ page.benefitsTitle || ('ln.LP_WhoIsThisFor' | translate) }}</h2>
+      </div>
+      <div class="lp-benefits__grid">
+        @for (card of benefitCards(); track $index) {
+        <div class="lp-benefits__card">
+          <div class="lp-benefits__card-number">
+            <span>{{ [1, 2, 3, 4, 5, 6, 7, 8, 9, 10][$index] || ($index + 1) }}</span>
+          </div>
+          <div class="lp-benefits__card-text">
+            <p>{{ card.description || card.title }}</p>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </section>
+
+
+  }
+
+  <!-- Inside pages gallery -->
+  <!-- @if (insidePages().length) {
+<section class="lp-gallery">
+  <div class="lp-container">
+    <h2 class="lp-section-title">
+      {{ page.insidePagesTitle || ('ln.LP_InsidePagesSingle' | translate) }}
+    </h2>
+    <div class="lp-gallery__grid">
+      @for (image of insidePages(); track $index) {
+      <figure class="lp-gallery__item">
+        <img [src]="image" [alt]="(page.title || 'Preview') + ' page ' + ($index + 1)" loading="lazy">
+      </figure>
+      }
+    </div>
+  </div>
+</section>
+} -->
+
+  <!-- About -->
+  @if (page.description || page.featuresContent || features().length) {
+  <section class="lp-about">
+    <div class="lp-container lp-about__grid">
+      @if (page.description) {
+      <div class="lp-about__description" [innerHTML]="page.description | safeHtml" style="grid-column: 1 / -1;"></div>
+      }
+      <!-- 
+      @if (page.featuresContent) {
+      <div class="lp-about__features">
+        @if (page.featuresTitle) {
+        <h2>{{ page.featuresTitle }}</h2>
+        }
+        <div class="lp-about__features-content" [innerHTML]="page.featuresContent | safeHtml"></div>
+      </div>
+      } @else if (features().length) {
+      <div class="lp-about__features">
+        @if (page.featuresTitle) {
+        <h2>{{ page.featuresTitle }}</h2>
+        }
+        <ul>
+          @for (feature of features(); track $index) {
+          <li>
+            <mat-icon>check_circle</mat-icon>
+            <div>
+              @if (feature.title) {
+              <strong>{{ feature.title }}</strong>
+              }
+              @if (feature.value) {
+              <span>{{ feature.value }}</span>
+              }
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+      -->
+    </div>
+  </section>
+  }
+
+  <main class="main" id="order">
+    <div class="lp-container">
+
+      <!-- Combo section pulled out to be full width -->
+      @if (hasComboOffers()) {
+      <div class="combo-stack" style="margin-bottom: 30px;">
+        @for (combo of comboOffers(); track combo._id; let i = $index) {
+        @if (showAllCombos() || i < 3) { <article class="combo-card" [class.active]="selectedComboIndex() === i"
+          (click)="selectCombo(i)">
+          <div class="combo-select-check">
+            <mat-checkbox [checked]="selectedComboIndex() === i" (change)="selectCombo(i)"
+              (click)="$event.stopPropagation()" color="primary">
+            </mat-checkbox>
+          </div>
+
+          <div class="combo-visual">
+            <swiper-container [slidesPerView]="3.5" [spaceBetween]="12" [freeMode]="true"
+              style="width: 100%; padding: 0 4px;">
+              @for (book of $any(combo).products; track book._id) {
+              <swiper-slide>
+                <div class="mini-cover green" style="width: 100%; height: auto; aspect-ratio: 90 / 165;">
+                  <img [src]="productImage(book)" [alt]="productTitle(book)"
+                    style="width:100%;height:100%;object-fit:cover;border-radius:4px;"
+                    onerror="this.style.display='none'">
+                </div>
+              </swiper-slide>
+              }
+            </swiper-container>
+          </div>
+
+          <div class="combo-info">
+            <div class="combo-top">
+              <div>
+                <h3>{{ combo.title }}</h3>
+                <p>{{ combo.subtitle || comboSubtitle(combo) }}</p>
+              </div>
+              <button type="button" class="details-btn"
+                (click)="$event.stopPropagation(); toggleComboExpand(i, $event)">
+                {{ 'ln.LP_ViewDetails' | translate }} {{ expandedComboIndex() === i ? '▲' : '▼' }}
+              </button>
+            </div>
+
+            <table class="book-list">
+              @for (book of $any(combo).products; track book._id; let idx = $index) {
+              <tr>
+                <td>{{ ['১','২','৩','৪','৫'][idx] || (idx+1) }}. {{ productTitle(book) }}</td>
+                <td>৳{{ book.salePrice | number }}</td>
+              </tr>
+              }
+              @if ($any(combo).freeBooks?.length) {
+              @for (freeBook of $any(combo).freeBooks; track freeBook._id) {
+              <tr class="free-item">
+                <td style="display: flex; align-items: center; gap: 4px;">
+                  <mat-icon
+                    style="font-size: 16px; width: 16px; height: 16px; color: var(--lp-primary);">redeem</mat-icon>
+                  {{ productTitle(freeBook) }}
+                </td>
+                <td style="color: var(--lp-primary); font-weight: bold;">{{ 'ln.LP_Free' | translate }}</td>
+              </tr>
+              }
+              }
+              @if ($any(combo).freeGifts?.length) {
+              @for (freeGift of $any(combo).freeGifts; track freeGift.name) {
+              <tr class="free-item">
+                <td style="display: flex; align-items: center; gap: 4px;">
+                  <mat-icon
+                    style="font-size: 16px; width: 16px; height: 16px; color: var(--lp-primary);">card_giftcard</mat-icon>
+                  {{ freeGift.name }}
+                </td>
+                <td style="color: var(--lp-primary); font-weight: bold;">{{ 'ln.LP_Free' | translate }}</td>
+              </tr>
+              }
+              }
+            </table>
+
+            <div class="price-area">
+              <span class="old-price">৳{{ comboOriginalPrice(combo) | number }}</span>
+              <span class="offer-price">৳{{ comboDisplayPrice(combo) | number }}</span>
+              <span class="save-pill">{{ 'ln.LP_SaveTaka' | translate }}{{ (comboOriginalPrice(combo) - comboDisplayPrice(combo)) | number }}
+                ({{ comboDiscountPercent(combo) }}%)</span>
+            </div>
+          </div>
+          </article>
+          }
+          }
+
+          @if (comboOffers().length > 3) {
+          <button class="more-combo" type="button" (click)="toggleShowAllCombos()">
+            {{ 'ln.LP_ViewMoreCombos' | translate }} {{ showAllCombos() ? '▲' : '▼' }}
+          </button>
+          }
+      </div>
+      }
+
+      <div class="commerce-grid">
+
+        <!-- Left: Single Books -->
+        <div class="left-content" #productsSection id="combo-offers">
+
+          <!-- Combo section was moved above the commerce grid -->
+
+          <!-- Combo Books Cards — shows which books are in the selected combo -->
+          @if (hasComboOffers() ) {
+          <section class="single-books combo-books-section">
+            <div class="upsell-section-container1">
+              <h3 style="text-align: center; color: var(--lp-primary); font-weight: 800; margin-bottom: 24px;">{{ 'ln.LP_ComboBooksPart1' | translate }}
+                {{ 'ln.LP_ComboBooksPart2' | translate }}</h3>
+              <div class="single-scroll">
+                @for (book of $any(displayCombo())?.products || []; track book._id) {
+                <div class="book-card" [class.selected]="isProductSelected(book._id)"
+                  (click)="toggleProductSelection(book._id)" style="cursor: pointer;">
+                  <div class="book-card-cover">
+                    <img [src]="productImage(book)" [alt]="productTitle(book)"
+                      style="height:100%;width:100%;object-fit:contain;" onerror="this.style.display='none'">
+                  </div>
+                  <h4>{{ productTitle(book) }}</h4>
+                  <div class="price">৳{{ book.salePrice | number }}</div>
+                  <div class="book-select-check" style="margin-top: 10px;">
+                    <mat-checkbox [checked]="isProductSelected(book._id)" (change)="toggleProductSelection(book._id)"
+                      (click)="$event.stopPropagation()">
+                      {{ isProductSelected(book._id) ? ('ln.LP_AddToOrder' | translate) : ('ln.LP_AddToOrder' | translate) }}
+                    </mat-checkbox>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </section>
+          }
+
+          <!-- Single Books (standalone products) -->
+          @if (singleProducts().length > 0) {
+          <section class="single-books">
+            <div class="upsell-section-container">
+              <div class="upsell-badge"> {{ 'ln.LP_HugeOpportunity' | translate }}</div>
+              <h3 style="text-align: center; color: var(--lp-primary); font-weight: 800; margin-bottom: 24px;">{{
+                page.productSectionTitle || ('ln.LP_ChooseFavoriteBooks' | translate) }}</h3>
+              @if (page.productSectionSubtitle) {
+              <p class="text-center"
+                style="margin-bottom: 24px; color: #60766b; font-weight: 400;text-align: center;padding-bottom: 10px;">
+                {{ page.productSectionSubtitle }}
+              </p>
+              }
+              <div class="single-scroll">
+                @for (product of singleProducts(); track product._id) {
+                <div class="book-card" [class.selected]="isProductSelected(product._id)"
+                  (click)="toggleProductSelection(product._id)" style="cursor: pointer;">
+                  <div class="book-card-cover" (click)="openBookPreview(product); $event.stopPropagation()">
+                    <img [src]="productImage(product)" [alt]="productTitle(product)"
+                      style="height:100%;width:100%;object-fit:contain;" onerror="this.style.display='none'">
+                    <div class="read-more-overlay">
+                      <mat-icon>menu_book</mat-icon>
+                      <span>{{ 'ln.LP_ReadPreview' | translate }}</span>
+                    </div>
+                  </div>
+                  <h4>{{ productTitle(product) }}</h4>
+                  <div class="price">৳{{ product.salePrice | number }}</div>
+
+                  <div class="book-select-check" style="margin-top: 10px;">
+                    <mat-checkbox [checked]="isProductSelected(product._id)"
+                      (change)="toggleProductSelection(product._id)" (click)="$event.stopPropagation()">
+                      {{ isProductSelected(product._id) ? ('ln.LP_AddToOrder' | translate) : ('ln.LP_AddToOrder' | translate) }}
+                    </mat-checkbox>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </section>
+          }
+        </div>
+
+        <!-- Right: Checkout Sidebar -->
+        <aside class="checkout" #checkoutSection>
+          <div class="checkout-title">{{ 'ln.LP_YourOrder' | translate }}</div>
+          <div class="checkout-body">
+
+            @if (selectedComboIndex() !== null && selectedCombo()) {
+            <div class="cart-item">
+              <div class="cart-thumb">
+                @for (book of $any(selectedCombo())?.products?.slice(0,3); track book._id) {
+                <div class="mini-cover light" style="font-size:5px;width:22px;height:41px;padding:2px;"></div>
+                }
+              </div>
+              <div class="cart-text">
+                <h4>{{ $any(selectedCombo())?.title }}</h4>
+                <small>{{ $any(selectedCombo())?.products?.length || 0 }}{{ 'ln.LP_BooksCount' | translate }}</small>
+                <strong>৳{{ comboDisplayPrice($any(selectedCombo())) | number }}</strong>
+              </div>
+              <button class="remove-btn" type="button" (click)="clearCombo()">×</button>
+            </div>
+            }
+            @if (extraSelectedProducts().length > 0) {
+            @for (product of extraSelectedProducts(); track product._id) {
+            <div class="cart-item single-item">
+              <div class="cart-thumb">
+                <img [src]="productImage(product)" style="width:100%;height:100%;object-fit:cover;"
+                  onerror="this.style.display='none'">
+              </div>
+              <div class="cart-text">
+                <h4>{{ productTitle(product) }}</h4>
+                <strong>৳{{ product.salePrice | number }}</strong>
+              </div>
+              <button class="remove-btn" type="button" (click)="toggleProductSelection(product._id)">×</button>
+            </div>
+            }
+            }
+
+            <div class="summary-line">
+              <span>{{ 'ln.LP_DeliveryCharge' | translate }}</span>
+              <strong>৳{{ deliveryCharge() }}</strong>
+            </div>
+            <div class="summary-line summary-total">
+              <span>{{ 'ln.LP_Total' | translate }}</span>
+              <strong>৳{{ orderTotal() | number }}</strong>
+            </div>
+
+            @if (orderSubTotal() < freeDeliveryThreshold()) { <div class="free-note">
+              {{ 'ln.LP_OrderMoreTaka' | translate }}{{ freeDeliveryThreshold() - orderSubTotal() | number }} {{ 'ln.LP_ToGetFreeDelivery' | translate }}
+              <div class="progress">
+                <span [style.width.%]="(orderSubTotal() / freeDeliveryThreshold()) * 100"></span>
+              </div>
+          </div>
+          }
+
+          <div class="form-title">{{ 'ln.LP_ProvideInfoToOrder' | translate }}</div>
+          <form [formGroup]="checkoutForm" (ngSubmit)="onConfirmOrder()">
+
+            <div class="field">
+              <input formControlName="name" [placeholder]="'ln.LP_EnterName' | translate" />
+              @if (checkoutForm.get('name')?.invalid && checkoutForm.get('name')?.touched) {
+              <small class="error-text">{{ 'ln.LP_NameRequired' | translate }}</small>
+              }
+            </div>
+            <div class="field">
+              <input formControlName="phoneNumber" type="tel" [placeholder]="'ln.LP_MobileNumber' | translate" maxlength="11" />
+              @if (checkoutForm.get('phoneNumber')?.invalid && checkoutForm.get('phoneNumber')?.touched) {
+              <small class="error-text">{{ 'ln.LP_ValidMobileRequired' | translate }}</small>
+              }
+            </div>
+            <div class="field" style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: nowrap;">
+              <label
+                style="display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; font-size: 14px; line-height: 1;">
+                <input type="radio" formControlName="deliveryArea" value="inside_dhaka"
+                  style="width: 14px; height: 14px; margin: 0; padding: 0;" />
+                {{ 'ln.LP_InsideDhaka' | translate }}
+              </label>
+              <label
+                style="display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; font-size: 14px; line-height: 1;">
+                <input type="radio" formControlName="deliveryArea" value="outside_dhaka"
+                  style="width: 14px; height: 14px; margin: 0; padding: 0;" />
+                {{ 'ln.LP_OutsideDhaka' | translate }}
+              </label>
+            </div>
+            <div class="field">
+              <textarea formControlName="shippingAddress" [placeholder]="'ln.LP_EnterAddress' | translate"></textarea>
+              @if (checkoutForm.get('shippingAddress')?.invalid && checkoutForm.get('shippingAddress')?.touched) {
+              <small class="error-text">{{ 'ln.LP_AddressRequired' | translate }}</small>
+              }
+            </div>
+            <div class="field" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+              <label
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-size: 13px; line-height: 1.2; text-align: center; border: 1px solid #dfe4da; border-radius: 9px; padding: 10px; background: #fff;">
+                <input type="radio" formControlName="paymentMethod" value="cash_on_delivery"
+                  style="width: 14px; height: 14px; margin: 0; padding: 0;" />
+                <img src="/images/logo/cod-small.svg" alt="COD" style="height: 24px; width: auto; object-fit: contain;">
+                <span>Cash on Delivery<br />({{ 'ln.LP_CashOnDelivery' | translate }})</span>
+              </label>
+              <label
+                style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-size: 13px; line-height: 1.2; text-align: center; border: 1px solid #dfe4da; border-radius: 9px; padding: 10px; background: #fff;">
+                <input type="radio" formControlName="paymentMethod" value="online_payment"
+                  style="width: 14px; height: 14px; margin: 0; padding: 0;" />
+                <img src="/images/ssl.png" alt="SSL"
+                  style="height: 20px; width: auto; object-fit: contain; max-width: 100%;">
+                <span>Online Payment<br />(অনলাইন পেমেন্ট)</span>
+              </label>
+            </div>
+
+
+            <!-- <div class="extra-title">অতিরিক্ত সুবিধা</div> -->
+            @if (giftPackagePrice()) {
+            <label class="check-row">
+              <input type="checkbox" formControlName="giftWrap" /> গিফট র্যাপ চাই (+৳{{ giftPackagePrice() }})
+            </label>
+            }
+            @if (checkoutForm.get('giftWrap')?.value) {
+            <div class="field">
+              <textarea formControlName="giftMessage" placeholder="গিফট মেসেজ লিখুন (ঐচ্ছিক)"></textarea>
+            </div>
+            }
+
+            <button class="confirm-order" type="submit" [disabled]="isSubmitting()">
+              @if (isSubmitting()) { {{ 'ln.LP_OrderSubmitting' | translate }} } @else { {{ 'ln.LP_ConfirmOrder' | translate }} }
+            </button>
+            <div class="safe-text">🛡️ নিরাপদ পেমেন্টের মাধ্যমে</div>
+          </form>
+      </div>
+      </aside>
+    </div>
+</div>
+</main>
+
+<!-- Benefits Section -->
+<!-- @if (benefitCards().length) {
+<section class="lp-benefits">
+  <div class="lp-container">
+    <div class="lp-benefits__header">
+      <h2 class="lp-section-title lp-section-title--light">{{ page.benefitsTitle || 'বইটি কাদের জন্য?' }}</h2>
+    </div>
+    <div class="lp-benefits__grid">
+      @for (card of benefitCards(); track $index) {
+      <div class="lp-benefits__card">
+        <div class="lp-benefits__card-number">
+          <span>{{ ['০১', '০২', '০৩', '০৪', '০৫', '০৬', '০৭', '০৮', '০৯', '১০'][$index] || ($index + 1) }}</span>
+        </div>
+        <div class="lp-benefits__card-text">
+          <p>{{ card.description || card.title }}</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</section>
+
+
+} -->
+
+
+
+<!-- Footer CTA -->
+<section class="lp-footer-cta">
+  <div class="lp-container lp-footer-cta__inner">
+    <div>
+      <h2>{{ page.title || page.name }}</h2>
+      @if (page.salePrice != null) {
+      <p class="lp-footer-cta__price">{{ 'ln.LP_OnlyTaka' | translate }}{{ page.salePrice }}</p>
+      }
+    </div>
+    <button type="button" class="lp-btn lp-btn--accent lp-btn--lg" (click)="onOrderNow()">
+      {{ 'ln.LP_OrderNow' | translate }}
+    </button>
+  </div>
+</section>
+</div>
+}

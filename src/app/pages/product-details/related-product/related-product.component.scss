@@ -1,0 +1,57 @@
+@use "src/theme/variables" as *;
+@use "src/theme/swipper";
+
+.container {
+  max-width: 1400px;
+  padding: 0;
+}
+
+.kids-book {
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  padding: 0 15px;
+}
+
+.kids-book-contents {
+  position: relative;
+  background-color: $color-white;
+  padding: 0 15px 20px 15px;
+  border-radius: 15px;
+}
+
+.title-area {
+  display: block;
+  padding-top: 15px;
+  margin-bottom: 25px;
+  text-align: center;
+
+  h1 {
+    color: $color-primary;
+    font-family: $font-bn-primary;
+    font-style: normal;
+    font-weight: 600;
+    font-size: $font-title-size;
+    display: block;
+    line-height: 1.4;
+  }
+}
+
+.kids-book-main {
+  width: 100%;
+}
+
+swiper-container {
+  width: 100%;
+  padding-bottom: 30px;
+
+  &::part(pagination-bullet-active) {
+    background: $color-primary;
+  }
+}
+
+@media (max-width: 768px) {
+  .title-area h1 {
+    font-size: 24px;
+    line-height: 1.3;
+  }
+}

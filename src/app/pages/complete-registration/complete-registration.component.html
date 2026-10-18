@@ -1,0 +1,46 @@
+<div class="complete-reg-page">
+  <div class="container">
+    <div class="reg-card animated fadeInUp">
+      <div class="card-header">
+        <div class="header-icon"><i class="fa fa-user-check"></i></div>
+        <h1>{{ 'ln.CompleteRegistration' | translate }}</h1>
+        <p>{{ 'ln.CompleteRegistrationSubtitle' | translate }}</p>
+      </div>
+
+      <form [formGroup]="regForm" (ngSubmit)="onSubmit()" class="reg-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.FullName' | translate }}</mat-label>
+          <input matInput formControlName="name" [placeholder]="'ln.EnterYourName' | translate">
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.PhoneNo' | translate }}</mat-label>
+          <input matInput formControlName="phoneNo" placeholder="017XXXXXXXX" readonly>
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.EmailOptional' | translate }}</mat-label>
+          <input matInput formControlName="email" placeholder="example@mail.com">
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.address' | translate }} ({{ 'ln.EmailOptional' | translate }})</mat-label>
+          <textarea matInput formControlName="addressLine" rows="2" [placeholder]="'ln.CurrentAddressPlaceholder' | translate"></textarea>
+          <mat-icon matSuffix>location_on</mat-icon>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="isLoading()" class="btn-submit">
+          {{ isLoading() ? ('ln.Processing' | translate) : ('ln.CompleteRegistration' | translate) }}
+          <i class="fa fa-arrow-right" *ngIf="!isLoading()"></i>
+        </button>
+      </form>
+      
+      <div class="card-footer">
+        <p>{{ 'ln.PrivacyPolicyNotice' | translate }} <a routerLink="/pages/privacy-policy">{{ 'ln.PrivacyPolicy' | translate }}</a></p>
+      </div>
+    </div>
+  </div>
+</div>

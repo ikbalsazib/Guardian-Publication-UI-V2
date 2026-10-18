@@ -1,0 +1,8 @@
+@use "src/theme/variables" as *;
+
+.snack-message {
+  font-size: 18px !important;
+  font-weight: 500;
+  font-family: $font-en-primary;
+  color: #FFFFFF;
+}

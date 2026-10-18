@@ -1,0 +1,20 @@
+@if (isOpen()) {
+  <div class="confirm-overlay animated fadeIn">
+    <div class="confirm-modal scaleIn">
+      <div class="success-icon">
+        <i class="fa fa-check-circle"></i>
+      </div>
+      
+      <div class="confirm-content">
+        <h2>{{ 'ln.OrderSuccessTitle' | translate }}</h2>
+        <p>{{ 'ln.YourOrderId' | translate }} <span>#{{ orderId() }}</span></p>
+        <p class="sub-text">{{ 'ln.OrderSuccessSubtitle' | translate }}</p>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="btn-track" [routerLink]="['/user/account/order-track', orderId()]" (click)="onHidePop()">{{ 'ln.TrackOrder' | translate }}</button>
+        <button class="btn-home" routerLink="/" (click)="onHidePop()">{{ 'ln.BackToHome' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}

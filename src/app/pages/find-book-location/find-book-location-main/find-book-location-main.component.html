@@ -1,0 +1,85 @@
+<div class="location-page">
+  <div class="container">
+    <div class="page-header animated fadeInDown">
+      <h2>{{ 'ln.FindBookLocation' | translate }}</h2>
+      <p>{{ 'ln.FindBookSubtitle' | translate }}</p>
+    </div>
+
+    <div class="filter-section animated fadeInUp">
+      <form [formGroup]="locationForm" class="filter-form">
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.DivisionSelect' | translate }}</mat-label>
+          <mat-select formControlName="division" (selectionChange)="onDivisionChange($event.value)">
+            <mat-option [value]="null">{{ 'ln.AllDivision' | translate }}</mat-option>
+            @for (div of divisions(); track div._id) {
+            <mat-option [value]="div._id">{{ div.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.AreaSelect' | translate }}</mat-label>
+          <mat-select formControlName="area" (selectionChange)="onAreaChange($event.value)">
+            <mat-option [value]="null">{{ 'ln.AllArea' | translate }}</mat-option>
+            @for (area of areas(); track area._id) {
+            <mat-option [value]="area._id">{{ area.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.ZoneSelect' | translate }}</mat-label>
+          <mat-select formControlName="zone" (selectionChange)="onZoneChange()">
+            <mat-option [value]="null">{{ 'ln.AllZone' | translate }}</mat-option>
+            @for (zone of zones(); track zone._id) {
+            <mat-option [value]="zone._id">{{ zone.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'ln.SearchLibrary' | translate }}</mat-label>
+          <input matInput formControlName="searchTerm" [placeholder]="'ln.SearchLibrary' | translate">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    <div class="location-grid">
+      @for (item of praptisthanas(); track item._id) {
+      <div class="location-card animated fadeIn">
+        <div class="card-image">
+          <img [src]="item.image || '/images/placeholder/library.png'" [alt]="item.name">
+        </div>
+        <div class="card-content">
+          <h3>{{ item.name }}</h3>
+          @if (item.area) {
+          <span class="area-badge">{{ item.area.name }}</span>
+          }
+          <p class="address"><i class="fa fa-map-marker-alt"></i> {{ item.address }}</p>
+          @if (item.phone) {
+          <p class="phone"><i class="fa fa-phone"></i> {{ item.phone }}</p>
+          }
+          <div class="actions">
+            <a [href]="'tel:' + item.phone" mat-stroked-button color="primary">{{ 'ln.CallNow' | translate }}</a>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+    @if (praptisthanas().length === 0) {
+    <div class="empty-state">
+      <i class="fa fa-map-marked-alt"></i>
+      <h3>{{ 'ln.NoLocationFound' | translate }}</h3>
+      <p>{{ 'ln.TryAnotherArea' | translate }}</p>
+    </div>
+    }
+    }
+  </div>
+</div>

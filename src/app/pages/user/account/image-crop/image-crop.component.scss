@@ -1,0 +1,30 @@
+
+.image-cropper {
+  width: 100%;
+  max-height: 350px;
+
+  ::ng-deep img {
+    width: auto !important;
+    max-width: none !important;
+  }
+}
+
+.upload-dialog-action {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.load-error {
+  text-align: center;
+  color: #c62828;
+  padding: 16px;
+}

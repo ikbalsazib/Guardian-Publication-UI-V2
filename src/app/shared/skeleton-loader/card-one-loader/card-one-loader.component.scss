@@ -1,0 +1,22 @@
+@use "src/theme/variables" as *;
+
+.card {
+  position: relative;
+  max-width: 245px;
+  width: 100%;
+  background-color: $color-white-secondary;
+  margin: 0 auto;
+  padding: 13px 12px 1px 12px;
+  box-shadow: 2px 1px 6px #00000063;
+  overflow: hidden;
+  height: 100%;
+}
+
+.product-image {
+  height: 250px;
+  width: 100%;
+
+  @media (max-width: 500px) {
+    height: 160px;
+  }
+}

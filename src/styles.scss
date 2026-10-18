@@ -1,0 +1,59 @@
+@use "./theme/base";
+@use "./theme/fonts";
+@use "./theme/variables";
+@use "theme/material/theme";
+@use "swiper/css/bundle";
+@use "swiper/css/effect-fade";
+@use "swiper/css/navigation";
+@use "swiper/css/pagination";
+@use "swiper/css/effect-coverflow";
+
+/* Font Display Swap Overrides for Webfonts */
+@font-face {
+  font-family: 'Font Awesome 6 Free';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Font Awesome 6 Brands';
+  font-display: swap;
+}
+//body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+swiper-container {
+    --swiper-navigation-size: 10px !important;
+}
+
+swiper-container.carousel-swiper {
+    --swiper-navigation-size: 10px !important;
+}
+
+swiper-container::part(button-next),
+swiper-container::part(button-prev) {
+    font-size: 10px !important;
+}
+
+swiper-container.carousel-swiper svg,
+swiper-container.carousel-swiper .swiper-navigation-icon {
+    width: 10px !important;
+    height: 10px !important;
+}
+
+::ng-deep .swiper-navigation-icon,
+swiper-container svg,
+.swiper-button-next svg,
+.swiper-button-prev svg {
+    width: 10px !important;
+    height: 10px !important;
+}

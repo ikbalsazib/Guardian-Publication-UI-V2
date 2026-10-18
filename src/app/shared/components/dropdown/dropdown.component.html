@@ -1,0 +1,16 @@
+<div class="custom-select" appOutSideClick (outsideClick)="onOutsideClick()">
+  <button type="button" class="select-selected" (click)="toggleDropdown()">
+    <span class="material-icons">{{iconName}}</span>
+    <span class="material-icons">arrow_drop_down</span>
+  </button>
+  <div class="select-items" [class.show]="dropdownOpen" [style.min-width]="minDropdownWidth">
+    <button
+      type="button"
+      *ngFor="let option of options"
+      [ngClass]="option.class"
+      (click)="selectOption($event, option)"
+    >
+      {{ option.viewValue }}
+    </button>
+  </div>
+</div>

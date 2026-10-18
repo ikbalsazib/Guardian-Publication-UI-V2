@@ -1,0 +1,164 @@
+<div class="package-details-page">
+  <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
+  <div class="container">
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    @if (specialPackage()) {
+    <!-- Banner Section -->
+    <div class="banner-area animated fadeIn">
+      <img [src]="specialPackage()?.image || '/images/placeholder/test.png'" [alt]="specialPackage()?.name">
+    </div>
+
+    <header class="package-header">
+      <h1>{{ specialPackage()?.name }}</h1>
+    </header>
+
+    <!-- Product List Section -->
+    <div class="products-section">
+      <div class="section-title">
+        <h2>{{ 'ln.BooksInPackage' | translate }}</h2>
+      </div>
+
+      <div class="products-list">
+        @for (product of specialPackage()?.products; track $any(product)._id) {
+        <div class="product-item-card animated fadeInUp">
+          <!-- Product Left: Image -->
+          <div class="product-img-box">
+            <img [src]="$any(product).images?.[0] || '/images/placeholder/test.png'" [alt]="$any(product).name"
+              (error)="$any($event.target).src = '/images/placeholder/test.png'">
+          </div>
+
+          <!-- Product Center: Core Info -->
+          <div class="product-info-box" [routerLink]="['/product-details', $any(product).slug]">
+            <h3 class="title">
+              {{ translateService.currentLang === 'en' ? ($any(product).nameEn || $any(product).name) :
+              ($any(product).name || $any(product).nameEn) }}
+            </h3>
+            <p class="subtitle">
+              {{ translateService.currentLang === 'en' ? ($any(product).taglineEn || $any(product).tagline) :
+              ($any(product).tagline || $any(product).taglineEn) }}
+            </p>
+
+            <div class="meta-item">
+              <span class="label">{{ 'ln.Author' | translate }}:</span>
+              <span class="value">
+                @for (author of $any(product).author; track author._id; let last = $last) {
+                {{ translateService.currentLang === 'en' ? (author.nameEn || author.name) : (author.name ||
+                author.nameEn) }}{{ !last ? ', ' : '' }}
+                }
+              </span>
+            </div>
+
+            @if ($any(product).translatorName) {
+            <div class="meta-item">
+              <span class="label">{{ 'ln.Translator' | translate }}:</span>
+              <span class="value">
+                {{ translateService.currentLang === 'en' ? ($any(product).translatorNameEn ||
+                $any(product).translatorName) : ($any(product).translatorName || $any(product).translatorNameEn) }}
+              </span>
+            </div>
+            }
+
+            @if ($any(product).category) {
+            <div class="meta-item">
+              <span class="label">{{ 'ln.Category' | translate }}:</span>
+              <span class="value">
+                {{ translateService.currentLang === 'en' ? ($any(product).category.nameEn ||
+                $any(product).category.name) : ($any(product).category.name || $any(product).category.nameEn) }}
+              </span>
+            </div>
+            }
+          </div>
+
+          <!-- Product Right: Stats & Price -->
+          <div class="product-stats-box">
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="label">{{ 'ln.Page' | translate }}</span>
+                <span class="value">{{ $any(product).pages || 0 | engBnNum }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="label">{{ 'ln.Published' | translate }}</span>
+                <span class="value">{{ ($any(product).publishedDate | date: 'dd/MM/yyyy') || 'N/A' | engBnNum }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="label">{{ 'ln.Edition' | translate }}</span>
+                <span class="value">{{ $any(product).edition || '1st' | engBnNum }}</span>
+              </div>
+              <div class="stat-item">
+                <span class="label">{{ 'ln.Quantity' | translate }}</span>
+                <span class="value">{{ 1 | engBnNum }}</span>
+              </div>
+            </div>
+
+            <div class="price-box-highlight">
+              <span class="label">{{ 'ln.FixedPrice' | translate }}:</span>
+              <span class="value">৳{{ $any(product).salePrice | engBnNum }}</span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Summary & Action Bar -->
+    <div class="summary-action-section animated fadeIn">
+      <div class="summary-cards">
+        <div class="summary-card total-items">
+          <span class="label">{{ 'ln.TotalProduct' | translate }}</span>
+          <span class="value">{{ specialPackage()?.products?.length | engBnNum }}</span>
+        </div>
+        <div class="summary-card total-price">
+          <span class="label">{{ 'ln.TotalPrice' | translate }}</span>
+          <span class="value">৳{{ specialPackage()?.salePrice | engBnNum }}</span>
+        </div>
+        <div class="summary-card discount-price">
+          <span class="label">{{ 'ln.DiscountPrice' | translate }}</span>
+          <span class="value">৳{{ ($any(specialPackage()) | price : 'salePrice') | engBnNum }}</span>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <div class="qty-control">
+          <button (click)="updateQuantity(-1)"><i class="fa fa-minus"></i></button>
+          <span>{{ quantity() | engBnNum }}</span>
+          <button (click)="updateQuantity(1)"><i class="fa fa-plus"></i></button>
+        </div>
+        <button class="btn btn-cart" (click)="onAddToCart()">
+          <i class="fa fa-shopping-cart"></i> {{ 'ln.AddToCart' | translate }}
+        </button>
+        <button class="btn btn-buy" (click)="onBuyNow()">
+          <i class="fa fa-shopping-bag"></i> {{ 'ln.BuyNow' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Sticky Action Bar (Design from 2nd Image) -->
+    <div class="mobile-sticky-action-bar">
+      <div class="ms-qty-container">
+        <button (click)="updateQuantity(-1)" class="circle-btn"><i class="fa fa-minus"></i></button>
+        <span class="qty-val">{{ quantity() | engBnNum }}</span>
+        <button (click)="updateQuantity(1)" class="circle-btn"><i class="fa fa-plus"></i></button>
+      </div>
+
+      <button (click)="onAddToCart()" class="ms-cart-btn">
+        <i class="fa fa-cart-plus"></i>
+      </button>
+
+      <button (click)="onBuyNow()" class="ms-buy-btn">
+        {{ 'ln.BuyNow' | translate }}
+      </button>
+    </div>
+    }
+    }
+  </div>
+
+  @if (relatedProducts().length > 0) {
+  <div class="related-section animated fadeIn">
+    <app-related-product-package [products]="relatedProducts()"></app-related-product-package>
+  </div>
+  }
+</div>

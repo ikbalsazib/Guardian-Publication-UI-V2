@@ -1,0 +1,215 @@
+<div class="header-top">
+  <div class="container">
+    <div class="header-top-main">
+      <div class="header-top-lang">
+        <ul>
+          <li>En</li>
+          <li>
+            <input id="lang-toggle" aria-label="Language Toggle" type="checkbox" [checked]="
+                (isChangeLanguage() && translateService.currentLang === 'bn') ||
+                (isChangeLanguage() && translateService.currentLang === undefined)
+              " (click)="onChangeLanguageToggle('bn')" />
+          </li>
+          <li>বাংলা</li>
+        </ul>
+      </div>
+      <a class="prapti" routerLink="/find-book-location"
+        aria-label="প্রাপ্তিস্থান - Guardian Publications বই কোথায় পাওয়া যায়">
+        <span class="prapti-content">
+          <span><img src="/images/brand/icon/praptistan.svg" alt="" aria-hidden="true" /></span>
+          {{ "ln.Praptisthan" | translate }}
+        </span>
+      </a>
+
+      <a class="all-notification" routerLink="/account/notification" aria-label="বিজ্ঞপ্তি দেখুন">
+        <span class="notification">
+          <span class="icon"><img src="/images/icon/download.svg" alt="" aria-hidden="true" /></span>
+          @if (notificationsCount() > 0) {
+          <span class="base">{{notificationsCount()}}</span>
+          }
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<header (outsideClick)="handleOutsideClick()" appOutSideClick>
+  <div class="header-main" [class.header-fixed]="headerFixed()">
+    <div class="container">
+      <div class="header-main-content">
+        <div class="header-left">
+          <div class="logo">
+            <a routerLink="/" aria-label="Guardian Publications হোমপেজ">
+              <img
+                [src]="shopInfo()?.navLogo ?? 'https://ftp.guardianpubs.com/api/upload/images/guardian-logo-web-ef2f.jpg?resolution=243_204'"
+                alt="Guardian Publication Logo" fetchpriority="high" loading="eager" width="180" height="60" />
+            </a>
+          </div>
+        </div>
+
+        <div class="header-middle">
+          <div class="header-middle-top">
+            <div class="search-bar">
+              <form #searchForm="ngForm">
+                <input #searchInput id="searchInput" class="tw" type="text" (keydown.enter)="onSearchNavigate()"
+                  [placeholder]="'ln.SearchBooksPlaceholder' | translate" (focus)="handleFocus($event)"
+                  name="searchTerm" aria-label="বই খুঁজুন" autocomplete="off" ngModel required />
+              </form>
+            </div>
+            <button type="button" class="search-icon" (click)="onSearchNavigate()" aria-label="Search Button">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <ul id="auto-suggestion-mobile" class="auto-complete-box"
+            [class.active]="searchProducts().length > 0 && isOpen()">
+            @for (data of searchProducts(); track data._id; let i = $index) {
+            <li class="list-view" (click)="onSelectItem(data, i)" [class.selected]="i === selectedIndex">
+              <div class="search-result-left">
+                <div class="result-product-img">
+                  <img class="img-thumb"
+                    [src]="data.images && data.images.length ? data.images[0] : '/images/placeholder/test.png'"
+                    alt="{{data?.name}}" />
+                </div>
+                <div class="desc">
+                  <p class="search-item-name">{{ data?.name }}</p>
+                  @if (data?.author !== null) {
+                  <p class="search-item-author">{{ data?.author[0]?.name }}</p>
+                  }
+                </div>
+              </div>
+              <div class="price">
+                <h5>{{ currency.bdt }}{{ data | price : "salePrice" : 1 | number : "" : translateService.currentLang }}
+                </h5>
+              </div>
+            </li>
+            }
+          </ul>
+        </div>
+
+        <div class="services">
+          <img src="/images/brand/icon/support.svg" alt="Support Icon" />
+          <a href="tel:{{ shopInfo()?.phones && shopInfo()?.phones[0]?.value }}" class="service-content">
+            <p>{{ shopInfo()?.phones && shopInfo()?.phones[0]?.value }}</p>
+          </a>
+        </div>
+
+        <div class="header-right">
+          <div class="header-right-top">
+            <ul>
+              <li class="menu-cart">
+                <a routerLink="/user/account/wishlist">
+                  <img src="./images/brand/icon/gift.svg" alt="Wishlist" style="max-width: 33px" />
+                  <span>{{ "ln.WishList" | translate }}</span>
+                </a>
+                @if (wishlists().length > 0) {
+                <span style="background-color: #2fd193" class="compare-quantity">{{ wishlists().length }}</span>
+                }
+              </li>
+
+              <li class="menu-cart">
+                <a href="#" (click)="$event.preventDefault(); onCartSideToggling()" aria-label="View Shopping Cart">
+                  <img src="/images/brand/icon/bag.svg" alt="Shopping Cart" style="max-width: 29px" />
+                  <span>{{ "ln.Cart" | translate }}</span>
+                </a>
+                @if (cartBadgeCount() > 0) {
+                <span [ngClass]="translateService.currentLang === 'en' ? 'cart-quantity1' : 'cart-quantity'"
+                  style="background-color: #c82027">{{ cartBadgeCount() }}</span>
+                }
+              </li>
+              <li>
+                <a [routerLink]="isUser() ? '/user/account' : '/login'" rel="nofollow">
+                  <img class="profile" [src]="user()?.profileImg ?? '/images/brand/icon/user.svg'"
+                    alt="User Profile Image" style="max-width: 40px" />
+                  <span>{{ isUser() ? ("ln.Myaccount" | translate) : ("ln.Login" | translate) }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-middle-bottom nav" [class.nav-fixed]="showMegaMenu()">
+    <div class="container">
+      <ul>
+        <li>
+          <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{ "ln.Home1" |
+            translate }}</a>
+        </li>
+        <li>
+          <a routerLink="/product-list" routerLinkActive="active">{{ "ln.AllBooks" | translate }}</a>
+        </li>
+        <li>
+          <a routerLink="/special-package" routerLinkActive="active">{{ "ln.SpecialPackage" | translate }}</a>
+        </li>
+        <li>
+          <a routerLink="/offers" routerLinkActive="active">{{ "ln.Offer" | translate }}</a>
+        </li>
+        <li class="nav-item dropdown-trigger" routerLinkActive="active">
+          <a class="nav-link" routerLink="/author-list">{{ "ln.Writer" | translate }} <i
+              class="fa-solid fa-angle-down"></i></a>
+          @if (!isLoadingAuthor() && authors && authors.length) {
+          <div class="dropdown-menu">
+            <ul>
+              @for (data of authors.slice(0, 28); track data._id; let i = $index) {
+              <li>
+                <a [routerLink]="['/author', data.slug]">{{ data.name }}</a>
+              </li>
+              }
+              <li>
+                <a class="see-more" routerLink="/author-list">{{ "ln.SeeMore" | translate }}</a>
+              </li>
+            </ul>
+          </div>
+          }
+        </li>
+        <li>
+          <a routerLink="/blogs" routerLinkActive="active">{{ "ln.Blog" | translate }}</a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/manuscript-submission">{{ "ln.Manuscript" | translate }}</a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/activities']">{{ "ln.Activities" | translate }}</a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/pages/গার্ডিয়ান-পরিচিতি']">{{ "ln.AboutUs" | translate }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+@if (!isCheckoutPage()) {
+<div class="bottom-nav">
+  <div class="container">
+    <ul>
+      <li routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fa fa-home"></i>
+        <span>{{ "ln.Home1" | translate }}</span>
+      </li>
+      <li (click)="onShowCategory()">
+        <i class="fa fa-bars"></i>
+        <span>{{ "ln.Catalog" | translate }}</span>
+      </li>
+      <li (click)="onCartSideToggling()">
+        <i class="fa fa-shopping-bag"></i>
+        <span>{{ "ln.Cart" | translate }}</span>
+        @if (cartBadgeCount() > 0) {
+        <small>{{ cartBadgeCount() }}</small>
+        }
+      </li>
+      <li (click)="onNavigateAccount()">
+        <i class="fa fa-user-circle" style="font-size: 22px"></i>
+        <span>{{ isUser() ? ("ln.MyAccount" | translate) : ("ln.Login" | translate) }}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+}
+
+<app-side-nav #side_nav></app-side-nav>
+<app-cart-slide #cart_slide></app-cart-slide>
+<app-category-slide #category_slide></app-category-slide>

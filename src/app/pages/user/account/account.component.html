@@ -1,0 +1,83 @@
+<div class="account-area">
+  <div class="container">
+    <div class="account-main">
+      <div class="account-left" [class.active]="isSidebarOpen()">
+        <div class="user-info">
+          <div class="user-img">
+            <img [src]="user()?.profileImg || 'assets/images/placeholder/user.png'" [alt]="user()?.name">
+          </div>
+          <div class="user-text">
+            <span>{{ "ln.Hello" | translate }},</span>
+            <h3>{{ user()?.name || ('ln.User' | translate) }}</h3>
+          </div>
+        </div>
+        <div class="side-bar">
+          <nav>
+            <ul>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/profile" routerLinkActive="active">
+                  <i class="fa fa-user-circle nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.Myaccount" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/order-list" routerLinkActive="active">
+                  <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.MyOrders" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/address" routerLinkActive="active">
+                  <i class="fa fa-map-marker nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.ManageAddress" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/notification" routerLinkActive="active">
+                  <i class="fa fa-bell nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.Notification" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/wishlist" routerLinkActive="active">
+                  <i class="fa fa-heart nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.MyWishlist" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/review" routerLinkActive="active">
+                  <i class="fa fa-star nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.MyRating&Reviews" | translate }}</span>
+                </a>
+              </li>
+              <li (click)="toggleSidebar()">
+                <a routerLink="/user/account/transactions" routerLinkActive="active">
+                  <i class="fa fa-credit-card nav-icon" aria-hidden="true"></i>
+                  <span>{{ "ln.MyTransaction" | translate }}</span>
+                </a>
+              </li>
+              @if (isUserLoggedIn()) {
+                <li class="logout-item" (click)="userLogOut()">
+                  <a class="logout-link">
+                    <i class="fa fa-right-from-bracket nav-icon" aria-hidden="true"></i>
+                    <span>{{ "ln.LogOut" | translate }}</span>
+                  </a>
+                </li>
+              }
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div class="account-right">
+        <div class="mobile-bar">
+          <span (click)="toggleSidebar()"><i class="fa fa-bars"></i>Dashboard Menu</span>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+@if (isSidebarOpen()) {
+  <div class="overlay" (click)="toggleSidebar()"></div>
+}

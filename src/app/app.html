@@ -1,0 +1,25 @@
+<!-- @if (!isBrowser) {
+  <div class="loading1">
+    <div class="abgne-loading-20140104-2">
+      <div class="loading"></div>
+      <div class="word"><img src="/images/logo/Guardian-Logo.jpg" alt="Guardian Publication Logo"></div>
+    </div>
+  </div>
+} -->
+@if (!isLandingPageRoute()) {
+  <app-header></app-header>
+}
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+@if (!isLandingPageRoute()) {
+  <app-footer></app-footer>
+}
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-beat" [fullScreen]="true">
+  <p style="color: white"> লোড হচ্ছে... </p>
+</ngx-spinner>
+
+<app-loader></app-loader>

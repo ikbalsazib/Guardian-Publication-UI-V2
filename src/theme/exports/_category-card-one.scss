@@ -1,0 +1,121 @@
+@use "src/theme/variables" as *;
+
+/* --- shop-category-card -- */
+.shop-category-card {
+  cursor: pointer;
+  margin: 5px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  position: relative;
+  //padding: 5px;
+  box-sizing: border-box;
+  z-index: 10;
+  transition: all 0.12s linear;
+  width: 120px;
+  height: 120px ;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+}
+
+
+
+/* --- shop-card-title --- */
+.shop-card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  left: 0px;
+  z-index: 1;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  text-align: center;
+  padding: 9px 2px;
+  color: $category-color;
+  overflow: hidden;
+  span{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(58, 58, 58, 0.86);
+    color: $color-white;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 5px;
+    font-size: 16px;
+    text-decoration: none;
+    text-align: center;
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+    opacity: 0;
+  }
+  a {
+    color: $category-color;
+    font-size: 15px;
+    font-weight: 600;
+    font-style: normal;
+    font-family: $font-en-primary;
+    transition: all 0.3s linear;
+  }
+  img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+  }
+  i{
+    font-size: 30px;
+  }
+}:hover {
+   img {
+     -webkit-transform: scale(1.3);
+     transform: scale(1.3);
+   }
+   span {
+     z-index: 5;
+     opacity: 1;
+   }
+ }
+
+ @media(max-width:500px){
+  .shop-category-card{
+    width: 95px;
+    height: 95px;
+  }
+  .shop-card-title{
+    width: 95px;
+    height: 95px;
+    img{
+      width: 95px;
+      height: 95px;
+    }
+    span{
+      font-size: 13px;
+      line-height: 15px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .shop-card-title {
+    a {
+      font-size: 13px;
+    }
+  }
+}
+

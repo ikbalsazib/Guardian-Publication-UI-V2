@@ -1,0 +1,396 @@
+@if (isLoading()) {
+<div class="lp-loading-overlay">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+}
+
+@if (!isLoading() && landingPage(); as page) {
+<div class="lp3-wrapper" [style.--lp3-primary]="primaryColor()" [style.--lp3-primary-dark]="primaryColorDark()">
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-title">GUARDIAN<span>BOOKS</span></div>
+      </div>
+      <div class="header-features">
+        <div class="feature"><span class="i">✓</span> ১০০% অরিজিনাল বই</div>
+        <div class="feature"><span class="i">▣</span> ফাস্ট ডেলিভারি</div>
+        <div class="feature"><span class="i">◎</span> সারা দেশে ডেলিভারি</div>
+        <div class="feature"><span class="i">▣</span> নিরাপদ পেমেন্ট</div>
+      </div>
+      <div class="phone-box">☎ 01713-344434<small>সকাল ৮টা - রাত ১০টা</small></div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <div class="limited-badge">🔥 সীমিত সময়ের অফার</div>
+        <div class="hero-kicker">{{ page.subtitle || 'প্রিয়জনকে দিন জ্ঞানের উপহার' }}</div>
+        <h1>{{ page.title || 'ইসলামিক লাইফস্টাইল' }} <span>কম্বো অফার</span></h1>
+        <div class="hero-sub">
+          {{ comboOffers().length > 0 ? comboOffers().length + 'টি সেরা বই একসাথে কিনলে' : '৩টি সেরা বই একসাথে কিনলে' }}
+          <span class="discount-pill">{{ heroDiscountLabel() ? heroDiscountLabel() + '% ছাড়!' : '২৫% ছাড়!' }}</span>
+        </div>
+      </div>
+      <div class="hero-stage">
+        <div class="platform"></div>
+        <div class="gift-hero"><span class="gift-bow"></span></div>
+        <div class="book-set">
+          @if (page.heroImage || page.images?.[0]) {
+            <img class="hero-books-img" [src]="page.heroImage || page.images?.[0]" alt="Combo Books">
+          } @else {
+            <div class="book-cover light">ইসলামিক<br>নীতিবোধ<div class="mosque"></div></div>
+            <div class="book-cover green">বইয়ে চলার<br>দিশা<div class="mosque"></div></div>
+            <div class="book-cover bluewhite">জীবনের<br>উদ্দেশ্য<div class="mosque"></div></div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST ROW ===== -->
+  <section class="trust-row">
+    <div class="container">
+      <div class="trust-card"><span class="icon">🚚</span><div><strong>৳{{ freeDeliveryThreshold() }}+ অর্ডারে</strong><small>ফ্রি ডেলিভারি</small></div></div>
+      <div class="trust-card"><span class="icon">🛡️</span><div><strong>১০০% অরিজিনাল</strong><small>প্রকাশকের গ্যারান্টি</small></div></div>
+      <div class="trust-card"><span class="icon">🔄</span><div><strong>সহজ রিটার্ন</strong><small>৭ দিনের মধ্যে</small></div></div>
+      <div class="trust-card"><span class="icon">🔒</span><div><strong>নিরাপদ পেমেন্ট</strong><small>SSL এনক্রিপ্টেড</small></div></div>
+    </div>
+  </section>
+
+  <!-- ===== FLASH SALE ===== -->
+  <section class="flash-sale">
+    <div class="container flash-inner">
+      <div class="flash-left">⚡ <div>ফ্ল্যাশ সেল<small>আজ রাত ১২টা পর্যন্ত</small></div></div>
+      <div class="flash-badge">{{ heroDiscountLabel() || '৩০' }}% ছাড়</div>
+      <div class="flash-timer-wrap">
+        <div>অফার শেষ হতে বাকি</div>
+        <div class="timer-boxes">
+          <div class="time-block"><span>{{ timerHours() }}</span><small>ঘণ্টা</small></div>
+          <div class="time-block"><span>{{ timerMinutes() }}</span><small>মিনিট</small></div>
+          <div class="time-block"><span>{{ timerSeconds() }}</span><small>সেকেন্ড</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN: COMBO + CHECKOUT ===== -->
+  <main class="main" id="order">
+    <div class="container">
+      @if (hasComboOffers()) {
+        <h2 class="section-heading">সেরা কম্বো অফার সমূহ</h2>
+      }
+      <div class="commerce-grid">
+
+        <!-- Left: Combo Cards + Single Books -->
+        <div class="left-content" #productsSection id="combo-offers">
+
+          @if (hasComboOffers()) {
+            <div class="combo-stack">
+              @for (combo of comboOffers(); track combo._id; let i = $index) {
+                <article
+                  class="combo-card"
+                  [class.active]="selectedComboIndex() === i"
+                  (click)="selectCombo(i)"
+                >
+                  <input
+                    type="radio"
+                    name="combo"
+                    class="combo-radio"
+                    [checked]="selectedComboIndex() === i"
+                    (click)="$event.stopPropagation(); selectCombo(i)"
+                  />
+
+                  <div class="combo-visual">
+                    @for (book of $any(combo).products?.slice(0,3); track book._id) {
+                      <div class="mini-cover green">
+                        <img [src]="productImage(book)" [alt]="productTitle(book)"
+                             style="width:100%;height:100%;object-fit:cover;border-radius:4px;"
+                             onerror="this.style.display='none'">
+                      </div>
+                    }
+                  </div>
+
+                  <div class="combo-info">
+                    @if (i === 0) { <span class="tag">সবচেয়ে জনপ্রিয়</span> }
+                    <div class="combo-top">
+                      <div>
+                        <h3>{{ combo.title }}</h3>
+                        <p>{{ combo.subtitle || comboSubtitle(combo) }}</p>
+                      </div>
+                      <button type="button" class="details-btn" (click)="$event.stopPropagation(); toggleComboExpand(i, $event)">
+                        বিস্তারিত দেখুন {{ expandedComboIndex() === i ? '▲' : '▼' }}
+                      </button>
+                    </div>
+
+                    <table class="book-list">
+                      @for (book of $any(combo).products; track book._id; let idx = $index) {
+                        <tr>
+                          <td>{{ ['১','২','৩','৪','৫'][idx] || (idx+1) }}. {{ productTitle(book) }}</td>
+                          <td>৳{{ book.salePrice | number }}</td>
+                        </tr>
+                      }
+                    </table>
+
+                    <div class="price-area">
+                      <span class="old-price">৳{{ comboOriginalPrice(combo) | number }}</span>
+                      <span class="offer-price">৳{{ comboDisplayPrice(combo) | number }}</span>
+                      <span class="save-pill">বাঁচান ৳{{ (comboOriginalPrice(combo) - comboDisplayPrice(combo)) | number }} ({{ comboDiscountPercent(combo) }}%)</span>
+                    </div>
+                  </div>
+                </article>
+              }
+
+              @if (comboOffers().length > 3) {
+                <button class="more-combo" type="button" (click)="toggleShowAllCombos()">
+                  আরও কম্বো দেখুন {{ showAllCombos() ? '▲' : '▼' }}
+                </button>
+              }
+            </div>
+          }
+
+          <!-- Single Books -->
+          @if (singleProducts().length > 0) {
+            <section class="single-books">
+              <h3>এই কম্বো থেকে আলাদা বই কিনতে চান?</h3>
+              <div class="single-scroll">
+                @for (product of singleProducts(); track product._id) {
+                  <div class="book-card">
+                    <div class="book-card-cover">
+                      <img [src]="productImage(product)" [alt]="productTitle(product)"
+                           style="height:100%;width:100%;object-fit:contain;"
+                           onerror="this.style.display='none'">
+                    </div>
+                    <h4>{{ productTitle(product) }}</h4>
+                    <div class="price">৳{{ product.salePrice | number }}</div>
+                    <button class="add-book" type="button" (click)="addSingleProduct(product)">+ যোগ করুন</button>
+                  </div>
+                }
+              </div>
+            </section>
+          }
+        </div>
+
+        <!-- Right: Checkout Sidebar -->
+        <aside class="checkout" #checkoutSection>
+          <div class="checkout-title">আপনার অর্ডার</div>
+          <div class="checkout-body">
+
+            @if (selectedCombo()) {
+              <div class="cart-item">
+                <div class="cart-thumb">
+                  @for (book of $any(selectedCombo())?.products?.slice(0,3); track book._id) {
+                    <div class="mini-cover light" style="font-size:5px;width:22px;height:41px;padding:2px;"></div>
+                  }
+                </div>
+                <div class="cart-text">
+                  <h4>{{ $any(selectedCombo())?.title }}</h4>
+                  <small>{{ $any(selectedCombo())?.products?.length || 3 }}টি বই</small>
+                  <strong>৳{{ comboDisplayPrice($any(selectedCombo())) | number }}</strong>
+                </div>
+                <button class="remove-btn" type="button" (click)="clearCombo()">×</button>
+              </div>
+            }
+
+            <div class="summary-line">
+              <span>ডেলিভারি চার্জ</span>
+              <strong>৳{{ deliveryCharge() }}</strong>
+            </div>
+            <div class="summary-line summary-total">
+              <span>সর্বমোট</span>
+              <strong>৳{{ orderTotal() | number }}</strong>
+            </div>
+
+            @if (orderSubTotal() < freeDeliveryThreshold()) {
+              <div class="free-note">
+                আরও ৳{{ freeDeliveryThreshold() - orderSubTotal() | number }} অর্ডার করলে ফ্রি ডেলিভারি পাবেন!
+                <div class="progress">
+                  <span [style.width.%]="(orderSubTotal() / freeDeliveryThreshold()) * 100"></span>
+                </div>
+              </div>
+            }
+
+            <div class="form-title">ডেলিভারি তথ্য</div>
+            <form [formGroup]="checkoutForm" (ngSubmit)="onConfirmOrder()">
+
+              <div class="field">
+                <input formControlName="name" placeholder="নাম লিখুন" />
+              </div>
+              <div class="field">
+                <input formControlName="phoneNumber" type="tel" placeholder="মোবাইল নম্বর" />
+              </div>
+              <div class="field">
+                <select formControlName="division" (change)="onDivisionChange($event)">
+                  <option value="">জেলা নির্বাচন করুন</option>
+                  @for (div of divisions(); track div._id) {
+                    <option [value]="div._id">{{ div.name }}</option>
+                  }
+                </select>
+              </div>
+              <div class="field">
+                <select formControlName="area" (change)="onAreaChange($event)">
+                  <option value="">উপজেলা/থানা নির্বাচন করুন</option>
+                  @for (area of areas(); track area._id) {
+                    <option [value]="area._id">{{ area.name }}</option>
+                  }
+                </select>
+              </div>
+              <div class="field">
+                <textarea formControlName="shippingAddress" placeholder="ঠিকানা লিখুন"></textarea>
+              </div>
+
+              <div class="extra-title">অতিরিক্ত সুবিধা</div>
+              @if (giftPackagePrice()) {
+                <label class="check-row">
+                  <input type="checkbox" formControlName="giftWrap" /> গিফট র্যাপ চাই (+৳{{ giftPackagePrice() }})
+                </label>
+              }
+              @if (checkoutForm.get('giftWrap')?.value) {
+                <div class="field">
+                  <textarea formControlName="giftMessage" placeholder="গিফট মেসেজ লিখুন (ঐচ্ছিক)"></textarea>
+                </div>
+              }
+
+              <button class="confirm-order" type="submit" [disabled]="isSubmitting()">
+                @if (isSubmitting()) { লোড হচ্ছে... } @else { 🔒 অর্ডার কনফার্ম করুন }
+              </button>
+              <div class="safe-text">🛡️ নিরাপদ পেমেন্টের মাধ্যমে</div>
+            </form>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== AFTER MAIN ===== -->
+  <section class="after-main">
+
+    <!-- Second Flash Sale -->
+    <section class="flash-sale">
+      <div class="container flash-inner">
+        <div class="flash-left">⚡ <div>ফ্ল্যাশ সেল<small>আজ রাত ১২টা পর্যন্ত</small></div></div>
+        <div class="flash-badge">{{ heroDiscountLabel() || '৩০' }}% ছাড়</div>
+        <div class="flash-timer-wrap">
+          <div>অফার শেষ হতে বাকি</div>
+          <div class="timer-boxes">
+            <div class="time-block"><span>{{ timerHours() }}</span><small>ঘণ্টা</small></div>
+            <div class="time-block"><span>{{ timerMinutes() }}</span><small>মিনিট</small></div>
+            <div class="time-block"><span>{{ timerSeconds() }}</span><small>সেকেন্ড</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Second Trust Row -->
+    <section class="trust-row">
+      <div class="container">
+        <div class="trust-card"><span class="icon">🚚</span><div><strong>ফ্রি ডেলিভারি</strong><small>৳{{ freeDeliveryThreshold() }}+ অর্ডারে</small></div></div>
+        <div class="trust-card"><span class="icon">🛡️</span><div><strong>১০০% অরিজিনাল বই</strong><small>প্রকাশকের গ্যারান্টি</small></div></div>
+        <div class="trust-card"><span class="icon">🔄</span><div><strong>সহজ রিটার্ন</strong><small>৭ দিনের মধ্যে</small></div></div>
+        <div class="trust-card"><span class="icon">🔒</span><div><strong>নিরাপদ পেমেন্ট</strong><small>SSL এনক্রিপ্টেড</small></div></div>
+      </div>
+    </section>
+
+    <!-- Gift + Review -->
+    <div class="container">
+      <div class="gift-review">
+
+        <!-- Gift Card -->
+        <div class="gift-card" *ngIf="giftPackageTitle()">
+          <div class="gift-copy">
+            <h3>{{ giftPackageTitle() }}</h3>
+            <p>{{ giftPackageSubtitle() }}</p>
+            <ul>
+              <li *ngFor="let point of giftPackagePoints()">{{ point }}</li>
+            </ul>
+            <span class="gift-price">মাত্র ৳{{ giftPackagePrice() | number }}</span>
+          </div>
+          <div class="gift-visual-large">
+            @if (giftPackageImage()) {
+              <img [src]="giftPackageImage()" alt="Gift Package" style="max-width:200px;object-fit:contain;">
+            } @else {
+              <div class="package-box">
+                <div class="message-card">আপনার জন্য<br>ভালোবাসা ও তোমার<br>জন্য রইল</div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Testimonial Card -->
+        <div class="review-card" *ngIf="testimonialTitle()">
+          <h3>{{ testimonialTitle() }}</h3>
+          <div class="review-box">
+            <div class="quote">"</div>
+            <div class="stars">★★★★★</div>
+            <p>{{ testimonialText() }}</p>
+            <div class="review-user">
+              <div class="avatar">{{ testimonialReviewerName()[0] || 'গ' }}</div>
+              <div>
+                <strong>{{ testimonialReviewerName() }}</strong>
+                <small>ঢাকা</small>
+              </div>
+            </div>
+            <div class="dots">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Benefit Bar -->
+      <div class="benefit-bar">
+        <div class="benefit"><span>🚚</span><div><strong>৳৯৯৯+ অর্ডারে</strong><small>ফ্রি ডেলিভারি</small></div></div>
+        <div class="benefit"><span>🎁</span><div><strong>উপহার র‍্যাপ</strong><small>মাত্র ৳৫০</small></div></div>
+        <div class="benefit"><span>📝</span><div><strong>বার্তা কার্ড</strong><small>ফ্রি</small></div></div>
+        <div class="benefit"><span>🛵</span><div><strong>সারা দেশে</strong><small>দ্রুত ডেলিভারি</small></div></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-title" style="color:#fff;margin-bottom:12px;">GUARDIAN<span>BOOKS</span></div>
+          <p>আল্লাহ ও জ্ঞানের বিষয়ে ঠিকানা। গার্ডিয়ান বুকস আপনার পাশে।</p>
+        </div>
+        <div>
+          <h4>গুরুত্বপূর্ণ লিংক</h4>
+          <ul>
+            <li>অর্ডার ট্র্যাকিং</li>
+            <li>রিটার্ন পলিসি</li>
+            <li>প্রাইভেসি পলিসি</li>
+            <li>শর্তাবলী</li>
+          </ul>
+        </div>
+        <div>
+          <h4>যোগাযোগ</h4>
+          <ul>
+            <li>☎ 01713-344434</li>
+            <li>সকাল ৮টা - রাত ১০টা</li>
+            <li>📧 info&#64;guardianbooks.com</li>
+            <li>🌍 সারা দেশে ডেলিভারি</li>
+          </ul>
+        </div>
+        <div>
+          <h4>পেমেন্ট পদ্ধতি</h4>
+          <div class="payment-list">
+            <span style="color:#e2136e;">bKash</span>
+            <span style="color:#ed7527;">Nagad</span>
+            <span style="color:#8c3494;">Rocket</span>
+            <span style="color:#1a1f71;">VISA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+}

@@ -1,0 +1,247 @@
+@use 'src/theme/variables' as *;
+
+.address-container {
+  padding: 15px;
+}
+
+.address-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid $color-primary;
+  padding-bottom: 10px;
+  margin-bottom: 25px;
+
+  h2 {
+    font-family: $font-en-primary;
+    font-size: 20px;
+    font-weight: 400;
+    color: #5d5d5d;
+    margin: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0 0 0;
+  }
+
+  button {
+    background-color: $color-primary;
+    color: #fff;
+    font-family: $font-en-primary;
+    border-radius: 4px;
+    font-weight: 500;
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+}
+
+.address-form-card {
+  background: white;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 6px -3px #9c9c9c;
+  border: 1px solid #ddd;
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: #333;
+      margin: 0;
+    }
+  }
+}
+
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+
+    &.tertiary {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  .action-btns {
+    display: flex;
+    gap: 10px;
+
+    button {
+      border-radius: 4px;
+      font-weight: 500;
+      padding: 10px 20px;
+    }
+  }
+}
+
+.address-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 15px;
+}
+
+.address-card {
+  background: white;
+  border-radius: 4px;
+  padding: 15px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  transition: border-color 0.2s, background-color 0.2s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  &.default {
+    border-color: $color-primary;
+    background: rgba($color-primary, 0.02);
+  }
+}
+
+.status-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  .type-tag {
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: #f5f5f5;
+    color: #666;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid #ddd;
+  }
+
+  .default-tag {
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: $color-primary;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+
+.card-body {
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      color: #bbb;
+      width: 14px;
+    }
+  }
+}
+
+.delete-btn {
+  color: #f44336;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 0;
+
+  i {
+    font-size: 40px;
+    color: #eee;
+    margin-bottom: 15px;
+  }
+
+  h3 {
+    font-size: 18px;
+    color: #999;
+    margin: 0;
+  }
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 30px 0;
+}
+
+@media (max-width: 900px) {
+  .address-list {
+    grid-template-columns: 1fr;
+  }
+
+  .address-form .form-grid {
+    grid-template-columns: 1fr;
+
+    &.tertiary {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.animated {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}

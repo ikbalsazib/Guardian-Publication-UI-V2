@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Write a Review</h2>
+<mat-dialog-content class="mat-typography">
+  <div class="submit-review-area">
+    <div class="rating-selector">
+      <p>Your Rating *</p>
+      <app-star-rating 
+        [rating]="rating()" 
+        (ratingUpdated)="onRatingChanged($event)"
+        [showSnackbar]="false">
+      </app-star-rating>
+    </div>
+
+    <form [formGroup]="dataForm" class="review-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Your Display Name</mat-label>
+        <input matInput formControlName="name" placeholder="E.g. John Doe">
+        @if (dataForm.get('name')?.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Your Review</mat-label>
+        <textarea matInput formControlName="review" rows="5" placeholder="Share your experience..."></textarea>
+        @if (dataForm.get('review')?.hasError('required')) {
+          <mat-error>Review content is required</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSubmit()" 
+    [disabled]="isSubmitting() || dataForm.invalid">
+    {{ isSubmitting() ? 'Submitting...' : 'Submit Review' }}
+  </button>
+</mat-dialog-actions>

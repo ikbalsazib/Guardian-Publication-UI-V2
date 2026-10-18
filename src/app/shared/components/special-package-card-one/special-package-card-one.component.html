@@ -1,0 +1,18 @@
+<a class="package-card-wrapper" [routerLink]="['/special-package', data.slug]">
+  <div class="card-image">
+    <img [src]="data.image || '/images/placeholder/test.png'" [alt]="data.name" loading="lazy">
+    @if (data.freeDelivery) {
+    <div class="free-delivery">
+      <p>Free Delivery</p>
+    </div>
+    }
+    <div class="image-overlay"></div>
+  </div>
+  <div class="card-info">
+    <h3>{{ data.name }}</h3>
+    <div class="btn-action">
+      <span>বিস্তারিত দেখুন</span>
+      <i class="fa fa-arrow-right"></i>
+    </div>
+  </div>
+</a>

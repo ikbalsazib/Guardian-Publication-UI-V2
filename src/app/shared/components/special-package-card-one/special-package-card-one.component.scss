@@ -1,0 +1,139 @@
+@use 'src/theme/variables' as *;
+
+.package-card-wrapper {
+  display: block;
+  text-decoration: none;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  height: 100%;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border-color: rgba($color-primary, 0.2);
+
+    .card-image img {
+      transform: scale(1.08);
+    }
+
+    .image-overlay {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-action {
+      background: $color-primary;
+      color: white;
+      width: 100%;
+    }
+  }
+
+  .card-image {
+    position: relative;
+    width: 100%;
+    height: 182px;
+    /* Standard fixed height for consistency */
+    overflow: hidden;
+    background: #f8f9fa;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.3s ease;
+    }
+
+    .free-delivery {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #27ae60;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .card-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: #333;
+      margin: 0;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-family: $font-bn-primary;
+    }
+
+    .btn-action {
+      margin-top: 10px;
+      height: 44px;
+      border: 1px solid rgba($color-primary, 0.3);
+      background: white;
+      color: $color-primary;
+      border-radius: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+
+      i {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+
+
+@media (max-width: 800px) {
+
+  .package-card-wrapper .card-image {
+
+    height: 160px;
+  }
+}
+
+
+
+@media (max-width: 500px) {
+
+  .package-card-wrapper .card-image {
+
+    height: 130px;
+  }
+}

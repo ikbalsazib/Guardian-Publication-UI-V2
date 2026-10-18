@@ -1,0 +1,108 @@
+<div class="manuscript-page">
+  <div class="container">
+    <div class="page-header animated fadeInDown">
+      <h1>{{ 'ln.ManuscriptTitle' | translate }}</h1>
+      <p>{{ 'ln.ManuscriptSubtitle' | translate }}</p>
+    </div>
+
+    <div class="manuscript-card animated fadeInUp">
+      <form [formGroup]="manuscriptForm" (ngSubmit)="onSubmit()" #formElement="ngForm" class="manuscript-form">
+        
+        <div class="section">
+          <div class="section-title">
+            <i class="fa fa-user"></i>
+            <h3>{{ 'ln.AuthorPersonalInfo' | translate }}</h3>
+          </div>
+          
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.AuthorName' | translate }}</mat-label>
+              <input matInput formControlName="name" [placeholder]="'ln.AuthorNamePlaceholder' | translate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.BirthDate' | translate }}</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="birthDayDate" placeholder="MM/DD/YYYY">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.Profession' | translate }}</mat-label>
+              <input matInput formControlName="profession" [placeholder]="'ln.ProfessionPlaceholder' | translate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.Phone' | translate }}</mat-label>
+              <input matInput formControlName="phone" [placeholder]="'ln.PhonePlaceholder' | translate">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'ln.CurrentAddress' | translate }}</mat-label>
+            <textarea matInput formControlName="address" rows="2" [placeholder]="'ln.CurrentAddressPlaceholder' | translate"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            <i class="fa fa-book"></i>
+            <h3>{{ 'ln.ManuscriptInfo' | translate }}</h3>
+          </div>
+          
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.ManuscriptName' | translate }}</mat-label>
+              <input matInput formControlName="manuScriptName" [placeholder]="'ln.ManuscriptNamePlaceholder' | translate">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>{{ 'ln.WordCount' | translate }}</mat-label>
+              <input matInput formControlName="manuScriptWords" [placeholder]="'ln.WordCountPlaceholder' | translate">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>{{ 'ln.ManuscriptSummary' | translate }}</mat-label>
+            <textarea matInput formControlName="manuScriptSummery" rows="4" [placeholder]="'ln.ManuscriptSummaryPlaceholder' | translate"></textarea>
+          </mat-form-field>
+
+          <div class="file-upload-box">
+            <div class="upload-info">
+              <i class="fa fa-file-upload"></i>
+              <div>
+              <h4>{{ 'ln.UploadFile' | translate }}</h4>
+                <p>{{ 'ln.UploadFileInfo' | translate }}</p>
+              </div>
+            </div>
+            <input type="file" (change)="onFileChange($event)" id="fileInput" hidden>
+            <label for="fileInput" class="upload-btn">
+              {{ isUploading() ? ('ln.Uploading' | translate) : (uploadedFileUrl() ? ('ln.ChangeFile' | translate) : ('ln.SelectingFile' | translate)) }}
+            </label>
+            @if (uploadedFileUrl()) {
+              <div class="file-status"><i class="fa fa-check-circle"></i> {{ 'ln.FileUploaded' | translate }}</div>
+            }
+          </div>
+        </div>
+
+        <div class="terms-section">
+          <mat-checkbox formControlName="isAccept">
+            {{ 'ln.AcceptTerms' | translate }} <a routerLink="/pages/manuscript-terms">{{ 'ln.Conditions' | translate }}</a> {{ 'ln.AcceptTermsSuffix' | translate }}
+          </mat-checkbox>
+        </div>
+
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="isLoading() || manuscriptForm.invalid">
+            @if (isLoading()) {
+              {{ 'ln.Submitting' | translate }}
+            } @else {
+              {{ 'ln.SubmitManuscript' | translate }}
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

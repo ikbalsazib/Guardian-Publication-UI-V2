@@ -1,0 +1,22 @@
+<div class="product-list-data-right">
+  <div class="all-product-item-cards">
+    @for (data of products(); track data._id) {
+      <app-product-card-one [data]="data"></app-product-card-one>
+    }
+  </div>
+
+  @if (totalProducts() > products().length) {
+    <div class="load-more">
+      <button 
+        type="button" 
+        (click)="onLoadMore()" 
+        class="button" 
+        [class.loading]="isLoadMore()"
+        [disabled]="isLoadMore()"
+      >
+        <i class="fa-solid fa-spinner" [class.fa-spin]="isLoadMore()"></i>
+        <span>{{ "ln.SeeMore" | translate }}</span>
+      </button>
+    </div>
+  }
+</div>

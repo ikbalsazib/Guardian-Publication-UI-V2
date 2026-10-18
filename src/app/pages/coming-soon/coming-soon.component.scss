@@ -1,0 +1,52 @@
+@use 'src/theme/variables' as *;
+
+.coming-soon-page {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  text-align: center;
+}
+
+.content {
+  max-width: 500px;
+  padding: 20px;
+  
+  h1 { font-size: 36px; font-weight: 800; color: #333; margin-bottom: 15px; }
+  p { font-size: 16px; color: #777; margin-bottom: 40px; line-height: 1.6; font-family: $font-bn-primary; }
+}
+
+.illustration {
+  position: relative;
+  margin-bottom: 50px;
+  font-size: 80px;
+  color: $color-primary;
+  
+  .glow {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba($color-primary, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+  }
+}
+
+.btn-home {
+  height: 50px;
+  padding: 0 40px;
+  border-radius: 25px;
+  font-weight: 700;
+  box-shadow: 0 10px 20px rgba($color-primary, 0.2);
+}
+
+@media (max-width: 600px) {
+  h1 { font-size: 28px; }
+  .illustration { font-size: 60px; }
+}
+
+.animated { animation-duration: 0.8s; animation-fill-mode: both; }
+@keyframes zoomIn { from { opacity: 0; transform: scale3d(0.9, 0.9, 0.9); } to { opacity: 1; } }
+.zoomIn { animation-name: zoomIn; }

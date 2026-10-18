@@ -1,0 +1,69 @@
+.custom-select {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  cursor: pointer;
+}
+
+.select-selected {
+  cursor: pointer;
+  width: 100%;
+  padding: 4px 3px;
+  border: 1px solid #d7d7d7;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: #353535;
+
+  span {
+    color: #353535;
+  }
+}
+
+.arrow-icon {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.select-items {
+  position: absolute;
+  background-color: #f9f9f9;
+  width: 100%;
+  //min-width: 200px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  display: none;
+  outline: none;
+  border: none;
+
+  button {
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    color: black;
+    padding: 6px 16px;
+    outline: none;
+    border: none;
+
+    &:hover {
+      background-color: #ddd;
+    }
+  }
+}
+
+.select-items.show {
+  display: block;
+}
+
+@mixin font-size-mixin($sizes...) {
+  @each $size in $sizes {
+    .font-size-#{$size} {
+      font-size: #{$size}px;
+    }
+  }
+}
+
+// Include the mixin with desired font sizes
+@include font-size-mixin(12, 14, 16, 18, 20, 24, 30, 32, 34, 36, 48, 56);

@@ -1,0 +1,30 @@
+<div class="package-list-page">
+  <div class="container">
+    <div class="page-header">
+      <!-- <div class="header-badge">{{ 'ln.ComboOffer' | translate }}</div> -->
+      <h1>{{ 'ln.SpecialPackagesTitle' | translate }}</h1>
+      <p>{{ 'ln.SpecialPackagesSubtitle' | translate }}</p>
+      <div class="header-divider"></div>
+    </div>
+
+    @if (isLoading()) {
+    <div class="packages-grid">
+      @for (item of [1,2,3,4,5,6]; track item) {
+      <div class="skeleton-card"></div>
+      }
+    </div>
+    } @else {
+    <div class="packages-grid">
+      @for (pkg of packages(); track pkg._id) {
+      <app-special-package-card-one [data]="pkg" class="animated fadeInUp"></app-special-package-card-one>
+      } @empty {
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fa fa-box-open"></i></div>
+        <h3>{{ 'ln.NoSpecialPackages' | translate }}</h3>
+        <p>{{ 'ln.SpecialPackageEmptySubtitle' | translate }}</p>
+      </div>
+      }
+    </div>
+    }
+  </div>
+</div>

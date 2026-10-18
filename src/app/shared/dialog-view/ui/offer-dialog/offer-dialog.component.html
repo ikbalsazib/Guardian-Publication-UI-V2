@@ -1,0 +1,10 @@
+<a [href]="popups[0]?.popUpUrl">
+      <div class="offer-dialog">
+            <div class="offer-dialog-main">
+                  <div class="offer-img">
+                        <img [src]="popups[0]?.image" alt="popup" loading="lazy">
+                        <span (click)="onClose($event)"><i class="fa fa-xmark"></i></span>
+                  </div>
+            </div>
+      </div>
+</a>

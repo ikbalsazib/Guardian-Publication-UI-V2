@@ -1,0 +1,94 @@
+<div class="compare-page">
+  <div class="container">
+    <div class="page-header">
+      <div class="header-content">
+        <i class="fa fa-columns"></i>
+        <h1>বইয়ের তুলনা করুন</h1>
+      </div>
+      <p class="header-subtitle">আপনার প্রিয় বইগুলোর মধ্যে পার্থক্য এবং বৈশিষ্ট্য যাচাই করুন</p>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loader-container">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    } @else {
+      @if (!isEmpty()) {
+        <div class="compare-table-wrapper animated fadeIn">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th class="sticky-col">বৈশিষ্ট্য</th>
+                @for (product of compareList(); track product._id) {
+                  <th>
+                    <div class="product-header">
+                      <button class="btn-remove" (click)="onRemoveItem(product._id!)">
+                        <i class="fa fa-times"></i>
+                      </button>
+                      <img [src]="product.images?.[0]" [alt]="product.name">
+                      <h3>{{ product.name }}</h3>
+                    </div>
+                  </th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="feature-name sticky-col">মূল্য</td>
+                @for (product of compareList(); track product._id) {
+                  <td>
+                    <span class="price">৳ {{ product.salePrice }}</span>
+                    @if (product.discountAmount) {
+                      <del class="old-price">৳ {{ product.costPrice }}</del>
+                    }
+                  </td>
+                }
+              </tr>
+              <tr>
+                <td class="feature-name sticky-col">লেখক</td>
+                @for (product of compareList(); track product._id) {
+                  <td>{{ product.author?.name || 'N/A' }}</td>
+                }
+              </tr>
+              <tr>
+                <td class="feature-name sticky-col">প্রকাশনী</td>
+                @for (product of compareList(); track product._id) {
+                  <td>{{ product.publisher?.name || 'গার্ডিয়ান পাবলিকেশনস' }}</td>
+                }
+              </tr>
+              <tr>
+                <td class="feature-name sticky-col">পৃষ্ঠা সংখ্যা</td>
+                @for (product of compareList(); track product._id) {
+                  <td>{{ product.totalPages || 'N/A' }}</td>
+                }
+              </tr>
+              <tr>
+                <td class="feature-name sticky-col">প্রচ্ছদ</td>
+                @for (product of compareList(); track product._id) {
+                  <td>{{ product.bindType || 'N/A' }}</td>
+                }
+              </tr>
+              <tr>
+                <td class="feature-name sticky-col">অ্যাকশন</td>
+                @for (product of compareList(); track product._id) {
+                  <td>
+                    <button mat-raised-button color="primary" (click)="onAddToCart(product._id!)" class="btn-cart">
+                      <i class="fa fa-shopping-cart"></i> কিনুন
+                    </button>
+                  </td>
+                }
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      } @else {
+        <div class="empty-state">
+          <i class="fa fa-copy"></i>
+          <h3>তুলনা করার জন্য কোনো বই যোগ করা হয়নি</h3>
+          <p>পণ্য তালিকা থেকে বই যোগ করে এখানে এসে তুলনা করুন।</p>
+          <button mat-raised-button color="primary" routerLink="/product-list" class="btn-shop">বইয়ের তালিকা দেখুন</button>
+        </div>
+      }
+    }
+  </div>
+</div>

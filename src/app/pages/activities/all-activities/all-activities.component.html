@@ -1,0 +1,34 @@
+<section class="activities-page">
+  <div class="container">
+    <header class="activities-header">
+      <h1>{{ 'ln.Activities' | translate }}</h1>
+      <div class="divider"></div>
+      <p class="page-intro">
+        {{ 'ln.ActivitiesIntro1' | translate }}<br>
+        {{ 'ln.ActivitiesIntro2' | translate }}<br>
+        {{ 'ln.Our' | translate }} <a routerLink="/product-list">{{ 'ln.PublishedBooks' | translate }}</a>, <a routerLink="/blogs">{{ 'ln.Blogs' | translate }}</a> {{ 'ln.And' | translate }} <a routerLink="/author-list">{{ 'ln.AuthorList' | translate }}</a> {{ 'ln.AlsoSeePages' | translate }}
+      </p>
+    </header>
+
+    <app-seo-internal-links></app-seo-internal-links>
+
+    @if (isLoading()) {
+      <div class="activities-grid">
+        @for (item of [1,2,3,4,5,6]; track item) {
+          <app-blog-loader></app-blog-loader>
+        }
+      </div>
+    } @else {
+      <div class="activities-grid">
+        @for (item of activities(); track item._id) {
+          <app-activities-card-one [data]="$any(item)"></app-activities-card-one>
+        } @empty {
+          <div class="empty-state">
+            <i class="fa fa-newspaper"></i>
+            <p>{{ 'ln.NoActivities' | translate }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>

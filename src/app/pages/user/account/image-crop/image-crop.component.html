@@ -1,0 +1,28 @@
+<div class="spin" *ngIf="!isLoaded">
+  <mat-spinner color="primary" diameter="48"></mat-spinner>
+</div>
+
+@if (loadFailed) {
+  <p class="load-error">Image load failed. Please close and try another photo.</p>
+}
+
+@if (imageFile) {
+  <image-cropper
+    class="image-cropper"
+    [imageFile]="imageFile"
+    [roundCropper]="true"
+    [maintainAspectRatio]="true"
+    format="jpeg"
+    [resizeToWidth]="600"
+    [resizeToHeight]="600"
+    [imageQuality]="95"
+    (imageCropped)="imageCropped($any($event))"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+  ></image-cropper>
+}
+
+<div class="upload-dialog-action" *ngIf="isLoaded">
+  <button mat-raised-button color="warn" class="btn btn-cancel" (click)="onCloseDialogue()">Close</button>
+  <button mat-raised-button color="primary" class="btn btn-save" [disabled]="loadFailed" (click)="onSaveImage()">Save</button>
+</div>

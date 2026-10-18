@@ -1,0 +1,106 @@
+<div class="book-preview-reader" [class.is-mobile]="isMobile()">
+  <div class="reader-stage" [class.is-mobile]="isMobile()">
+    <button type="button" class="reader-close" (click)="close()">
+      <span class="close-icon" aria-hidden="true">&times;</span>
+      <span>{{ 'ln.PreviewClose' | translate }}</span>
+    </button>
+
+    <section class="preview-panel" style="position: relative;">
+      <!-- Zoom Controls -->
+      <div class="zoom-controls">
+        <button type="button" (click)="zoomOut()" title="Zoom Out">-</button>
+        <button type="button" (click)="zoomIn()" title="Zoom In">+</button>
+      </div>
+
+      @if (hasPreviewImages()) {
+        <div class="preview-frame">
+          <div class="page-scroll" #scrollContainer [style.--zoom-level]="zoomLevel() + '%'">
+            @for (image of previewImages(); track $index; let i = $index) {
+              <figure class="page-item" [attr.data-page]="i + 1">
+                @if (isPageFailed(i + 1)) {
+                  <div class="page-error">
+                    <p>{{ 'ln.PreviewPageLoadError' | translate }}</p>
+                  </div>
+                } @else {
+                  <img
+                    [src]="image"
+                    [alt]="displayTitle() + ' preview page ' + (i + 1)"
+                    [loading]="i < 2 ? 'eager' : 'lazy'"
+                    decoding="async"
+                    (error)="onImageError(i + 1)"
+                  />
+                }
+              </figure>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="preview-fallback">
+          <p>{{ 'ln.PreviewNotAvailable' | translate }}</p>
+
+          @if (pdfUrl()) {
+            <div class="fallback-actions">
+              <button type="button" class="primary-btn" (click)="openFullPdf()">
+                {{ 'ln.OpenFullPdf' | translate }}
+              </button>
+              <a class="secondary-btn" [href]="pdfUrl()" target="_blank" rel="noopener noreferrer" download>
+                {{ 'ln.DownloadPdf' | translate }}
+              </a>
+            </div>
+          }
+        </div>
+      }
+    </section>
+
+    @if (!isMobile()) {
+      <aside class="reader-sidebar">
+        <div class="product-card">
+          <div class="product-top">
+            <img
+              class="product-cover"
+              [src]="coverImage()"
+              [alt]="displayTitle()"
+              loading="lazy"
+            />
+
+            <div class="product-meta">
+              <h3>{{ displayTitle() }}</h3>
+              @if (displayAuthors()) {
+                <p class="product-author">{{ displayAuthors() }}</p>
+              }
+            </div>
+          </div>
+
+          <div class="product-pricing">
+            @if (hasDiscount()) {
+              <p class="price-line">
+                <del>৳ {{ product().salePrice | number : '1.0-0' : numberLocale() }}</del>
+                <span class="total-label">{{ 'ln.PreviewTotal' | translate }}:</span>
+                <strong>৳ {{ (product() | price : 'salePrice') | number : '1.0-0' : numberLocale() }}</strong>
+              </p>
+              <p class="saved-price">
+                {{ 'ln.PreviewYouSaved' | translate }}
+                ৳ {{ (product() | price : 'discountAmount') | number : '1.0-0' : numberLocale() }}
+              </p>
+            } @else {
+              <p class="price-line">
+                <strong>৳ {{ (product() | price : 'salePrice') | number : '1.0-0' : numberLocale() }}</strong>
+              </p>
+            }
+          </div>
+
+          @if ((product().quantity ?? 0) > 0) {
+            <button type="button" class="add-cart-btn" (click)="onAddToCart($event)">
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+              {{ cart() ? ('ln.ViewCart' | translate) : ('ln.AddToCart' | translate) }}
+            </button>
+          } @else {
+            <button type="button" class="add-cart-btn" disabled>
+              {{ 'ln.PreviewOutOfStock' | translate }}
+            </button>
+          }
+        </div>
+      </aside>
+    }
+  </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="section">
+  <div class="container">
+    <div class="section-main">
+      <div class="section-title">
+        <h2>{{ "ln.productSpecification" | translate }}</h2>
+      </div>
+      <div class="product-menu">
+        <ul>
+          <li><button [class.active]="tabNo() === 0" (click)="setTab(0)">{{ "ln.Description" | translate }}</button>
+          </li>
+          <li><button [class.active]="tabNo() === 1" (click)="setTab(1)">{{ "ln.Specification" | translate }}</button>
+          </li>
+          <li><button [class.active]="tabNo() === 2" (click)="setTab(2)">{{ "ln.Author" | translate }}</button></li>
+          <li><button [class.active]="tabNo() === 3" (click)="setTab(3)">{{ "ln.Review" | translate }}</button></li>
+        </ul>
+      </div>
+
+      <div class="section-info-area">
+        @if (tabNo() === 0) {
+        <div class="description" [innerHTML]="(product().description || 'No Summary Available') | safeHtml"></div>
+        }
+
+        @if (tabNo() === 1) {
+        <div class="specification">
+          <div class="table">
+            <div class="table-title">
+              <h3>Product Specification</h3>
+            </div>
+            <table>
+              @if (product().name) {
+              <tr>
+                <th class="table-heading">Title</th>
+                <td class="table-data">{{ product().name }}</td>
+              </tr>
+              }
+              @if (product().author?.length) {
+              <tr>
+                <th class="table-heading">Author</th>
+                <td class="table-data">
+                  @for (data of product().author; track data._id; let i = $index) {
+                  <span>{{ data?.name }}@if (i < (product().author?.length ?? 0) - 1) { , }</span>
+                      }
+                </td>
+              </tr>
+              }
+              @if (product().publisher) {
+              <tr>
+                <th class="table-heading">Publisher</th>
+                <td class="table-data">{{ product().publisher?.name }}</td>
+              </tr>
+              }
+              @if (product().isbn) {
+              <tr>
+                <th class="table-heading">ISBN</th>
+                <td class="table-data">{{ product().isbn }}</td>
+              </tr>
+              }
+              @if (product().totalPages) {
+              <tr>
+                <th class="table-heading">Number of Pages</th>
+                <td class="table-data">{{ product().totalPages }}</td>
+              </tr>
+              }
+              @if (product().language) {
+              <tr>
+                <th class="table-heading">Language</th>
+                <td class="table-data">{{ product().language }}</td>
+              </tr>
+              }
+              @for (s of product().specifications; track $index) {
+              <tr>
+                <th class="table-heading">{{ s.name }}</th>
+                <td class="table-data">{{ s.value }}</td>
+              </tr>
+              }
+            </table>
+          </div>
+        </div>
+        }
+
+        @if (tabNo() === 2) {
+        <div class="author">
+          <div class="author-main">
+            <div class="author-img">
+              <img [src]="author()?.image || '/images/avatar/user_low.png'" alt="{{author()?.name}}" loading="lazy">
+              <button class="follow-btn" (click)="followUnfollowAuthor(isFollowAuthor() ? 'unfollow' : 'follow')">
+                {{ (isFollowAuthor() ? 'ln.Following' : 'ln.Follow') | translate }}
+              </button>
+            </div>
+            <div class="author-body">
+              <a [routerLink]="['/author', author()?.slug]">{{ author()?.name }}</a>
+              <div [innerHTML]="(author()?.description || '') | safeHtml"></div>
+            </div>
+          </div>
+        </div>
+        }
+
+        @if (tabNo() === 3) {
+        <div class="review-area">
+          <app-rating-and-review [product]="product()"></app-rating-and-review>
+        </div>
+        }
+      </div>
+
+      @if (data()?.length) {
+      <a class="banner" [href]="data()[0]?.url" target="_blank" rel="noopener noreferrer">
+        <div class="banner-main">
+          <img [src]="data()[0]?.imageUrl || data()[0]?.image" alt="promo banner" loading="lazy">
+        </div>
+      </a>
+      }
+    </div>
+  </div>
+</div>

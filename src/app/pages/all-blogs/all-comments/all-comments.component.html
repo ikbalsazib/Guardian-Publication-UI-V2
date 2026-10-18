@@ -1,0 +1,55 @@
+<div class="comments-list-section">
+  <div class="container">
+    @if (isLoading()) {
+    <div class="comments-loading">
+      <div class="dot-typing"></div>
+    </div>
+    } @else {
+    @if (allComments().length > 0) {
+    <div class="comments-wrapper">
+      @for (data of allComments(); track data._id) {
+      <div class="user-comment-card">
+        <div class="main-comment">
+          <div class="user-meta">
+            <div class="user-avatar">
+              <img [src]="$any(data?.user)?.profileImg || '/images/avatar/user_low.png'" alt="user" loading="lazy">
+            </div>
+            <div class="user-info">
+              <span class="user-name">{{ data?.name }}</span>
+              <span class="comment-date">{{ data?.reviewDate | date }}</span>
+            </div>
+          </div>
+          <div class="comment-text">
+            <p>{{ data?.review }}</p>
+          </div>
+        </div>
+
+        @if (data?.reply) {
+        <div class="staff-reply-area">
+          <div class="staff-reply">
+            <div class="user-meta">
+              <div class="user-avatar staff">
+                <img src="/images/brand/logo/logo.png" alt="staff" loading="lazy">
+              </div>
+              <div class="user-info">
+                <span class="user-name staff">Guardian Publications</span>
+                <span class="comment-date">{{ data?.replyDate | date }}</span>
+              </div>
+            </div>
+            <div class="comment-text reply">
+              <p>{{ data?.reply }}</p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="no-comments">
+      <p>Be the first to share your thoughts!</p>
+    </div>
+    }
+    }
+  </div>
+</div>

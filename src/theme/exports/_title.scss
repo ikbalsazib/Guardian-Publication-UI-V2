@@ -1,0 +1,72 @@
+@use "src/theme/variables" as *;
+
+/* ---- title-area --- */
+.title-area {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+@media (max-width: 500px) {
+  .title-area {
+    padding-left: 7px;
+    padding-right: 7px;
+    box-sizing: border-box;
+  }
+}
+
+/* --- title --- */
+.title {
+  display: block;
+  width: 100%;
+  text-align: left;
+
+  h3 {
+    color: #484848;
+    font-family: $font-en-primary;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 26px;
+    display: block;
+  }
+}
+
+@media (max-width: 556px) {
+  .title {
+    h3 {
+      font-size: 20px;
+    }
+  }
+}
+/* --- see-all-btn --- */
+.see-all-btn {
+  max-width: 120px;
+  width: 100%;
+  text-align: right;
+
+  a {
+    color: $color-primary;
+    font-family: $font-en-primary;
+    font-size: 16px;
+    display: block;
+    font-weight: 500;
+    transition: all 0.3s linear;
+
+    i {
+      font-size: 14px;
+      transition: all 0.1s linear;
+    }
+
+    &:hover {
+      color: $color-secondary;
+
+      i {
+        transform: translateX(4px);
+      }
+    }
+  }
+}

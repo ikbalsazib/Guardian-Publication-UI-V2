@@ -1,0 +1,28 @@
+<a class="blog-card" [routerLink]="['/activities', data?.slug]">
+  <div class="blog-image">
+    <span>
+      <img [src]="data?.image" [alt]="data?.name || 'activity image'">
+    </span>
+  </div>
+  <div class="blog-body">
+    <ul>
+      <li><i class="fa fa-user"></i> {{data?.authorName ? data?.authorName : 'রাইটার'}}</li>
+      <li class="view-count"><span><i class="fa fa-calendar"></i> {{data?.createdAt | date}}</span> <span>{{
+          "ln.ToatalView" | translate }} : {{data?.totalView | engBnNum}}</span></li>
+    </ul>
+    <div class="blog-title">
+      <span *ngIf="translateService.currentLang === 'bn' || !translateService.currentLang ">{{data?.name}}</span>
+      <span *ngIf="translateService.currentLang === 'en'">{{data?.nameEn}}</span>
+    </div>
+
+    <div class="blog-des">
+      <p *ngIf="translateService.currentLang === 'bn' || !translateService.currentLang "
+        [innerHTML]="data?.shortDesc | safeHtml"></p>
+      <p *ngIf="translateService.currentLang === 'en'" [innerHTML]="data?.shortDescEn | safeHtml"></p>
+    </div>
+    <div class="read-more">
+      <span> {{ "ln.ReadMore" | translate }}</span>
+    </div>
+  </div>
+</a>
+<!-- END BLOG CARD-->

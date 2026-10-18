@@ -1,0 +1,119 @@
+<div class="review-area">
+  <div class="review-main-area">
+    <div class="review-rating-main">
+      <div class="rated-area">
+        <div>
+          <h2>{{ ratingCalculation().toFixed(1) }} <sub>/5</sub></h2>
+          <span>Based on ({{ product().ratingTotal ?? 0 }}) Reviews</span>
+        </div>
+      </div>
+      <div class="review-rate-type">
+        <ul>
+          @for (type of [
+          {label: 'Excellent', key: 'fiveStar', val: 5},
+          {label: 'Very Good', key: 'fourStar', val: 4},
+          {label: 'Average', key: 'threeStar', val: 3},
+          {label: 'Below Average', key: 'twoStar', val: 2},
+          {label: 'Poor', key: 'oneStar', val: 1}
+          ]; track type.key) {
+          <li>
+            <div class="rate-type-left"><span>{{ type.label }}</span></div>
+            <div class="rate-bar">
+              <span [style.width.%]="getRatingPercent($any(product()).ratingDetails?.[type.key])"></span>
+            </div>
+            <div class="rate-type-right"><span>{{ type.val }}</span></div>
+          </li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    @if (allReviews().length > 0) {
+    <div class="user-reviews-list">
+      @for (data of allReviews(); track data._id) {
+      <div class="user-review">
+        <div class="main-review">
+          <div class="user-data">
+            <div class="user-img">
+              <img [src]="$any(data?.user)?.profileImg || '/images/avatar/user_low.png'" alt="user" loading="lazy">
+            </div>
+            <div class="user-name-wrapper">
+              <div class="user-name">
+                <span>{{ $any(data?.user)?.name }}</span>
+                <small><i class="fa fa-check-circle"></i> Verified Purchase</small>
+              </div>
+              <div class="user-review-rating">
+                <ul>
+                  @for (star of [1,2,3,4,5]; track star) {
+                  <li>
+                    <i
+                      [class]="(data?.rating! < star - 0.5) ? 'far fa-star' : (data?.rating! < star) ? 'fas fa-star-half-alt' : 'fas fa-star'"></i>
+                  </li>
+                  }
+                </ul>
+                <span class="rating-num">{{ data?.rating }}.0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-review-data">
+            <p>{{ data?.review }}</p>
+            @if (data?.images?.length) {
+            <div class="review-images">
+              @for (img of data?.images; track img) {
+              <img [src]="img" alt="review image" loading="lazy">
+              }
+            </div>
+            }
+          </div>
+        </div>
+
+        @if (data?.reply) {
+        <div class="reply-review-area">
+          <div class="reply-review">
+            <div class="user-data">
+              <div class="user-img">
+                <img src="/images/brand/logo/logo.png" alt="staff" loading="lazy">
+              </div>
+              <div class="user-name-wrapper">
+                <div class="user-name staff">
+                  <span>Staff Reply</span>
+                  <small>{{ data?.replyDate | date }}</small>
+                </div>
+              </div>
+            </div>
+            <div class="user-review-data reply">
+              <p>{{ data?.reply }}</p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="no-reviews">
+      <p>No reviews yet. Be the first to review this product!</p>
+    </div>
+    }
+
+    <div class="review-action-area">
+      <div class="action-text">
+        <h3>Share Your Thoughts</h3>
+        <p>Your review helps other readers decide.</p>
+      </div>
+      @if (userService.getUserStatus()) {
+        <button class="write-review-btn" (click)="openReviewDialog()">
+          <i class="fas fa-edit"></i> Write a Review
+        </button>
+      } @else {
+        <div class="login-to-review">
+          <p class="login-msg">Please <a routerLink="/login">log in</a> to share your thoughts and write a review.</p>
+          <button class="write-review-btn login-btn" routerLink="/login">
+            <i class="fas fa-sign-in-alt"></i> Login to Review
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</div>

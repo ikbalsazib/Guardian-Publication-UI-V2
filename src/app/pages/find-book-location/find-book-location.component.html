@@ -1,0 +1,88 @@
+<div class="find-book-page">
+  <div class="container">
+    <div class="page-header">
+      <div class="header-content">
+        <i class="fa fa-map-marked-alt"></i>
+        <h1>{{ 'ln.FindBookLocation' | translate }}</h1>
+      </div>
+      <p class="header-subtitle">{{ 'ln.FindBookSubtitle' | translate }}</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-card">
+      <form [formGroup]="filterForm" class="filter-grid">
+        <!-- Division -->
+        <div class="input-group">
+          <app-general-dropdown [inputData]="divisions()" [label]="'ln.District' | translate"
+            [placeHolderName]="'ln.Select' | translate" [placeHolderId]="filterForm.get('division')?.value"
+            (passDataEvent)="onGeneralDropdownChange($event, 'division')"></app-general-dropdown>
+        </div>
+
+        <!-- Area -->
+        <div class="input-group">
+          <app-general-dropdown [inputData]="areas()" [label]="'ln.Area' | translate"
+            [placeHolderName]="'ln.Select' | translate" [placeHolderId]="filterForm.get('area')?.value"
+            [isDisabled]="!areas().length"
+            (passDataEvent)="onGeneralDropdownChange($event, 'area')"></app-general-dropdown>
+        </div>
+
+        <!-- Zone -->
+        <div class="input-group">
+          <app-general-dropdown [inputData]="zones()" [label]="'ln.Zone(Optional)' | translate"
+            [placeHolderName]="'ln.Select' | translate" [placeHolderId]="filterForm.get('zone')?.value"
+            [isDisabled]="!zones().length"
+            (passDataEvent)="onGeneralDropdownChange($event, 'zone')"></app-general-dropdown>
+        </div>
+      </form>
+    </div>
+
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    <div class="locations-grid">
+      @for (loc of locations(); track loc._id) {
+      <div class="location-card animated zoomIn">
+        <div class="card-img">
+          <img
+            [src]="loc.image || 'https://ftp.guardianpubs.com/api/upload/images/fc7cc46a-f054-40fe-9950-07db386cb5f4-f209.webp?resolution=1643_957'"
+            [alt]="loc.name">
+          <div class="status-chip">{{ 'ln.Active' | translate }}</div>
+        </div>
+        <div class="card-body">
+          <h3>{{ loc.name }}</h3>
+          <div class="meta">
+            <div class="meta-item">
+              <i class="fa fa-map-marker-alt"></i>
+              <span>{{ loc.address }}</span>
+            </div>
+            <div class="meta-item" *ngIf="loc.phone">
+              <i class="fa fa-phone"></i>
+              <span>{{ loc.phone | engBnNum }}</span>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a [href]="'tel:' + loc.phone" class="btn-call" *ngIf="loc.phone">
+              <i class="fa fa-phone-alt"></i> {{ 'ln.CallNow' | translate }}
+            </a>
+            <button class="btn-map">
+              <i class="fa fa-directions"></i> {{ 'ln.ViewMap' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      } @empty {
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fa fa-store-slash"></i></div>
+        <h3>{{ 'ln.NoLocationFound' | translate }}</h3>
+        <p>{{ 'ln.TryAnotherArea' | translate }}</p>
+        <button mat-raised-button color="primary" routerLink="/product-list" class="btn-shop">{{ 'ln.BuyBooksOnline' |
+          translate }}</button>
+      </div>
+      }
+    </div>
+    }
+
+  </div>
+</div>

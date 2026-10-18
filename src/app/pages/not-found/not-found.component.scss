@@ -1,0 +1,48 @@
+@use 'src/theme/variables' as *;
+
+.not-found-page {
+  padding: 100px 0;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  text-align: center;
+}
+
+.error-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.error-illustration {
+  position: relative;
+  margin-bottom: 40px;
+  
+  img { width: 300px; opacity: 0.8; }
+  
+  .error-code {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 120px; font-weight: 900; color: rgba($color-primary, 0.1);
+    letter-spacing: 10px; z-index: -1;
+  }
+}
+
+h1 { font-size: 32px; font-weight: 800; color: #333; margin-bottom: 15px; }
+p { font-size: 16px; color: #777; margin-bottom: 40px; font-family: $font-bn-primary; }
+
+.actions {
+  display: flex; gap: 20px; justify-content: center;
+  button { height: 50px; padding: 0 35px; border-radius: 25px; font-weight: 700; }
+}
+
+@media (max-width: 600px) {
+  .not-found-page { padding: 60px 20px; }
+  h1 { font-size: 24px; }
+  .error-illustration img { width: 200px; }
+  .actions { flex-direction: column; button { width: 100%; } }
+}
+
+.animated { animation-duration: 0.8s; animation-fill-mode: both; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.fadeIn { animation-name: fadeIn; }

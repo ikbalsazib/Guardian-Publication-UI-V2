@@ -1,0 +1,82 @@
+@use 'src/theme/variables' as *;
+
+.activities-page {
+  padding: 50px 0;
+  background-color: #f9fbfd;
+  min-height: 80vh;
+}
+
+.activities-header {
+  margin-bottom: 40px;
+
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #222;
+    margin-bottom: 12px;
+    font-family: $font-bn-primary;
+  }
+
+  .divider {
+    width: 60px;
+    height: 4px;
+    background: $color-primary;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  .page-intro {
+    max-width: 900px;
+    line-height: 1.7;
+    color: #555;
+    font-size: 15px;
+
+    a {
+      display: inline;
+      color: $color-primary;
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px 0;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  
+  i {
+    font-size: 50px;
+    color: #ddd;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    font-size: 18px;
+    color: #888;
+    font-family: $font-bn-primary;
+  }
+}
+
+@media (max-width: 768px) {
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .activities-header h1 {
+    font-size: 24px;
+  }
+}

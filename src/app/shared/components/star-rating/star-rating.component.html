@@ -1,0 +1,17 @@
+@for (ratingId of ratingArr; track $index) {
+  <button mat-icon-button [color]="color()" (click)="onClick($index + 1)" [id]="'star_' + $index" [aria-label]="'Rate ' + ($index + 1) + ' stars'">
+    <mat-icon>{{ showIcon($index) }}</mat-icon>
+  </button>
+}
+
+@if (starCount() === null || starCount() === 0) {
+  <div class="rating-error">
+    Star count is <strong>required</strong> and cannot be zero
+  </div>
+}
+
+@if (showRateText()) {
+  <p class="rating-value" [style.color]="ratingColor">
+    You rated <span class="body-2">{{ rating() }}</span> / <span class="body-2">{{ starCount() }}</span>
+  </p>
+}

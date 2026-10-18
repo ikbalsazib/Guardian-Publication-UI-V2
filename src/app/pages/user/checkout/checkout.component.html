@@ -1,0 +1,177 @@
+<div class="checkout-page">
+  <div class="container">
+    <h1 class="sr-only">{{ 'ln.Checkout' | translate }} - Guardian Publications</h1>
+    <div class="checkout-grid">
+      <!-- Checkout Form -->
+      <form [formGroup]="checkoutForm" class="checkout-main animated fadeInLeft">
+        <div class="section-card address-card">
+          <div class="card-header border-bottom">
+            <h3>{{ 'ln.DeliveryAddressInfo' | translate }}</h3>
+          </div>
+
+          <div class="address-form">
+            <div class="type-selector">
+              <label>{{ 'ln.PickParcelFrom' | translate }}</label>
+              <mat-radio-group formControlName="addressType" class="inline-radio">
+                <mat-radio-button value="home">{{ 'ln.Home' | translate }}</mat-radio-button>
+                <mat-radio-button value="office">{{ 'ln.Office' | translate }}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div class="form-grid-2">
+              <input formControlName="name" [placeholder]="('ln.Name' | translate) + '*'">
+              <div class="input-group">
+                <input formControlName="phoneNo" [placeholder]="('ln.PhoneNo' | translate) + '*'" maxlength="11">
+                @if (checkoutForm.get('phoneNo')?.touched && checkoutForm.get('phoneNo')?.errors?.['pattern']) {
+                <small class="error-text">{{ 'ln.EnterValid11DigitPhone' | translate }}</small>
+                }
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="select-group">
+                <label>{{ 'ln.District' | translate }}</label>
+                <app-general-dropdown [inputData]="divisions()" [placeHolderName]="'Select'"
+                  (passDataEvent)="onDivisionSelect($event)" [isRequired]="true">
+                </app-general-dropdown>
+              </div>
+
+              <div class="select-group">
+                <label>{{ 'ln.Area' | translate }}</label>
+                <app-general-dropdown [inputData]="areas()" [placeHolderName]="'Select'"
+                  (passDataEvent)="onAreaSelect($event)" [isRequired]="true">
+                </app-general-dropdown>
+              </div>
+            </div>
+
+            <textarea formControlName="address" rows="3" [placeholder]="('ln.Address1' | translate) + ' *'"></textarea>
+            <textarea formControlName="note" rows="2" [placeholder]="'ln.Note' | translate"></textarea>
+          </div>
+        </div>
+
+        <!-- Payment & Delivery -->
+        <div class="section-card payment-section">
+          <div class="card-header border-bottom">
+            <h3>{{ 'ln.paymentMethod' | translate }} {{ 'ln.paymentMethod1' | translate }}</h3>
+          </div>
+
+          <mat-radio-group formControlName="paymentMethod" class="payment-grid">
+            <mat-radio-button value="cash_on_delivery" class="payment-card">
+              <div class="payment-content">
+                <img src="/images/logo/cod-small.svg" alt="COD" class="payment-icon">
+                <div class="label-group horizontal">
+                  <span class="main-label">Cash on Delivery</span>
+                  <span class="sub-label">{{ 'ln.CashOnDeliverySublabel' | translate }}</span>
+                </div>
+              </div>
+            </mat-radio-button>
+
+            <mat-radio-button value="online_payment" class="payment-card">
+              <div class="payment-content">
+                <span class="main-label">{{ 'ln.PayOnline' | translate }}</span>
+                <img src="/images/ssl.png" alt="SSL" class="ssl-group-img">
+              </div>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div class="section-card delivery-charge-section">
+          <div class="card-header border-bottom">
+            <h3>{{ 'ln.DeliveryCharge' | translate }} {{ 'ln.DeliveryCharge1' | translate }}</h3>
+          </div>
+
+          <mat-radio-group formControlName="deliveryChargeType" class="delivery-options">
+            <mat-radio-button value="inside_dhaka">{{ 'ln.InsideDhakaCharge' | translate }}</mat-radio-button>
+            <mat-radio-button value="outside_dhaka">{{ 'ln.OutsideDhakaCharge' | translate }}</mat-radio-button>
+          </mat-radio-group>
+
+          <div class="instructions">
+            <p class="greeting">{{ 'ln.DearCustomer' | translate }}</p>
+            <ol>
+              <li>{{ 'ln.CheckoutInstruction1' | translate }}</li>
+              <li>{{ 'ln.CheckoutInstruction2' | translate }}</li>
+              <li>{{ 'ln.CheckoutInstruction3' | translate }}</li>
+              <li>{{ 'ln.CheckoutInstruction4' | translate }}</li>
+              <li>{{ 'ln.CheckoutInstruction5' | translate }}</li>
+            </ol>
+
+            <div class="agreement">
+              <mat-checkbox formControlName="agreeTerms" color="primary">
+                {{ 'ln.AgreeToTerms' | translate }}
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Sidebar -->
+      <div class="checkout-sidebar animated fadeInRight">
+        <!-- Cart Items -->
+        <div class="sidebar-box">
+          <div class="box-header">{{ 'ln.CartItems' | translate }} ({{ carts().length }})</div>
+          <div class="item-list">
+            @for (item of carts(); track $index) {
+            <div class="cart-item-row">
+              <img [src]="$any(item.product)?.image || $any(item.product)?.images?.[0] || '/images/placeholder.jpg'" [alt]="$any(item.product)?.name">
+              <div class="item-details">
+                <h6>{{ $any(item.product)?.name }}</h6>
+                <div class="price-row">৳ {{ $any(item.product)?.salePrice }}</div>
+                <div class="qty-row">
+                  <div class="qty-btn-group">
+                    <button (click)="decrementQty($index)" [disabled]="(item.selectedQty || 1) <= 1" aria-label="Decrease quantity">−</button>
+                    <span class="qty-val">{{ item.selectedQty }}</span>
+                    <button (click)="incrementQty($index)" aria-label="Increase quantity">+</button>
+                  </div>
+                  <button class="remove-btn" (click)="removeItem($index)" aria-label="Remove item"><i class="fa fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="sidebar-box summary-box">
+          <div class="box-header">{{ 'ln.CheckoutSummary' | translate }}</div>
+          <div class="summary-details">
+            <div class="s-row">
+              <span>{{ 'ln.Subtotal' | translate }}</span>
+              <span>৳ {{ subTotal() }}</span>
+            </div>
+            <div class="s-row">
+              <span>{{ 'ln.Discount' | translate }}</span>
+              <span>৳ {{ discount() }}</span>
+            </div>
+            <div class="s-row">
+              <span>{{ 'ln.ShippingCharge' | translate }} ({{ checkoutForm.get('deliveryChargeType')?.value === 'inside_dhaka' ? ('ln.InsideDhaka' | translate) : ('ln.OutsideDhaka' | translate) }})</span>
+              <span>৳ {{ shippingCharge() }}</span>
+            </div>
+            <div class="s-row total">
+              <span>{{ 'ln.Total1' | translate }}</span>
+              <span>৳ {{ subTotal() - discount() + shippingCharge() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coupon -->
+        <div class="sidebar-box coupon-box">
+          <div class="box-header">{{ 'ln.AddPromocodeorvoucher' | translate }}</div>
+          <div class="coupon-form">
+            <input type="text" [placeholder]="'ln.EnterYourCouponCode' | translate" [(ngModel)]="couponCode"
+              [ngModelOptions]="{standalone: true}">
+            <button class="btn-apply" (click)="applyCoupon()">{{ 'ln.Apply' | translate }}</button>
+          </div>
+        </div>
+
+        <button mat-raised-button color="primary" class="btn-confirm-sticky" (click)="onSubmit()"
+          [disabled]="isLoading() || checkoutForm.invalid">
+          @if (isLoading()) {
+          <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+          {{ 'ln.ConfirmOrder' | translate }}
+          }
+        </button>
+      </div> <!-- end sidebar -->
+    </div> <!-- end grid -->
+  </div> <!-- end container -->
+</div> <!-- end page -->

@@ -1,0 +1,78 @@
+<div class="activity-details-page">
+  <div class="container">
+    @if (isLoading()) {
+      <div class="loader-container">
+        <mat-spinner diameter="50"></mat-spinner>
+      </div>
+    } @else {
+      @if (activity()) {
+        <div class="details-grid">
+          
+          <!-- Main Content -->
+          <article class="main-content animated fadeIn">
+            <div class="activity-card">
+              <div class="card-hero">
+                <img [src]="activity()?.image" [alt]="activity()?.name">
+                <div class="badge">{{ activity()?.totalView || 0 }} {{ 'ln.Views' | translate }}</div>
+              </div>
+              
+              <div class="card-body">
+                <div class="meta">
+                  <span class="date"><i class="fa fa-calendar"></i> {{ activity()?.createdAt | date: 'dd MMMM, yyyy' }}</span>
+                  <button mat-icon-button (click)="onShare()" class="btn-share">
+                    <i class="fa fa-share-alt"></i>
+                  </button>
+                </div>
+                
+                <h1>{{ activity()?.name }}</h1>
+                <div class="description" [innerHTML]="activity()?.description | safeHtml"></div>
+              </div>
+            </div>
+
+
+            <app-seo-internal-links></app-seo-internal-links>
+          </article>
+
+          <!-- Sidebar -->
+          <div class="sidebar animated slideInRight">
+            <div class="sidebar-section">
+              <h3>{{ 'ln.RecentActivities' | translate }}</h3>
+              <div class="divider"></div>
+              
+              <div class="recent-list">
+                @for (item of recentActivities(); track item._id) {
+                  <a [routerLink]="['/activities', item.slug]" class="recent-item">
+                    <img [src]="item.image" [alt]="item.name">
+                    <div class="item-info">
+                      <h4>{{ item.name }}</h4>
+                      <span>{{ item.createdAt | date: 'dd MMM, yyyy' }}</span>
+                    </div>
+                  </a>
+                }
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+
+        <!-- Comment Area -->
+        <div class="comment-area">
+          <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+            <div class="form-input">
+              <label for="comment">{{ 'ln.WriteComment' | translate }}</label>
+              <textarea cols="20" rows="7" formControlName="review" [placeholder]="'ln.WriteCommentPlaceholder' | translate"></textarea>
+            </div>
+            <div class="sub-btn">
+              <button type="submit" [disabled]="commentForm.invalid">{{ 'ln.SubmitComment' | translate }}</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Reviews List -->
+        <app-activities-review-list [data]="activity()"></app-activities-review-list>
+      }
+    }
+  </div>
+</div>

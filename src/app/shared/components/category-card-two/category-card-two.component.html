@@ -1,0 +1,8 @@
+<div class="category-card" [routerLink]="['/product-list']" [queryParams]="{categories: data?.slug}">
+  @if (translateService.currentLang === 'bn' || !translateService.currentLang) {
+    <p>{{ data?.name }}</p>
+  }
+  @if (translateService.currentLang === 'en') {
+    <p>{{ data?.nameEn }}</p>
+  }
+</div><!-- END CATEGORY CARD -->

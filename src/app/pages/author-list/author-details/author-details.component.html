@@ -1,0 +1,67 @@
+<div class="author-details-page">
+  <app-breadcrumb [items]="breadcrumbItems()"></app-breadcrumb>
+  <div class="container">
+    @if (isLoading()) {
+    <div class="loader-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else {
+    @if (author()) {
+    <article class="author-profile animated fadeIn">
+      <div class="profile-header">
+        <div class="profile-img">
+          <img [src]="author()?.image || '/images/placeholder/user.png'" [alt]="author()?.name">
+        </div>
+        <div class="profile-info">
+          <h1>{{ translateService.currentLang === 'en' ? (author()?.nameEn || author()?.name) : (author()?.name ||
+            author()?.nameEn) }}</h1>
+          <p class="designation">{{ translateService.currentLang === 'en' ? (
+            author()?.designationEn || author()?.designation || ('ln.AuthorAndResearcher' | translate)) : (author()?.designation || author()?.designationEn || ('ln.AuthorAndResearcher' | translate)) }}</p>
+          @if (author()?.birthDate) {
+          <div class="birth-info">
+            <i class="fa fa-calendar-alt"></i> {{ 'ln.Birth' | translate }}: {{ author()?.birthDate | date: 'dd MMMM,
+            yyyy' }}
+          </div>
+          }
+        </div>
+      </div>
+
+        <div class="profile-description">
+        <h2>{{ 'ln.AboutTheAuthor' | translate }}</h2>
+        <div class="divider"></div>
+        <div class="bio-content" [innerHTML]="authorBioHtml() | safeHtml"></div>
+      </div>
+
+      <app-seo-internal-links></app-seo-internal-links>
+    </article>
+
+    <div class="author-products">
+      <div class="section-header">
+        <h2>{{ 'ln.Author\'sBook' | translate }}</h2>
+        <div class="divider"></div>
+      </div>
+
+      @if (isLoadingProducts()) {
+      <div class="loader-container">
+        <mat-spinner diameter="40"></mat-spinner>
+      </div>
+      } @else {
+      <div class="products-grid">
+        @for (product of products(); track product._id) {
+        <app-product-card-one [data]="product"></app-product-card-one>
+        } @empty {
+        <div class="empty-state">
+          <p>{{ 'ln.NoBookFoundForAuthor' | translate }}</p>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+    }
+  </div>
+
+  <div class="special-package-section">
+    <app-special-package></app-special-package>
+  </div>
+</div>

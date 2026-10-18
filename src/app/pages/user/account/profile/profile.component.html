@@ -1,0 +1,38 @@
+<div class="content-area">
+  <div class="view-list">
+    <div class="header">
+      <div class="main">
+        <h1 class="title">
+          {{ "ln.PersonalInformation" | translate }}
+        </h1>
+        <button mat-button (click)="openNewDialog()">{{ "ln.Edit" | translate }}</button>
+      </div>
+    </div>
+    <div class="data-view">
+      <table class="data-info-table">
+        <tbody>
+        <tr class="info-group">
+          <td class="label">{{ "ln.FullName" | translate }}</td>
+          <td class="value">{{ user()?.name }}</td>
+        </tr>
+        <tr class="info-group">
+          <td class="label">{{ "ln.Phoneno" | translate }}</td>
+          <td class="value">{{ user()?.phoneNo ? user()?.phoneNo : 'N/A' }}</td>
+        </tr>
+        <tr class="info-group">
+          <td class="label">{{ "ln.Email" | translate }}</td>
+          <td class="value">{{ user()?.email ? user()?.email : 'N/A' }}</td>
+        </tr>
+        <tr class="info-group">
+          <td class="label">{{ "ln.Gender" | translate }}</td>
+          <td class="value">{{ user()?.gender ? (user()?.gender | titlecase) : 'N/A' }}</td>
+        </tr>
+        <tr class="info-group">
+          <td class="label">{{ "ln.YourDateofBirth" | translate }}</td>
+          <td class="value">{{ user()?.birthDate ? (user()?.birthDate | date : 'fullDate') : 'N/A' }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

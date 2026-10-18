@@ -1,0 +1,54 @@
+@use "src/theme/variables" as *;
+@use "src/theme/exports/title";
+@use "src/theme/exports/category-card-one";
+
+.shop-category {
+  display: block;
+  box-sizing: border-box;
+  padding: 20px 0;
+  margin: 0 auto;
+}
+
+.shop-category-main {
+  min-height: 130px;
+}
+
+.category-track {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+}
+
+.shop-category-card {
+  background-color: $color-header-font;
+
+  i {
+    color: $color-white;
+  }
+
+  a {
+    font-family: $bangla-kalpurush;
+    font-size: 16px;
+    color: $color-white;
+  }
+}
+
+
+@media(max-width:500px) {
+  .shop-category {
+    padding-block: 15px 0px;
+  }
+}
